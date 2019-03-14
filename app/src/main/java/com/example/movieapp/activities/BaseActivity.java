@@ -14,8 +14,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.movieapp.R;
 
 public class BaseActivity extends AppCompatActivity {
 
