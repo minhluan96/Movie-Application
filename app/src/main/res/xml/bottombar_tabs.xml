@@ -1,0 +1,14 @@
+<tabs>
+    <tab
+        id="@+id/tab_trending"
+        icon="@drawable/tickets"
+        title="Nổi bật" />
+    <tab
+        id="@+id/tab_theater"
+        icon="@drawable/courthouse"
+        title="Địa điểm bán" />
+    <tab
+        id="@+id/tab_user"
+        icon="@drawable/user"
+        title="Thông tin" />
+</tabs>
