@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
-    android:layout_height="400dp"
+    android:layout_width="250dp"
+    android:layout_height="200dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="20dp"
     app:cardCornerRadius="15dp">
@@ -18,10 +18,10 @@
 
             <ImageView
                 android:id="@+id/imgPoster"
-                android:src="@drawable/poster"
+                android:src="@drawable/sports"
                 android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="150dp" />
 
         </android.support.v7.widget.CardView>
 
@@ -30,12 +30,10 @@
             android:id="@+id/txtTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Captain Marvel"
+            android:text="Vietnam - Iraq"
             android:textAlignment="center"
             android:padding="10dp"
             android:textSize="16sp"/>
-
-
 
     </LinearLayout>
 
