@@ -33,7 +33,7 @@
             android:text="Captain Marvel"
             android:textAlignment="center"
             android:padding="10dp"
-            android:textSize="16sp"/>
+            android:textSize="20sp"/>
 
 
 
