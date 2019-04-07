@@ -1,11 +1,9 @@
-# Movie-Application
+# TICKETNOW
 
-
-Thực hiện Request
 
 ### Ghi chú:
 * file cloud_config.properties là file chứa toàn bộ các thông tin về APIs trên Server
-AppManager chỉ được khởi tạo 1 lần duy nhất (xem thêm Signleton Design Pattern)
+AppManager chỉ được khởi tạo 1 lần duy nhất (xem thêm Singleton Design Pattern)
 * toàn bộ hình ảnh được load bằng thư viện Picasso
 * toàn bộ các list **PHẢI** sử dụng RecyclerView (vì nó tối ưu hóa, xem thêm https://stackoverflow.com/questions/26570325/what-are-recyclerview-advantages-compared-to-listview). Tuy việc implement nó phức tạp hơn ListView nhưng về performance thì nó lại tốt hơn ListView
 * Vui lòng tái sử dụng càng nhiều càng tốt, tránh duplicate code
