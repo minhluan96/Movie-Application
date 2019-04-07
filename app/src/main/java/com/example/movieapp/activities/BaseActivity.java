@@ -11,8 +11,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.movieapp.adapters.ViewPagerHomeAdapter;
+import com.example.movieapp.utils.AppManager;
+
+import java.util.Map;
 
 
 public class BaseActivity extends AppCompatActivity {
@@ -22,6 +28,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppManager.create(this);
     }
 
     protected void showFragment(Fragment fragment, int containerLayoutId) {
@@ -84,5 +91,16 @@ public class BaseActivity extends AppCompatActivity {
         builder.setCancelable(false);
         builder.show();
     }
+
+    protected void setupViewPager(ViewPager viewPager, Map<Fragment, String> fragments) {
+        ViewPagerHomeAdapter adapter = new ViewPagerHomeAdapter(getSupportFragmentManager());
+        for (Map.Entry<Fragment, String> entry : fragments.entrySet()) {
+            Fragment fragment = entry.getKey();
+            String title = entry.getValue();
+            adapter.addFragment(fragment, title);
+        }
+        viewPager.setAdapter(adapter);
+    }
+
 
 }

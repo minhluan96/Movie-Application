@@ -10,13 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.movieapp.R;
 import com.example.movieapp.adapters.LatestMoviesAdapter;
 import com.example.movieapp.adapters.NowShowingMoviesAdapter;
 import com.example.movieapp.adapters.UpcomingMoviesAdapter;
 import com.example.movieapp.models.Movie;
+import com.example.movieapp.utils.AppManager;
+import com.example.movieapp.utils.DataParser;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MovieHomeFragment extends BaseFragment {
@@ -27,6 +35,8 @@ public class MovieHomeFragment extends BaseFragment {
     private NowShowingMoviesAdapter nowShowingMoviesAdapter;
     private UpcomingMoviesAdapter upcomingMoviesAdapter;
     private RecyclerView.LayoutManager latestMoviesLayoutManager, nowShowingMoviesLayoutManager, upComingMoviesLayoutManager;
+    private static final String TAG_LATEST_MOVIES = "TAG_LATEST_MOVIES";
+    private List<Movie> latestMovies = new ArrayList<>();
 
     public MovieHomeFragment() {
     }
@@ -57,6 +67,7 @@ public class MovieHomeFragment extends BaseFragment {
         upComingMoviesLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvUpcomingMovies.setLayoutManager(upComingMoviesLayoutManager);
         setupUpcomingMovieAdapter();
+        getAllLatestMovies();
 
         return v;
     }
@@ -114,5 +125,30 @@ public class MovieHomeFragment extends BaseFragment {
                 "https://m.media-amazon.com/images/M/MV5BMTE0YWFmOTMtYTU2ZS00ZTIxLWE3OTEtYTNiYzBkZjViZThiXkEyXkFqcGdeQXVyODMzMzQ4OTI@._V1_.jpg",
                 "ĐANG CHIẾU", 7.4, "", 13));
         return movies;
+    }
+
+    private void getAllLatestMovies() {
+        AppManager.getInstance().getCommService().getLatestMovies(TAG_LATEST_MOVIES, new DataParser.DataResponseListener<LinkedList<Movie>>() {
+            @Override
+            public void onDataResponse(LinkedList<Movie> result) {
+                latestMovies = result;
+            }
+
+            @Override
+            public void onDataError(String errorMessage) {
+
+            }
+
+            @Override
+            public void onRequestError(String errorMessage, VolleyError volleyError) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
     }
 }

@@ -17,8 +17,6 @@ import com.example.movieapp.activities.SellingTicketActivity;
 import com.example.movieapp.models.Movie;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class LatestMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -45,12 +43,14 @@ public class LatestMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         movieViewHolder.txtScore.setText(movie.getScore() + "");
         movieViewHolder.txtMinAge.setText(movie.minAgeDisplay());
         Picasso.get().load(movie.getImgUrl()).error(R.drawable.poster).into(movieViewHolder.imgPoster);
-
         movieViewHolder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SellingTicketActivity.class);
+            int pos = movieViewHolder.getAdapterPosition();
+            intent.putExtra("title", latestMovies.get(pos).getName());
             mContext.startActivity(intent);
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -71,5 +71,6 @@ public class LatestMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             txtTitle = itemView.findViewById(R.id.txtTitle);
             btnBookTicket = itemView.findViewById(R.id.btnBookTicket);
         }
+
     }
 }

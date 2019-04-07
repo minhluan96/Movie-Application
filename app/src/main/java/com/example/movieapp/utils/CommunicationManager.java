@@ -6,8 +6,14 @@ import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.example.movieapp.models.Movie;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.LinkedList;
 
 public class CommunicationManager {
 
@@ -22,6 +28,7 @@ public class CommunicationManager {
 
     public CommunicationManager(Context mContext) {
         this.mContext = mContext;
+        mRequestQueue = Volley.newRequestQueue(mContext);
     }
 
     public void cancelAllRequests() {
@@ -57,6 +64,12 @@ public class CommunicationManager {
             request.setTag(TAG);
         }
         mRequestQueue.add(request);
+    }
+
+    public void getLatestMovies(String tag, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {
+        Type type = new TypeToken<LinkedList<Movie>>() {
+        }.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "Latest", null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
     public void makeJSONObjectRequest(String tag, int method, final String service, final String entry, final JSONObject params, final DataParser parser) {
