@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 import com.example.movieapp.R;
 import com.example.movieapp.adapters.ViewPagerHomeAdapter;
 import com.example.movieapp.fragments.AccountFragment;
+import com.example.movieapp.fragments.NotificationFragment;
+import com.example.movieapp.fragments.PurchasedTicketsFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -19,6 +21,8 @@ public class UserInfoActivity extends BaseActivity implements OnTabSelectListene
     private ViewPager viewPager;
     private BottomBar bottomBar;
     private AccountFragment accountFragment;
+    private PurchasedTicketsFragment purchasedTicketsFragment;
+    private NotificationFragment notificationFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,8 @@ public class UserInfoActivity extends BaseActivity implements OnTabSelectListene
         bottomBar = findViewById(R.id.bottomBar);
 
         accountFragment = new AccountFragment();
+        purchasedTicketsFragment = new PurchasedTicketsFragment();
+        notificationFragment = new NotificationFragment();
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -40,6 +46,8 @@ public class UserInfoActivity extends BaseActivity implements OnTabSelectListene
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerHomeAdapter adapter = new ViewPagerHomeAdapter(getSupportFragmentManager());
         adapter.addFragment(accountFragment, "Tài khoản");
+        adapter.addFragment(purchasedTicketsFragment, "Vé đã mua");
+        adapter.addFragment(notificationFragment, "Thông báo");
         viewPager.setAdapter(adapter);
     }
 

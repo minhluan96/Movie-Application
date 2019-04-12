@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import com.example.movieapp.R;
 
-public class AccountFragment extends BaseFragment{
+public class AccountFragment extends BaseFragment {
 
     private EditText edtUsername;
     private EditText edtPassword;
