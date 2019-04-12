@@ -48,3 +48,10 @@ private void getAllLatestMovies() {
 ### Các màn hình đã hoàn thành
 * Màn hình chủ (90%) - cho cả xem phim và sự kiện thể thao
 * Màn hình thông tin sự kiện (60%) - cho cả xem phim và sự kiện thể thao
+
+### Các thư viện sử dụng trong ứng dụng
+* Thư viện load hình ảnh (từ resource hoặc từ url): https://square.github.io/picasso/
+* Thư viện quản lý và thực hiện gọi Request: https://www.journaldev.com/17198/android-volley-tutorial
+* Bottom bar: https://github.com/roughike/BottomBar
+* Shimmer loading: https://github.com/sharish/ShimmerRecyclerView
+* RecyclerView: https://www.androidhive.info/2016/01/android-working-with-recycler-view/
