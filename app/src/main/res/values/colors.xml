@@ -6,5 +6,7 @@
     <color name="colorBackgroundBlack">#0E1934</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="colorLightOrange">#DA5342</color>
-
+    <color name="colorFacebook">#f55585c5</color>
+    <color name="colorGmail">#fdd34836</color>
+    <color name="colorZalo">#f456b0f1</color>
 </resources>

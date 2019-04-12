@@ -5,41 +5,31 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.example.movieapp.R;
 import com.example.movieapp.adapters.ViewPagerHomeAdapter;
-import com.example.movieapp.fragments.MovieHomeFragment;
-import com.example.movieapp.fragments.SportHomeFragment;
+import com.example.movieapp.fragments.AccountFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
-public class HomeActivity extends BaseActivity implements OnTabSelectListener, OnTabReselectListener {
+public class UserInfoActivity extends BaseActivity implements OnTabSelectListener, OnTabReselectListener {
 
-    private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private BottomBar bottomBar;
-    private MovieHomeFragment movieFragment;
-    private SportHomeFragment sportFragment;
+    private AccountFragment accountFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_activity);
+        setContentView(R.layout.user_info_activity);
 
-        toolbar = findViewById(R.id.toolbar);
         tabLayout = findViewById(R.id.tabs);
         viewPager = findViewById(R.id.viewpager);
         bottomBar = findViewById(R.id.bottomBar);
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        movieFragment = new MovieHomeFragment();
-        sportFragment = new SportHomeFragment();
+        accountFragment = new AccountFragment();
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -49,8 +39,7 @@ public class HomeActivity extends BaseActivity implements OnTabSelectListener, O
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerHomeAdapter adapter = new ViewPagerHomeAdapter(getSupportFragmentManager());
-        adapter.addFragment(movieFragment, "Phim chiếu rạp");
-        adapter.addFragment(sportFragment, "Thể thao");
+        adapter.addFragment(accountFragment, "Tài khoản");
         viewPager.setAdapter(adapter);
     }
 
