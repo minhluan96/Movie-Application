@@ -128,7 +128,8 @@ public class MovieHomeFragment extends BaseFragment {
     }
 
     private void getAllLatestMovies() {
-        AppManager.getInstance().getCommService().getLatestMovies(TAG_LATEST_MOVIES, new DataParser.DataResponseListener<LinkedList<Movie>>() {
+        AppManager.getInstance().getCommService().getLatestMovies(TAG_LATEST_MOVIES,
+                new DataParser.DataResponseListener<LinkedList<Movie>>() {
             @Override
             public void onDataResponse(LinkedList<Movie> result) {
                 latestMovies = result;

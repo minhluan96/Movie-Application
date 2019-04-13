@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.example.movieapp.R;
 import com.example.movieapp.fragments.CalendarFragment;
+import com.example.movieapp.fragments.InfoFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class SellingTicketActivity extends BaseActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private CalendarFragment calendarFragment;
+    private InfoFragment infoFragment;
     private Map<Fragment, String> fragmentStringMap;
 
 
@@ -42,9 +44,11 @@ public class SellingTicketActivity extends BaseActivity {
         }
 
         calendarFragment = new CalendarFragment();
+        infoFragment = new InfoFragment();
         fragmentStringMap = new HashMap<>();
 
         fragmentStringMap.put(calendarFragment, "Lịch chiếu");
+        fragmentStringMap.put(infoFragment, "Thông tin");
 
         setupViewPager(viewPager, fragmentStringMap);
         tabLayout.setupWithViewPager(viewPager);
