@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.example.movieapp.R;
-import com.example.movieapp.fragments.AccountFragment;
 import com.example.movieapp.fragments.HomeFragment;
+import com.example.movieapp.fragments.UserInfoFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -32,8 +32,8 @@ public class HomeActivity extends BaseActivity implements OnTabSelectListener {
         } else if (tabId == R.id.tab_theater) {
             // TODO: Implement tab for selling ticket places here
         } else if (tabId == R.id.tab_user) {
-            AccountFragment accountFragment = new AccountFragment();
-            showFragment(accountFragment, R.id.container_layout);
+            UserInfoFragment userInfoFragment = new UserInfoFragment();
+            showFragment(userInfoFragment, R.id.container_layout);
         }
     }
 }

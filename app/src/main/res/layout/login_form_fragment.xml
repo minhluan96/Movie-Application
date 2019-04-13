@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/myVerticalScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="320dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </RelativeLayout> <!--Menu-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="TicketNow"
+                        android:textSize="26dp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtUsername"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="#11000000"
+                        android:drawableLeft="@drawable/ic_username"
+                        android:ems="10"
+                        android:gravity="left"
+                        android:hint="Tên đăng nhập"
+                        android:inputType="text"
+                        android:textColorHint="#9ba3af" />
+
+                    <EditText
+                        android:id="@+id/edtPassword"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#11000000"
+                        android:gravity="left"
+                        android:drawableLeft="@drawable/ic_password"
+                        android:hint="Mật khẩu"
+                        android:ems="10"
+                        android:inputType="textPassword"
+                        android:textColorHint="#9ba3af" />
+
+                    <Button
+                        android:id="@+id/btnLogin"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Đăng nhập"
+                        android:textSize="20dp"
+                        android:textColorHint="@color/colorWhite"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/button_border_background"/>
+                </LinearLayout> <!--Login-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="60dp">
+
+                    <TableRow
+                        android:layout_height="1dp"
+                        android:layout_width="160dp"
+                        android:gravity="left"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorWhite"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hoặc"
+                        android:textStyle="bold" />
+
+                    <TableRow
+                        android:layout_height="1dp"
+                        android:layout_width="160dp"
+                        android:gravity="right"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorWhite"/>
+
+                </LinearLayout> <!--Line separate-->
+
+            </LinearLayout> <!--Menu and login-->
+
+        </RelativeLayout> <!--Top content-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đăng nhập bằng"
+                android:textStyle="bold"/>
+
+            <Button
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:hint="Facebook"
+                android:textColorHint="@color/colorWhite"
+                android:textSize="16dp"
+                android:background="@drawable/facebook_button"
+                android:layout_marginTop="15dp"
+                android:drawableStart="@drawable/facebook"
+                android:paddingLeft="20dp"/>
+
+            <Button
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:hint="Gmail"
+                android:textColorHint="@color/colorWhite"
+                android:textSize="16dp"
+                android:background="@drawable/gmail_button"
+                android:layout_marginTop="15dp"
+                android:drawableStart="@drawable/gmail"
+                android:paddingLeft="20dp"/>
+
+            <Button
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:hint="Zalo"
+                android:textColorHint="@color/colorWhite"
+                android:textSize="16dp"
+                android:background="@drawable/zalo_button"
+                android:layout_marginTop="15dp"
+                android:drawableStart="@drawable/zalo"
+                android:paddingLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bạn chưa có tài khoản?"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp" />
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/design_default_color_primary_dark"
+                android:hint="Đăng ký tài khoản"
+                android:textColorHint="@color/colorWhite"
+                android:textSize="16dp" />
+
+            <TableRow
+                android:layout_height="1dp"
+                android:layout_width="280dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorWhite"/> <!--Line separate-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center" >
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Hỗ trợ"
+                    android:textColorHint="@color/colorWhite"
+                    android:background="@null"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Liên hệ"
+                    android:textColorHint="@color/colorWhite"
+                    android:background="@null"/>
+
+            </LinearLayout> <!--About and contact-->
+
+        </LinearLayout> <!--Bottom content-->
+
+    </LinearLayout> <!--Page login-->
+
+</ScrollView>

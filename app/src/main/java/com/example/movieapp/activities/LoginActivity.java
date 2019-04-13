@@ -7,15 +7,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
 import com.example.movieapp.R;
-import com.example.movieapp.fragments.RegistrationFormFragment;
+import com.example.movieapp.fragments.LoginFormFragment;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegistrationActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity {
     private Toolbar toolbar;
     private ViewPager viewPager;
-    private RegistrationFormFragment registrationFormFragment;
+    private LoginFormFragment loginFormFragment;
     private Map<Fragment, String> fragmentStringMap;
 
     @Override
@@ -28,12 +28,12 @@ public class RegistrationActivity extends BaseActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Đăng ký");
+        getSupportActionBar().setTitle("Đăng nhập");
 
-        registrationFormFragment = new RegistrationFormFragment();
+        loginFormFragment = new LoginFormFragment();
         fragmentStringMap = new HashMap<>();
 
-        fragmentStringMap.put(registrationFormFragment, "Đăng ký");
+        fragmentStringMap.put(loginFormFragment, "Đăng nhập");
 
         setupViewPager(viewPager, fragmentStringMap);
     }

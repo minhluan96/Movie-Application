@@ -4,22 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View.OnClickListener;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.movieapp.R;
-import com.example.movieapp.activities.RegistrationActivity;
+import com.example.movieapp.activities.LoginActivity;
 
 public class AccountFragment extends BaseFragment implements OnClickListener {
 
-    private EditText edtUsername;
-    private EditText edtPassword;
-    private Button btnLogin;
-    private Button btnRegister;
+    private ImageView imgAvatar;
 
     public  AccountFragment() {}
 
@@ -32,24 +28,20 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.account_fragment, container, false);
-        edtUsername = v.findViewById(R.id.edtUsername);
-        edtPassword = v.findViewById(R.id.edtPassword);
-        btnLogin = v.findViewById(R.id.btnLogin);
-        btnRegister = v.findViewById(R.id.btnRegister);
 
-        btnRegister.setOnClickListener(this);
+        imgAvatar = v.findViewById(R.id.imgAvatar);
+
+        imgAvatar.setOnClickListener(this);
+
         return v;
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btnRegister) {
-            //create an Intent to talk to activity: RegistrationActivity
-            Intent callRegistration = new Intent(getActivity(), RegistrationActivity.class);
-            startActivity(callRegistration);
-        }
-        if (v.getId() == R.id.btnLogin) {
-
+        if (v.getId() == R.id.imgAvatar) {
+            //create an Intent to talk to activity: LoginActivity
+            Intent callLogin = new Intent(getActivity(), LoginActivity.class);
+            startActivity(callLogin);
         }
     }
 }

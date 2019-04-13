@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
     <com.roughike.bottombar.BottomBar
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
@@ -20,6 +19,5 @@
         app:bb_tabXmlResource="@xml/bottombar_tabs"
         app:bb_behavior="shy|shifting"
         app:bb_showShadow="true" />
-
 
 </android.support.design.widget.CoordinatorLayout>
