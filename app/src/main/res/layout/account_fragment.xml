@@ -71,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Đăng nhập"
                         android:textSize="20dp"
-                        android:textColorHint="#fff"
+                        android:textColorHint="@color/colorWhite"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/button_border_background"/>
                 </LinearLayout> <!--Login-->
@@ -88,7 +88,7 @@
                         android:gravity="left"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:background="#fff"/>
+                        android:background="@color/colorWhite"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -102,7 +102,7 @@
                         android:gravity="right"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:background="#fff"/>
+                        android:background="@color/colorWhite"/>
 
                 </LinearLayout> <!--Line separate-->
 
@@ -126,7 +126,7 @@
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:hint="Facebook"
-                android:textColorHint="#fff"
+                android:textColorHint="@color/colorWhite"
                 android:textSize="16dp"
                 android:background="@drawable/facebook_button"
                 android:layout_marginTop="15dp"
@@ -137,7 +137,7 @@
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:hint="Gmail"
-                android:textColorHint="#fff"
+                android:textColorHint="@color/colorWhite"
                 android:textSize="16dp"
                 android:background="@drawable/gmail_button"
                 android:layout_marginTop="15dp"
@@ -148,7 +148,7 @@
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:hint="Zalo"
-                android:textColorHint="#fff"
+                android:textColorHint="@color/colorWhite"
                 android:textSize="16dp"
                 android:background="@drawable/zalo_button"
                 android:layout_marginTop="15dp"
@@ -169,7 +169,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@color/design_default_color_primary_dark"
                 android:hint="Đăng ký tài khoản"
-                android:textColorHint="#fff"
+                android:textColorHint="@color/colorWhite"
                 android:textSize="16dp" />
 
             <TableRow
@@ -178,7 +178,7 @@
                 android:layout_gravity="center_horizontal"
                 android:orientation="vertical"
                 android:layout_marginTop="20dp"
-                android:background="#fff"/> <!--Line separate-->
+                android:background="@color/colorWhite"/> <!--Line separate-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -191,14 +191,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="Hỗ trợ"
-                    android:textColorHint="#fff"
+                    android:textColorHint="@color/colorWhite"
                     android:background="@null"/>
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="Liên hệ"
-                    android:textColorHint="#fff"
+                    android:textColorHint="@color/colorWhite"
                     android:background="@null"/>
 
             </LinearLayout> <!--About and contact-->

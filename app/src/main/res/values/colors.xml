@@ -9,4 +9,6 @@
     <color name="colorFacebook">#f55585c5</color>
     <color name="colorGmail">#fdd34836</color>
     <color name="colorZalo">#f456b0f1</color>
+    <color name="colorWhite">#fff</color>
+    <color name="colorTransparent">#00000000</color>
 </resources>
