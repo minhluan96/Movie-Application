@@ -1,6 +1,7 @@
 package com.example.movieapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.movieapp.R;
+import com.example.movieapp.activities.BookingTicketActivity;
 import com.example.movieapp.models.Cinema;
 import com.example.movieapp.models.Showtime;
 import com.squareup.picasso.Picasso;
@@ -77,6 +79,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         txtCinemaName.setText(cinema.getName());
         Picasso.get().load(cinema.getImgUrl()).error(R.drawable.ic_launcher_background).into(imgLogo);
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, BookingTicketActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
+
         return convertView;
     }
 
@@ -92,15 +102,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView txtTimeEnd = convertView.findViewById(R.id.txtTimeEnd);
         TextView txtType = convertView.findViewById(R.id.txtType);
         TextView txtPrice = convertView.findViewById(R.id.txtPrice);
-        TextView txtBranchName = convertView.findViewById(R.id.txtBranchName);
-        TextView txtDistance = convertView.findViewById(R.id.txtDistance);
 
         txtTimeStart.setText(showtime.getTimeStart());
         txtTimeEnd.setText(showtime.getTimeEnd());
         txtType.setText(showtime.getTypeMovie());
         txtPrice.setText("~" + showtime.getPrice());
-        txtBranchName.setText(showtime.getBranchName());
-        txtDistance.setText(showtime.getDistance());
 
         return convertView;
     }

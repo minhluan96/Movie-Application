@@ -37,7 +37,7 @@ public class NowShowingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.V
         NowShowingMovieViewHolder nowShowingMovieViewHolder = (NowShowingMovieViewHolder) viewHolder;
         Movie movie = nowShowingMovies.get(i);
         nowShowingMovieViewHolder.txtTitle.setText(movie.getName());
-        Picasso.get().load(movie.getImgUrl()).error(R.drawable.poster).into(nowShowingMovieViewHolder.imgPoster);
+        Picasso.get().load(movie.getImgURL()).error(R.drawable.poster).into(nowShowingMovieViewHolder.imgPoster);
     }
 
     @Override

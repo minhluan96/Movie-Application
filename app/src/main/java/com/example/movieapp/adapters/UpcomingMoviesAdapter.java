@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,7 +36,7 @@ public class UpcomingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         UpcomingMovieViewHolder upcomingMovieViewHolder = (UpcomingMovieViewHolder) viewHolder;
         Movie movie = upcomingMovies.get(i);
         upcomingMovieViewHolder.txtTitle.setText(movie.getName());
-        Picasso.get().load(movie.getImgUrl()).error(R.drawable.poster).into(upcomingMovieViewHolder.imgPoster);
+        Picasso.get().load(movie.getImgURL()).error(R.drawable.poster).into(upcomingMovieViewHolder.imgPoster);
     }
 
     @Override

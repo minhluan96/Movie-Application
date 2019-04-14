@@ -14,6 +14,7 @@ import com.example.movieapp.fragments.CalendarFragment;
 import com.example.movieapp.fragments.InfoFragment;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SellingTicketActivity extends BaseActivity {
@@ -43,12 +44,10 @@ public class SellingTicketActivity extends BaseActivity {
             getSupportActionBar().setTitle(title);
         }
 
-        calendarFragment = new CalendarFragment();
-        infoFragment = new InfoFragment();
-        fragmentStringMap = new HashMap<>();
+        fragmentStringMap = new LinkedHashMap<>();
 
-        fragmentStringMap.put(calendarFragment, "Lịch chiếu");
-        fragmentStringMap.put(infoFragment, "Thông tin");
+        fragmentStringMap.put(new CalendarFragment(), "Lịch chiếu");
+        fragmentStringMap.put(new InfoFragment(), "Thông tin");
 
         setupViewPager(viewPager, fragmentStringMap);
         tabLayout.setupWithViewPager(viewPager);

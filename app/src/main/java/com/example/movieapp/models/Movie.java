@@ -6,7 +6,7 @@ public class Movie {
 
     private String name;
 
-    private String imgUrl;
+    private String imgURL;
 
     private String status;
 
@@ -16,10 +16,10 @@ public class Movie {
 
     private int minAge;
 
-    public Movie(int id, String name, String imgUrl, String status, double score, String description, int minAge) {
+    public Movie(int id, String name, String imgURL, String status, double score, String description, int minAge) {
         this.id = id;
         this.name = name;
-        this.imgUrl = imgUrl;
+        this.imgURL = imgURL;
         this.status = status;
         this.score = score;
         this.description = description;
@@ -42,12 +42,12 @@ public class Movie {
         this.name = name;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getImgURL() {
+        return imgURL;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 
     public String getStatus() {

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.movieapp.R;
@@ -42,7 +41,7 @@ public class LatestMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         movieViewHolder.txtTitle.setText(movie.getName());
         movieViewHolder.txtScore.setText(movie.getScore() + "");
         movieViewHolder.txtMinAge.setText(movie.minAgeDisplay());
-        Picasso.get().load(movie.getImgUrl()).error(R.drawable.poster).into(movieViewHolder.imgPoster);
+        Picasso.get().load(movie.getImgURL()).error(R.drawable.poster).into(movieViewHolder.imgPoster);
         movieViewHolder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SellingTicketActivity.class);
             int pos = movieViewHolder.getAdapterPosition();
