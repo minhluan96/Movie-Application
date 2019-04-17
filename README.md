@@ -55,3 +55,4 @@ private void getAllLatestMovies() {
 * Bottom bar: https://github.com/roughike/BottomBar
 * Shimmer loading: https://github.com/sharish/ShimmerRecyclerView
 * RecyclerView: https://www.androidhive.info/2016/01/android-working-with-recycler-view/
+* MovieSeatView: https://github.com/captain-miao/SelectMovieSeat
