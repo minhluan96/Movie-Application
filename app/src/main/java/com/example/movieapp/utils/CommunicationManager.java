@@ -73,7 +73,7 @@ public class CommunicationManager {
     }
 
     public void doLogin(String tag, JSONObject body, DataParser.DataResponseListener<String> listener) {
-        // TODO: replace String.class with the User.class if using the User Model 
+        // TODO: replace String.class with the User.class if using the User Model
         makeJSONObjectRequest(tag, Request.Method.POST, "User", "Login", body, new DataParser(listener, null, String.class));
     }
 
