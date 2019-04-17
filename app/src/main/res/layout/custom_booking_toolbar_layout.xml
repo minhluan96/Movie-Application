@@ -13,6 +13,7 @@
         android:layout_gravity="center_vertical"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginLeft="10dp"
         android:src="@drawable/cancel"/>
 
     <LinearLayout
@@ -31,13 +32,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="BHD"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/colorLightGreen"/>
 
             <TextView
                 android:id="@+id/txtBranch"
                 android:text=" - Bitexco"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
@@ -55,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hôm nay - "
-                android:textSize="16sp"
+                android:textSize="14sp"
                 />
 
             <TextView
@@ -64,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20:45 - "
-                android:textSize="16sp"
+                android:textSize="14sp"
                 />
 
             <TextView
@@ -74,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:text="Rạp 4"
                 android:textAllCaps="true"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 />
 
 

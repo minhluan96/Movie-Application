@@ -72,6 +72,11 @@ public class CommunicationManager {
         makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "Latest", null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
+    public void doLogin(String tag, JSONObject body, DataParser.DataResponseListener<String> listener) {
+        // TODO: replace String.class with the User.class if using the User Model 
+        makeJSONObjectRequest(tag, Request.Method.POST, "User", "Login", body, new DataParser(listener, null, String.class));
+    }
+
     public void makeJSONObjectRequest(String tag, int method, final String service, final String entry, final JSONObject params, final DataParser parser) {
         makeJSONObjectRequest(tag, method, service, entry, "", params, parser);
     }

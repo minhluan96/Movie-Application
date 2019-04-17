@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.movieapp.R;
 import com.example.movieapp.models.Ticket;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class TicketTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private List<Ticket> tickets;
     private Context context;
+    private TicketChangeListener ticketChangeListener;
 
     public TicketTypeAdapter(List<Ticket> tickets, Context context) {
         this.tickets = tickets;
@@ -40,6 +43,56 @@ public class TicketTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Ticket ticket = tickets.get(i);
         ticketTypeViewHolder.txtNameTicketType.setText(ticket.getName());
         ticketTypeViewHolder.txtPrice.setText(ticket.getPriceString());
+
+        int currentQuantity = getCurrentQuantityOfTicket(ticketTypeViewHolder);
+        if (currentQuantity == 0) {
+            ticketTypeViewHolder.imgSubtract.setVisibility(View.INVISIBLE);
+            ticketTypeViewHolder.imgAdd.setImageResource(R.drawable.add_round_btn);
+        } else {
+            ticketTypeViewHolder.imgSubtract.setVisibility(View.VISIBLE);
+            ticketTypeViewHolder.imgAdd.setImageResource(R.drawable.plus);
+        }
+
+        if (currentQuantity == 10) {
+            ticketTypeViewHolder.imgAdd.setImageResource(R.drawable.plus_grey);
+        } else {
+            ticketTypeViewHolder.imgAdd.setImageResource(R.drawable.plus);
+        }
+
+        ticketTypeViewHolder.imgAdd.setOnClickListener(v -> {
+            int quantity = getCurrentQuantityOfTicket(ticketTypeViewHolder);
+            quantity++;
+            if (quantity > 10) return;
+            ticketTypeViewHolder.txtQuantity.setText(String.valueOf(quantity));
+            ticketChangeListener.onAddButtonChanged(quantity, ticket.getPrice());
+        });
+
+        ticketTypeViewHolder.imgSubtract.setOnClickListener(v -> {
+            int quantity = getCurrentQuantityOfTicket(ticketTypeViewHolder);
+            ticketChangeListener.onSubtractButtonChanged(quantity, ticket.getPrice());
+            quantity--;
+            ticketTypeViewHolder.txtQuantity.setText(String.valueOf(quantity));
+            if (quantity == 0) {
+                ticketTypeViewHolder.imgSubtract.setVisibility(View.INVISIBLE);
+                return;
+            }
+
+        });
+    }
+
+    private int getCurrentQuantityOfTicket(TicketTypeViewHolder ticketTypeViewHolder) {
+        String quantityStr = ticketTypeViewHolder.txtQuantity.getText().toString();
+        int quantity = Integer.parseInt(quantityStr);
+        return quantity;
+    }
+
+    public interface TicketChangeListener {
+        void onAddButtonChanged(int totalQuantity, double pricePerTicket);
+        void onSubtractButtonChanged(int totalQuantity, double pricePerTicket);
+    }
+
+    public void setTicketChangeListener(TicketChangeListener ticketChangeListener) {
+        this.ticketChangeListener = ticketChangeListener;
     }
 
     @Override

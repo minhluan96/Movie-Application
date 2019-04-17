@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.SeatPlaceActivity">
+
+    <include layout="@layout/custom_booking_toolbar_layout" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_cinema_screen"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="Screen"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center" />
+
+        <com.github.captain_miao.seatview.MovieSeatView
+            android:id="@+id/seat_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_cinema_screen"
+            app:showOverView="true"
+            app:seatWidth="30dp"
+            app:seatHeight="30dp"
+            app:seatPadding="5dp"
+            app:seatScaleFactorMinBest="1.4"
+            app:seatScaleFactorMaxBest="1.8"
+            app:seatScaleFactorMin="1"
+            app:seatScaleFactorMax="3"
+            app:iconOnSale="@drawable/seat_sale"
+            app:iconSold="@drawable/seat_sold"
+            app:iconSelected="@drawable/seat_selected"
+            />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
