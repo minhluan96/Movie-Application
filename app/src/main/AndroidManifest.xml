@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.SeatPlaceActivity"></activity>
+        <activity android:name=".activities.ConfirmationActivity"></activity>
+        <activity android:name=".activities.SeatPlaceActivity" />
         <activity android:name=".activities.BookingTicketActivity" />
         <activity android:name=".activities.HomeActivity">
             <intent-filter>

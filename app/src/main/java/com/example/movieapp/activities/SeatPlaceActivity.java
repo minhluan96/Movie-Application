@@ -1,9 +1,11 @@
 package com.example.movieapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.movieapp.R;
@@ -25,7 +27,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
     private SeatMo[][] seatTable;
 
     public List<SeatMo> selectedSeats;
-    private GestureDetector gestureDetector;
+    private TextView txtTotalPrice, txtContinue;
 
 
     private int maxRow = 10;
@@ -40,11 +42,15 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         initSeatTable();
         selectedSeats = new ArrayList<>();
         mMovieSeatView = findViewById(R.id.seat_view);
+        txtContinue = findViewById(R.id.txtContinue);
+        txtTotalPrice = findViewById(R.id.txtTotalPrice);
         mMovieSeatView.setSeatTable(seatTable);
         mMovieSeatView.setPresenter(this);
-        gestureDetector = new GestureDetector(this, new GestureListener());
 
-
+        txtContinue.setOnClickListener(v -> {
+            Intent intent = new Intent(SeatPlaceActivity.this, ConfirmationActivity.class);
+            startActivity(intent);
+        });
     }
 
 
@@ -93,21 +99,5 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
             }
         }
         return false;
-    }
-
-    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }
-        // event when double tap occurs
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            if (mMovieSeatView.mScaleFactor > 1) {
-                mMovieSeatView.mScaleFactor = 0.5f;
-            }
-            return true;
-        }
     }
 }
