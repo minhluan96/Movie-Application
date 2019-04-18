@@ -79,14 +79,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         txtCinemaName.setText(cinema.getName());
         Picasso.get().load(cinema.getImgUrl()).error(R.drawable.ic_launcher_background).into(imgLogo);
 
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, BookingTicketActivity.class);
-                mContext.startActivity(intent);
-            }
-        });
-
         return convertView;
     }
 
@@ -107,6 +99,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         txtTimeEnd.setText(showtime.getTimeEnd());
         txtType.setText(showtime.getTypeMovie());
         txtPrice.setText("~" + showtime.getPrice());
+
+        convertView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, BookingTicketActivity.class);
+            mContext.startActivity(intent);
+        });
 
         return convertView;
     }

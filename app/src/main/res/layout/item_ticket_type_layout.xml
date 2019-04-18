@@ -4,10 +4,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_margin="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -23,7 +20,7 @@
                 android:id="@+id/txtNameTicket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:text="Vé thường 2D"
                 />
 
@@ -32,7 +29,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:text="90.000 đ"/>
 
@@ -49,8 +46,8 @@
 
             <ImageView
                 android:id="@+id/imgSubtract"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@drawable/substract"
                 android:layout_gravity="center"
                 />
@@ -60,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:text="0"
@@ -69,8 +66,8 @@
 
             <ImageView
                 android:id="@+id/imgAdd"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@drawable/plus"
                 android:layout_gravity="center"
                 />
@@ -81,7 +78,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.1dp"
         android:background="@android:color/darker_gray"
         />
 

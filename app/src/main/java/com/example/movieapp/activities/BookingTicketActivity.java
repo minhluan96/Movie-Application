@@ -1,9 +1,11 @@
 package com.example.movieapp.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +16,7 @@ import com.example.movieapp.models.Ticket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookingTicketActivity extends AppCompatActivity {
+public class BookingTicketActivity extends BaseActivity implements TicketTypeAdapter.TicketChangeListener {
 
     private TextView txtNameMovie, txtMinAge, txtDetailDurationAndType,
             txtTotalPrice, txtContinue, txtCinema,
@@ -23,6 +25,8 @@ public class BookingTicketActivity extends AppCompatActivity {
     private ImageView imgClose;
     private RecyclerView.LayoutManager layoutManager;
     private TicketTypeAdapter ticketTypeAdapter;
+
+    private double totalPrice = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +48,21 @@ public class BookingTicketActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         rvTicketTypes.setLayoutManager(layoutManager);
         setupTicketTypeAdapter();
+
+        txtTotalPrice.setText(String.valueOf(totalPrice));
+
+        txtContinue.setOnClickListener(v -> {
+            Intent intent = new Intent(BookingTicketActivity.this, SeatPlaceActivity.class);
+            startActivity(intent);
+        });
+
+        imgClose.setOnClickListener(v -> finish());
     }
 
     private void setupTicketTypeAdapter() {
         List<Ticket> tickets = getDummyData();
         ticketTypeAdapter = new TicketTypeAdapter(tickets, this);
+        ticketTypeAdapter.setTicketChangeListener(this);
         rvTicketTypes.setAdapter(ticketTypeAdapter);
     }
 
@@ -58,5 +72,19 @@ public class BookingTicketActivity extends AppCompatActivity {
         tickets.add(new Ticket(1, "Vé VIP 2D", 100000));
         tickets.add(new Ticket(1, "Ghế đôi 2D", 120000));
         return tickets;
+    }
+
+    @Override
+    public void onAddButtonChanged(int totalQuantity, double pricePerTicket) {
+        totalPrice += pricePerTicket;
+        txtTotalPrice.setText(String.valueOf(totalPrice) + " đ");
+        ticketTypeAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSubtractButtonChanged(int totalQuantity, double pricePerTicket) {
+        totalPrice -= pricePerTicket;
+        txtTotalPrice.setText(String.valueOf(totalPrice) + " đ");
+        ticketTypeAdapter.notifyDataSetChanged();
     }
 }
