@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/myVerticalScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="560dp"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:background="@drawable/layout_border_background">
+
+                <TextView
+                    android:id="@+id/txtFullName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:hint="Họ tên"
+                    android:textColorHint="@color/textColorPrimaryDark"/>
+
+                <EditText
+                    android:id="@+id/edtFullName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_border_background"
+                    android:inputType="text"
+                    android:textColor="@color/colorWhite" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="5dp"
+                        android:hint="Giới tính"
+                        android:textColorHint="@color/textColorPrimaryDark"/>
+
+                    <RadioGroup
+                        android:id="@+id/radioGroupGenderType"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="20dp" >
+
+                        <RadioButton
+                            android:id="@+id/radMale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nam"
+                            android:textColor="@color/colorWhite"
+                            android:buttonTint="@color/textColorPrimaryDark"/>
+
+                        <RadioButton
+                            android:id="@+id/radFemale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nữ"
+                            android:layout_marginLeft="50dp"
+                            android:textColor="@color/colorWhite"
+                            android:buttonTint="@color/textColorPrimaryDark"/>
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtBirthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="5dp"
+                    android:hint="Ngày sinh"
+                    android:textColorHint="@color/textColorPrimaryDark"/>
+
+                <EditText
+                    android:id="@+id/edtBirthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_border_background"
+                    android:inputType="text"
+                    android:textColor="@color/colorWhite"
+                    android:clickable="true"
+                    android:focusable="false"/>
+
+                <TextView
+                    android:id="@+id/txtEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="5dp"
+                    android:hint="Email"
+                    android:textColorHint="@color/textColorPrimaryDark"/>
+
+                <EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_border_background"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/colorWhite" />
+
+                <TextView
+                    android:id="@+id/txtPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="5dp"
+                    android:hint="Số điện thoại"
+                    android:textColorHint="@color/textColorPrimaryDark"/>
+
+                <EditText
+                    android:id="@+id/edtPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_border_background"
+                    android:inputType="number"
+                    android:textColor="@color/colorWhite" />
+
+                <TextView
+                    android:id="@+id/txtAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="5dp"
+                    android:hint="Địa chỉ"
+                    android:textColorHint="@color/textColorPrimaryDark"/>
+
+                <EditText
+                    android:id="@+id/edtAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_border_background"
+                    android:inputType="text"
+                    android:textColor="@color/colorWhite" />
+            </LinearLayout> <!--Password info-->
+
+        </RelativeLayout> <!--Top content-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/form_button_border_background"
+                    android:text="Cập nhật" />
+
+            </LinearLayout>
+
+        </LinearLayout> <!--Bottom content-->
+
+    </LinearLayout> <!--Change password-->
+
+</ScrollView>

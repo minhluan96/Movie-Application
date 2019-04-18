@@ -13,11 +13,11 @@ import android.widget.ImageView;
 import com.example.movieapp.R;
 import com.example.movieapp.activities.LoginActivity;
 
-public class AccountFragment extends BaseFragment implements OnClickListener {
+public class LoggedOutFragment extends BaseFragment implements OnClickListener {
 
     private ImageView imgAvatar;
 
-    public  AccountFragment() {}
+    public LoggedOutFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class AccountFragment extends BaseFragment implements OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.account_fragment, container, false);
+        View v = inflater.inflate(R.layout.logged_out_fragment, container, false);
 
         imgAvatar = v.findViewById(R.id.imgAvatar);
 

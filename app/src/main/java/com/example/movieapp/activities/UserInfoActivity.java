@@ -7,33 +7,34 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
 import com.example.movieapp.R;
-import com.example.movieapp.fragments.LoginFormFragment;
+import com.example.movieapp.fragments.UserInfoFormFragment;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends BaseActivity {
+public class UserInfoActivity extends BaseActivity {
+
     private Toolbar toolbar;
     private ViewPager viewPager;
-    private LoginFormFragment loginFormFragment;
+    private UserInfoFormFragment userInfoFormFragment;
     private Map<Fragment, String> fragmentStringMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.user_info_activity);
 
         toolbar = findViewById(R.id.toolbar);
         viewPager = findViewById(R.id.viewpager);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Đăng nhập");
+        getSupportActionBar().setTitle("Thông tin cá nhân");
 
-        loginFormFragment = new LoginFormFragment();
+        userInfoFormFragment = new UserInfoFormFragment();
         fragmentStringMap = new HashMap<>();
 
-        fragmentStringMap.put(loginFormFragment, "Đăng nhập");
+        fragmentStringMap.put(userInfoFormFragment, "Thông tin cá nhân");
 
         setupViewPager(viewPager, fragmentStringMap);
     }

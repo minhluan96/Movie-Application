@@ -7,11 +7,14 @@
     <color name="colorDarkBackground">#1A1F2A</color>
     <color name="colorLightBackground">#253453</color>
     <color name="textColorPrimary">#FFFFFF</color>
+    <color name="textColorPrimaryDark">#9ba3af</color>
     <color name="colorLightGreen">#7FCF26</color>
     <color name="colorLightOrange">#DA5342</color>
     <color name="colorFacebook">#f55585c5</color>
     <color name="colorGmail">#fdd34836</color>
     <color name="colorZalo">#f456b0f1</color>
     <color name="colorWhite">#fff</color>
+    <color name="colorGreen">#4CAF50</color>
     <color name="colorTransparent">#00000000</color>
+    <color name="colorCardView">#0E1940</color>
 </resources>

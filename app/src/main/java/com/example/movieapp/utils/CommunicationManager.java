@@ -67,8 +67,7 @@ public class CommunicationManager {
     }
 
     public void getLatestMovies(String tag, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {
-        Type type = new TypeToken<LinkedList<Movie>>() {
-        }.getType();
+        Type type = new TypeToken<LinkedList<Movie>>() {}.getType();
         makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "Latest", null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 

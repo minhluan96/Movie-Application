@@ -42,9 +42,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="Đăng nhập đê thanh toán và hiển thị vé đã mua"
+                        android:text="Đăng nhập để thanh toán và hiển thị vé đã mua"
                         android:textSize="12dp"
-                        android:textColor="#9ba3af"/>
+                        android:textColor="@color/textColorPrimaryDark"/>
 
                 </LinearLayout> <!--Account info-->
 

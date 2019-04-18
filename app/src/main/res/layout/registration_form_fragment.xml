@@ -13,10 +13,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="3dp"
             app:cardPreventCornerOverlap="false"
@@ -46,8 +46,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
                         android:text="Thông tin tài khoản"
                         android:textColor="@color/colorWhite"
                         android:textSize="21dp" />
@@ -70,8 +70,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imageView1"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginTop="30dp">
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="30dp">
 
                     <ImageView
                         android:id="@+id/imgView_fullNameIcon"
@@ -102,8 +102,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/relativeLayout1"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginTop="15dp" >
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="30dp">
 
                     <ImageView
                         android:id="@+id/imgView_usernameIcon"
@@ -135,8 +135,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/relativeLayout2"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginTop="15dp" >
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="30dp">
 
                     <ImageView
                         android:id="@+id/imgView_passwordIcon"
@@ -168,8 +168,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/relativeLayout3"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="30dp">
 
                     <ImageView
                         android:id="@+id/imgView_retypeIcon"
@@ -201,8 +201,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/relativeLayout4"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="30dp">
 
                     <ImageView
                         android:id="@+id/imgView_phoneIcon"
@@ -234,8 +234,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/relativeLayout5"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="30dp">
 
                     <ImageView
                         android:id="@+id/imgView_emailIcon"
@@ -267,11 +267,12 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/relativeLayout6"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
                     android:layout_marginTop="15dp"
+                    android:layout_marginRight="30dp"
                     android:fontFamily="sans-serif"
                     android:text="Tôi đồng ý với các điều khoản dịch vụ"
-                    android:textColor="#6e6e6e" />
+                    android:textColor="#6e6e6e"
+                    android:textSize="12dp" />
 
                 <Button
                     android:id="@+id/btn_signUp"
@@ -279,8 +280,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/chkBox1"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
                     android:layout_marginTop="15dp"
+                    android:layout_marginRight="30dp"
                     android:background="@color/colorPrimary"
                     android:fontFamily="sans-serif-medium"
                     android:text="Tạo tài khoản"

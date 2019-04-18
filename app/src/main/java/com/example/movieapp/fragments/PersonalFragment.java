@@ -13,22 +13,24 @@ import android.view.ViewGroup;
 
 import com.example.movieapp.R;
 import com.example.movieapp.adapters.ViewPagerHomeAdapter;
+import com.example.movieapp.utils.SaveSharedPreference;
 
-public class UserInfoFragment extends BaseFragment {
+public class PersonalFragment extends BaseFragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Toolbar toolbar;
-    private AccountFragment accountFragment;
+    private LoggedOutFragment accountFragment;
+    private LoggedInFragment accountInfoFragment;
     private PurchasedTicketsFragment purchasedTicketsFragment;
     private NotificationFragment notificationFragment;
 
-    public UserInfoFragment() {}
+    public PersonalFragment() {}
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.user_info_fragment, container, false);
+        View v = inflater.inflate(R.layout.personal_fragment, container, false);
 
         tabLayout = v.findViewById(R.id.tabs);
         viewPager = v.findViewById(R.id.viewpager);
@@ -37,7 +39,8 @@ public class UserInfoFragment extends BaseFragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
-        accountFragment = new AccountFragment();
+        accountFragment = new LoggedOutFragment();
+        accountInfoFragment = new LoggedInFragment();
         purchasedTicketsFragment = new PurchasedTicketsFragment();
         notificationFragment = new NotificationFragment();
 
@@ -49,7 +52,12 @@ public class UserInfoFragment extends BaseFragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerHomeAdapter adapter = new ViewPagerHomeAdapter(getChildFragmentManager());
-        adapter.addFragment(accountFragment, "Tài khoản");
+        // If account is already logged in
+        if(SaveSharedPreference.getLoggedStatus(getContext())) {
+            adapter.addFragment(accountInfoFragment, "Tài khoản");
+        } else {
+            adapter.addFragment(accountFragment, "Tài khoản");
+        }
         adapter.addFragment(purchasedTicketsFragment, "Vé đã mua");
         adapter.addFragment(notificationFragment, "Thông báo");
         viewPager.setAdapter(adapter);
