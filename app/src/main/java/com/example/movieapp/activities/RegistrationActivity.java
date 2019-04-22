@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.example.movieapp.R;
 import com.example.movieapp.fragments.RegistrationFormFragment;
@@ -36,5 +37,16 @@ public class RegistrationActivity extends BaseActivity {
         fragmentStringMap.put(registrationFormFragment, "Đăng ký");
 
         setupViewPager(viewPager, fragmentStringMap);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

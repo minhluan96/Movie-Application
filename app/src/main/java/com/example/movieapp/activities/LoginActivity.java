@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.example.movieapp.R;
 import com.example.movieapp.fragments.LoginFormFragment;
@@ -36,5 +37,16 @@ public class LoginActivity extends BaseActivity {
         fragmentStringMap.put(loginFormFragment, "Đăng nhập");
 
         setupViewPager(viewPager, fragmentStringMap);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

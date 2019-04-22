@@ -31,7 +31,7 @@ public class BaseActivity extends AppCompatActivity {
         AppManager.create(this);
     }
 
-    protected void showFragment(Fragment fragment, int containerLayoutId) {
+    public void showFragment(Fragment fragment, int containerLayoutId) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(containerLayoutId, fragment, fragment.getClass().getSimpleName());
         transaction.commit();

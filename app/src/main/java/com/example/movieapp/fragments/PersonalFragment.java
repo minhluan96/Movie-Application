@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.TabLayout.OnTabSelectedListener;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,15 +16,23 @@ import com.example.movieapp.R;
 import com.example.movieapp.adapters.ViewPagerHomeAdapter;
 import com.example.movieapp.utils.SaveSharedPreference;
 
-public class PersonalFragment extends BaseFragment {
+public class PersonalFragment extends BaseFragment implements OnTabSelectedListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Toolbar toolbar;
-    private LoggedOutFragment accountFragment;
-    private LoggedInFragment accountInfoFragment;
+    private LoggedOutFragment loggedOutFragment;
+    private LoggedInFragment loggedInFragment;
     private PurchasedTicketsFragment purchasedTicketsFragment;
     private NotificationFragment notificationFragment;
+    private NoTicketInfoFragment noTicketInfoFragment;
+    private NoNotificationInfoFragment noNotificationInfoFragment;
+    private int tabSelected;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     public PersonalFragment() {}
 
@@ -39,13 +48,17 @@ public class PersonalFragment extends BaseFragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
-        accountFragment = new LoggedOutFragment();
-        accountInfoFragment = new LoggedInFragment();
+        loggedOutFragment = new LoggedOutFragment();
+        loggedInFragment = new LoggedInFragment();
         purchasedTicketsFragment = new PurchasedTicketsFragment();
         notificationFragment = new NotificationFragment();
+        noTicketInfoFragment = new NoTicketInfoFragment();
+        noNotificationInfoFragment = new NoNotificationInfoFragment();
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.addOnTabSelectedListener(this);
 
         return v;
     }
@@ -54,12 +67,32 @@ public class PersonalFragment extends BaseFragment {
         ViewPagerHomeAdapter adapter = new ViewPagerHomeAdapter(getChildFragmentManager());
         // If account is already logged in
         if(SaveSharedPreference.getLoggedStatus(getContext())) {
-            adapter.addFragment(accountInfoFragment, "Tài khoản");
+            adapter.addFragment(loggedInFragment, "Tài khoản");
+            adapter.addFragment(purchasedTicketsFragment, "Vé đã mua");
+            adapter.addFragment(notificationFragment, "Thông báo");
         } else {
-            adapter.addFragment(accountFragment, "Tài khoản");
+            adapter.addFragment(loggedOutFragment, "Tài khoản");
+            adapter.addFragment(noTicketInfoFragment, "Vé đã mua");
+            adapter.addFragment(noNotificationInfoFragment, "Thông báo");
         }
-        adapter.addFragment(purchasedTicketsFragment, "Vé đã mua");
-        adapter.addFragment(notificationFragment, "Thông báo");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        tabSelected = tab.getPosition();
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
     }
 }

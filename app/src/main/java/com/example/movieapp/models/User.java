@@ -1,6 +1,7 @@
 package com.example.movieapp.models;
 
 public class User {
+    private int id;
     private String full_name;
     private Integer gender;
     private String email;
@@ -8,7 +9,7 @@ public class User {
     private String address;
     private String birthday;
 
-    public User() {};
+    public User() {}
 
     public User(String full_name, Integer gender, String email, String phone, String address, String birthday) {
         this.full_name = full_name;
@@ -17,6 +18,14 @@ public class User {
         this.phone = phone;
         this.address = address;
         this.birthday = birthday;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFullName() {

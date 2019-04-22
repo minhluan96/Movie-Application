@@ -32,8 +32,23 @@ public class HomeActivity extends BaseActivity implements OnTabSelectListener {
         } else if (tabId == R.id.tab_theater) {
             // TODO: Implement tab for selling ticket places here
         } else if (tabId == R.id.tab_user) {
-            PersonalFragment userInfoFragment = new PersonalFragment();
-            showFragment(userInfoFragment, R.id.container_layout);
+            PersonalFragment personalFragment = new PersonalFragment();
+            showFragment(personalFragment, R.id.container_layout);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        int tabSelected = bottomBar.getCurrentTabId();
+        if (tabSelected == R.id.tab_trending) {
+            HomeFragment homeFragment = new HomeFragment();
+            showFragment(homeFragment, R.id.container_layout);
+        } else if (tabSelected == R.id.tab_theater) {
+            // TODO: Implement tab for selling ticket places here
+        } else if (tabSelected == R.id.tab_user) {
+            PersonalFragment personalFragment = new PersonalFragment();
+            showFragment(personalFragment, R.id.container_layout);
         }
     }
 }

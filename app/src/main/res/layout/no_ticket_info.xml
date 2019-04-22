@@ -32,23 +32,29 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/imgAvatar"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/ic_avatar" />
+                        android:background="@drawable/purchased_tickets" />
 
                     <TextView
+                        android:id="@+id/txtMessage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Đăng nhập để thanh toán và hiển thị vé đã mua"
                         android:textSize="12dp"
                         android:textColor="@color/textColorPrimaryDark"/>
 
-                </LinearLayout> <!--Account info-->
+                    <Button
+                        android:id="@+id/btnDirection"
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/border_background_primary_color" />
 
-            </LinearLayout> <!--Menu and account info-->
+                </LinearLayout> <!--Purchased tickets info-->
+
+            </LinearLayout> <!--Menu and purchased tickets info-->
 
         </RelativeLayout> <!--Top content-->
 
@@ -60,6 +66,6 @@
 
         </LinearLayout> <!--Bottom content-->
 
-    </LinearLayout> <!--Tab account-->
+    </LinearLayout> <!--Tab purchased tickets-->
 
 </ScrollView>

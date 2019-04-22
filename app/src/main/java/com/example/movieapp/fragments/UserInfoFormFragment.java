@@ -1,27 +1,45 @@
 package com.example.movieapp.fragments;
 
 import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.view.View.OnClickListener;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.example.movieapp.R;
+import com.example.movieapp.models.Account;
+import com.example.movieapp.models.User;
+import com.example.movieapp.utils.AppManager;
+import com.example.movieapp.utils.DataParser;
+import com.example.movieapp.utils.SaveSharedPreference;
+
+import org.apache.http.HttpStatus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.Locale;
+
+import static com.example.movieapp.utils.Utilities.convertDate;
+import static com.example.movieapp.utils.Utilities.extractDateFromString;
+import static com.example.movieapp.utils.Utilities.validateEmail;
 
 public class UserInfoFormFragment extends BaseFragment implements OnClickListener {
 
@@ -39,6 +57,9 @@ public class UserInfoFormFragment extends BaseFragment implements OnClickListene
 
     private final Calendar myCalendar = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener date;
+
+    private static final String TAG_USER_INFO = "TAG_USER_INFO";
+    private static final String TAG_USER_UPDATE = "TAG_USER_UPDATE";
 
     public  UserInfoFormFragment() {}
 
@@ -65,6 +86,9 @@ public class UserInfoFormFragment extends BaseFragment implements OnClickListene
         edtAddress = v.findViewById(R.id.edtAddress);
         btnUpdate = v.findViewById(R.id.btnUpdate);
 
+        // get user info in server
+        getUserInfo();
+
         btnUpdate.setOnClickListener(this);
         edtBirthday.setOnClickListener(this);
 
@@ -84,16 +108,111 @@ public class UserInfoFormFragment extends BaseFragment implements OnClickListene
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnUpdate) {
+            // validate input
+            if (TextUtils.isEmpty(edtFullName.getText().toString())) {
+                Toast.makeText(getContext(), "Họ tên không được rỗng", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (TextUtils.isEmpty(edtPhone.getText().toString())) {
+                Toast.makeText(getContext(), "Số điện thoại không được rỗng", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (TextUtils.isEmpty(edtEmail.getText().toString())) {
+                Toast.makeText(getContext(), "Email không được rỗng", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!edtPhone.getText().toString().matches("[0-9]+")) {
+                Toast.makeText(getContext(), "Số điện thoại phải là chữ số", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!validateEmail(edtEmail.getText().toString())) {
+                Toast.makeText(getContext(), "Email không đúng định dạng", Toast.LENGTH_SHORT).show();
+                return;
+            }
             updateUserInfo();
         }
         if (v.getId() == R.id.edtBirthday) {
-            new DatePickerDialog(getContext(), date, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            if (edtBirthday.getText().toString() != null) {
+                String str[] = extractDateFromString(edtBirthday.getText().toString());
+                int day = Integer.parseInt(str[0]);
+                int month = Integer.parseInt(str[1]);
+                int year = Integer.parseInt(str[2]);
+
+                new DatePickerDialog(getContext(), date, year, month, day).show();
+            } else {
+                new DatePickerDialog(getContext(), date,
+                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
         }
     }
 
     private void updateUserInfo() {
+        Account accountInfo = SaveSharedPreference.getAccountInfo(getContext());
+        int id = accountInfo.getId();
+        String fullName = edtFullName.getText().toString();
+        Integer gender;
+        if (radMale.isChecked())
+            gender = 1;
+        else if (radFemale.isChecked())
+            gender = 0;
+        else
+            gender = null;
+        String email = edtEmail.getText().toString();
+        String phone = edtPhone.getText().toString();
+        String address = edtAddress.getText().toString();
+        String[] str = extractDateFromString(edtBirthday.getText().toString());
+        String newBirthdayStr = str[2] + "-" + str[1] + "-" + str[0];
+
+        JSONObject body = new JSONObject();
+        try {
+            body.put("id", id);
+            body.put("full_name", fullName);
+            if (gender != null)
+                body.put("gender", gender);
+            body.put("birthday", newBirthdayStr);
+            body.put("email", email);
+            body.put("phone", phone);
+            body.put("address", address);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        AppManager.getInstance().getCommService().doUpdateUserInfo(TAG_USER_UPDATE, body,
+                new DataParser.DataResponseListener<JSONObject>() {
+                    @Override
+                    public void onDataResponse(JSONObject response) {
+                        Toast.makeText(getContext(), "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
+
+                        // update in SharedPreference
+                        String newBirthdayStr = str[0] + "/" + str[1] + "/" + str[2];
+                        User userInfo = new User(fullName, gender, email, phone, address, newBirthdayStr);
+                        Account accountInfo = new Account();
+                        accountInfo.setId(id);
+                        accountInfo.setUser(userInfo);
+
+                        SaveSharedPreference.setAccountInfo(getContext(), accountInfo);
+                    }
+
+                    @Override
+                    public void onDataError(String errorMessage) {
+
+                    }
+
+                    @Override
+                    public void onRequestError(String errorMessage, VolleyError volleyError) {
+                        Log.e("API-User/Update", errorMessage);
+                        if (volleyError.networkResponse.statusCode == HttpStatus.SC_BAD_REQUEST) {
+                            Toast.makeText(getContext(), "Cập nhật thông tin thất bại!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Máy chủ bị lỗi! Vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
     }
 
     private void updateLabel() {
@@ -101,5 +220,47 @@ public class UserInfoFormFragment extends BaseFragment implements OnClickListene
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         edtBirthday.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    private void getUserInfo() {
+        AppManager.getInstance().getCommService().getUserInfo(TAG_USER_INFO,
+                new DataParser.DataResponseListener<LinkedList<User>>() {
+                    @Override
+                    public void onDataResponse(LinkedList<User> response) {
+                        // setup user info for GUI
+                        edtFullName.setText(response.get(0).getFullName());
+                        if (response.get(0).getGender() == 1) {
+                            radMale.setChecked(true);
+                        } else if (response.get(0).getGender() == 0) {
+                            radFemale.setChecked(true);
+                        }
+                        if (response.get(0).getBirthday() != null) {
+                            edtBirthday.setText(convertDate(response.get(0).getBirthday()));
+                        }
+                        edtEmail.setText(response.get(0).getEmail());
+                        edtPhone.setText(response.get(0).getPhone());
+                        edtAddress.setText(response.get(0).getAddress());
+                    }
+
+                    @Override
+                    public void onDataError(String errorMessage) {
+
+                    }
+
+                    @Override
+                    public void onRequestError(String errorMessage, VolleyError volleyError) {
+                        Log.e("API-User/Info", errorMessage);
+                        if (volleyError.networkResponse.statusCode == HttpStatus.SC_NO_CONTENT) {
+                            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Lấy thông tin dữ liệu thất bại!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
     }
 }
