@@ -109,12 +109,16 @@ public class DataParser<T> {
             errorMessage = "We are experiencing an error contacting the server. Please try again later.";
         } else if (volleyError.networkResponse != null) {
             if (volleyError.networkResponse.statusCode == HttpStatus.SC_UNAUTHORIZED) {
-
+                errorMessage = "The request has not been applied because it lacks valid authentication credentials for the target resource";
             } else if (volleyError.networkResponse.statusCode == HttpStatus.SC_BAD_GATEWAY ||
                     volleyError.networkResponse.statusCode == HttpStatus.SC_NOT_FOUND) {
                 errorMessage = "The server is under maintenance. Please try again later.";
             } else if (volleyError.networkResponse.statusCode == HttpStatus.SC_FORBIDDEN) {
                 errorMessage = "You are not authorized to access this event";
+            } else if (volleyError.networkResponse.statusCode == HttpStatus.SC_NO_CONTENT) {
+                errorMessage = "The server successfully processed the request and is not returning any content.";
+            } else if (volleyError.networkResponse.statusCode == HttpStatus.SC_BAD_REQUEST) {
+                errorMessage = "The server cannot or will not process the request due to an apparent client error (e.g., malformed request syntax, size too large, invalid request message framing, or deceptive request routing)";
             }
         }
         mListner.onRequestError(errorMessage, volleyError);

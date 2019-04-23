@@ -7,7 +7,9 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.movieapp.models.Account;
 import com.example.movieapp.models.Movie;
+import com.example.movieapp.models.User;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
@@ -71,9 +73,27 @@ public class CommunicationManager {
         makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "Latest", null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
-    public void doLogin(String tag, JSONObject body, DataParser.DataResponseListener<String> listener) {
-        // TODO: replace String.class with the User.class if using the User Model
-        makeJSONObjectRequest(tag, Request.Method.POST, "User", "Login", body, new DataParser(listener, null, String.class));
+    public void getUserInfo(String tag, final DataParser.DataResponseListener<LinkedList<User>> listener) {
+        Type type = new TypeToken<LinkedList<User>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "User", "Info", null, new DataParser<LinkedList<User>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void doLogin(String tag, JSONObject body, DataParser.DataResponseListener<LinkedList<Account>> listener) {
+        Type type = new TypeToken<LinkedList<Account>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.POST, "Account", "Login", body, new DataParser(listener,null, type));
+    }
+
+    public void doRegister(String tag, JSONObject body, DataParser.DataResponseListener<LinkedList<Account>> listener) {
+        Type type = new TypeToken<LinkedList<Account>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.POST, "Account", "Register", body, new DataParser(listener,null, type));
+    }
+
+    public void doChangePassword(String tag, JSONObject body, DataParser.DataResponseListener<JSONObject> listener) {
+        makeJSONObjectRequest(tag, Request.Method.POST, "Account", "ChangePassword", body, new DataParser(listener,null, JSONObject.class));
+    }
+
+    public void doUpdateUserInfo(String tag, JSONObject body, DataParser.DataResponseListener<JSONObject> listener) {
+        makeJSONObjectRequest(tag, Request.Method.POST, "User", "Update", body, new DataParser(listener,null, JSONObject.class));
     }
 
     public void makeJSONObjectRequest(String tag, int method, final String service, final String entry, final JSONObject params, final DataParser parser) {

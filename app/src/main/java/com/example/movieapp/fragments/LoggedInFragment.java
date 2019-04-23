@@ -14,8 +14,9 @@ import android.widget.TextView;
 
 import com.example.movieapp.R;
 import com.example.movieapp.activities.ChangePasswordActivity;
+import com.example.movieapp.activities.HomeActivity;
 import com.example.movieapp.activities.UserInfoActivity;
-import com.example.movieapp.models.User;
+import com.example.movieapp.models.Account;
 import com.example.movieapp.utils.SaveSharedPreference;
 
 public class LoggedInFragment extends BaseFragment implements OnClickListener {
@@ -48,11 +49,11 @@ public class LoggedInFragment extends BaseFragment implements OnClickListener {
         txtPhone = v.findViewById(R.id.txtPhone);
         txtBirthday = v.findViewById(R.id.txtBirthday);
 
-        User userInfo = SaveSharedPreference.getUserInfo(getContext());
-        txtFullName.setText(userInfo.getFullName());
-        txtEmail.setText(userInfo.getEmail());
-        txtPhone.setText(userInfo.getPhone());
-        txtBirthday.setText(userInfo.getBirthday());
+        Account accountInfo = SaveSharedPreference.getAccountInfo(getContext());
+        txtFullName.setText(accountInfo.getUser().getFullName());
+        txtEmail.setText(accountInfo.getUser().getEmail());
+        txtPhone.setText(accountInfo.getUser().getPhone());
+        txtBirthday.setText(accountInfo.getUser().getBirthday());
 
         btnChangePassword.setOnClickListener(this);
         btnLogout.setOnClickListener(this);
@@ -78,7 +79,9 @@ public class LoggedInFragment extends BaseFragment implements OnClickListener {
             // Remove user info
             SaveSharedPreference.removeUserInfo(getContext());
 
-            // TODO: Reload user info fragment
+            // Reload personal fragment
+            PersonalFragment frg = new PersonalFragment();
+            ((HomeActivity)getActivity()).showFragment(frg, R.id.container_layout);
         }
         if (v.getId() == imgAvatar.getId() || v.getId() == txtFullName.getId() || v.getId() == txtPhone.getId() || v.getId() == txtBirthday.getId()) {
             // Create an Intent to talk to activity: UserInfoActivity

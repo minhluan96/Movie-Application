@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.example.movieapp.models.Account;
 import com.example.movieapp.models.User;
 
 import static com.example.movieapp.utils.Constant.LOGGED_IN_PREF;
@@ -23,31 +24,40 @@ public class SaveSharedPreference {
         return getPreferences(context).getBoolean(LOGGED_IN_PREF, false);
     }
 
-    public static void setUserInfo(Context context, User userInfo) {
+    public static void setAccountInfo(Context context, Account accountInfo) {
         SharedPreferences.Editor editor = getPreferences(context).edit();
-        editor.putString("full_name", userInfo.getFullName());
-        editor.putInt("gender", userInfo.getGender());
-        editor.putString("email", userInfo.getEmail());
-        editor.putString("phone", userInfo.getPhone());
-        editor.putString("address", userInfo.getAddress());
-        editor.putString("birthday", userInfo.getBirthday());
+        editor.putInt("id", accountInfo.getId());
+        editor.putString("full_name", accountInfo.getUser().getFullName());
+        Integer gender = accountInfo.getUser().getGender();
+        editor.putString("gender", gender == null ? null : gender.toString());
+        editor.putString("email", accountInfo.getUser().getEmail());
+        editor.putString("phone", accountInfo.getUser().getPhone());
+        editor.putString("address", accountInfo.getUser().getAddress());
+        editor.putString("birthday", accountInfo.getUser().getBirthday());
         editor.apply();
     }
 
-    public static User getUserInfo(Context context) {
+    public static Account getAccountInfo(Context context) {
+        Account accountInfo = new Account();
+        accountInfo.setId(getPreferences(context).getInt("id", 0));
+
         User userInfo = new User();
         userInfo.setFullName(getPreferences(context).getString("full_name", null));
-        userInfo.setGender(getPreferences(context).getInt("gender", 1));
+        String gender = getPreferences(context).getString("gender", null);
+        userInfo.setGender(gender == null ? null : Integer.parseInt(gender));
         userInfo.setEmail(getPreferences(context).getString("email", null));
         userInfo.setPhone(getPreferences(context).getString("phone", null));
         userInfo.setAddress(getPreferences(context).getString("address", null));
         userInfo.setBirthday(getPreferences(context).getString("birthday", null));
 
-        return userInfo;
+        accountInfo.setUser(userInfo);
+
+        return accountInfo;
     }
 
     public static void removeUserInfo(Context context) {
         SharedPreferences.Editor editor = getPreferences(context).edit();
+        editor.remove("id");
         editor.remove("full_name");
         editor.remove("gender");
         editor.remove("email");

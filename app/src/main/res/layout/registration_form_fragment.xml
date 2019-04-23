@@ -83,7 +83,7 @@
                         android:tint="@color/colorWhite" />
 
                     <EditText
-                        android:id="@+id/txtFullName"
+                        android:id="@+id/edtFullName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/imgView_fullNameIcon"
@@ -115,7 +115,7 @@
                         android:tint="@color/colorWhite" />
 
                     <EditText
-                        android:id="@+id/txtUsername"
+                        android:id="@+id/edtUsername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/imgView_usernameIcon"
@@ -148,7 +148,7 @@
                         android:tint="@color/colorWhite" />
 
                     <EditText
-                        android:id="@+id/txtPassword"
+                        android:id="@+id/edtPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/imgView_passwordIcon"
@@ -181,7 +181,7 @@
                         android:tint="@color/colorWhite" />
 
                     <EditText
-                        android:id="@+id/txtRetype"
+                        android:id="@+id/edtRetype"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/imgView_retypeIcon"
@@ -214,7 +214,7 @@
                         android:tint="@color/colorWhite" />
 
                     <EditText
-                        android:id="@+id/txtPhone"
+                        android:id="@+id/edtPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/imgView_phoneIcon"
@@ -247,7 +247,7 @@
                         android:tint="@color/colorWhite" />
 
                     <EditText
-                        android:id="@+id/txtEmail"
+                        android:id="@+id/edtEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/imgView_emailIcon"
@@ -262,7 +262,7 @@
                 </RelativeLayout>
 
                 <CheckBox
-                    android:id="@+id/chkBox1"
+                    android:id="@+id/chkAgreeToTerms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/relativeLayout6"
@@ -275,10 +275,10 @@
                     android:textSize="12dp" />
 
                 <Button
-                    android:id="@+id/btn_signUp"
+                    android:id="@+id/btnSignUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/chkBox1"
+                    android:layout_below="@+id/chkAgreeToTerms"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="30dp"
@@ -291,7 +291,7 @@
                     android:id="@+id/btnDirectToLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btn_signUp"
+                    android:layout_below="@+id/btnSignUp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="15dp"

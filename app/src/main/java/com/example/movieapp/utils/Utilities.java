@@ -6,11 +6,15 @@ import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Utilities {
 
@@ -91,5 +95,25 @@ public class Utilities {
         }
 
         return formatted;
+    }
+
+    public static boolean validateEmail(String email) {
+        String EMAIL_REGEX = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
+        Pattern pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    public static String[] extractDateFromString(String dateStr) {
+        // dateStr: dd/MM/YYYY
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String newDateStr = null;
+        try {
+            newDateStr = simpleDateFormat.format(simpleDateFormat.parse(dateStr));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String str[] = newDateStr.split("/");
+        return str;
     }
 }

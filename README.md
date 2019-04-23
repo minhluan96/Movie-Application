@@ -50,6 +50,11 @@ private void getAllLatestMovies() {
 * Màn hình thông tin sự kiện (60%) - cho cả xem phim và sự kiện thể thao
 * Màn hình mua vé (90%) - cho cả xem phim và sự kiện thể thao
 * Màn hình đặt ghế (90%) - cho cả xem phim và sự kiện thể thao
+* Màn hình đăng nhập (100%)
+* Màn hình đang ký (100%)
+* Màn hình thông tin tài khoản (100%)
+* Màn hình cập nhật thông tin cá nhân (100%)
+* Màn hình đổi mật khẩu (100%)
 
 ### Các thư viện sử dụng trong ứng dụng
 * Thư viện load hình ảnh (từ resource hoặc từ url): https://square.github.io/picasso/

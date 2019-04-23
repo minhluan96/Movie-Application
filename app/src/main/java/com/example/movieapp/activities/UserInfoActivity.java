@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.example.movieapp.R;
 import com.example.movieapp.fragments.UserInfoFormFragment;
@@ -37,5 +38,16 @@ public class UserInfoActivity extends BaseActivity {
         fragmentStringMap.put(userInfoFormFragment, "Thông tin cá nhân");
 
         setupViewPager(viewPager, fragmentStringMap);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

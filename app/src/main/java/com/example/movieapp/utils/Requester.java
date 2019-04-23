@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Requester extends Request<String> {
@@ -47,8 +48,6 @@ public class Requester extends Request<String> {
     protected void setupRequest() {
         setupRequest(30000);
     }
-
-
 
     public void setTrailingUrl(String mTrailingUrl) {
         this.mTrailingUrl = mTrailingUrl;
@@ -101,6 +100,13 @@ public class Requester extends Request<String> {
             authFailureError.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public Map getHeaders() throws AuthFailureError {
+        HashMap headers = new HashMap();
+        headers.put("Content-Type", "application/json; charset=utf-8");
+        return headers;
     }
 
     private String cachedKey = null;
