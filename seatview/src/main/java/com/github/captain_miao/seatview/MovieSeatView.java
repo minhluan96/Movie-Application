@@ -19,10 +19,6 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-/**
- * @author YanLu
- * @since 16/10/01
- */
 public class MovieSeatView extends View {
     private static final String TAG = "MovieSeatView";
     public final boolean isDebug = true;

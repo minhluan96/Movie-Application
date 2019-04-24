@@ -36,7 +36,12 @@ public class MovieHomeFragment extends BaseFragment {
     private UpcomingMoviesAdapter upcomingMoviesAdapter;
     private RecyclerView.LayoutManager latestMoviesLayoutManager, nowShowingMoviesLayoutManager, upComingMoviesLayoutManager;
     private static final String TAG_LATEST_MOVIES = "TAG_LATEST_MOVIES";
+    private static final String TAG_NOW_SHOWING_MOVIES = "TAG_NOW_SHOWING_MOVIES";
+    private static final String TAG_UPCOMING_MOVIES = "TAG_UPCOMING_MOVIES";
+
     private List<Movie> latestMovies = new ArrayList<>();
+    private List<Movie> upcomingMovies = new ArrayList<>();
+    private List<Movie> nowShowingMovies = new ArrayList<>();
 
     public MovieHomeFragment() {
     }
@@ -55,6 +60,7 @@ public class MovieHomeFragment extends BaseFragment {
         rvNowShowingMovies = v.findViewById(R.id.rv_now_showing_movie);
         rvUpcomingMovies = v.findViewById(R.id.rv_upcoming_movie);
 
+
         latestMoviesLayoutManager = new LinearLayoutManager(getContext());
         rvLatestMovies.setLayoutManager(latestMoviesLayoutManager);
         rvLatestMovies.setHasFixedSize(true);
@@ -67,72 +73,92 @@ public class MovieHomeFragment extends BaseFragment {
         upComingMoviesLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvUpcomingMovies.setLayoutManager(upComingMoviesLayoutManager);
         setupUpcomingMovieAdapter();
+
+
         getAllLatestMovies();
+        getUpcomingMovies();
+        getNowShowingMovies();
 
         return v;
     }
 
     private void setupNowShowingMovieAdapter() {
-        List<Movie> movies = getDummyNowShowingMovies();
-        nowShowingMoviesAdapter = new NowShowingMoviesAdapter(movies, getContext());
+        nowShowingMoviesAdapter = new NowShowingMoviesAdapter(nowShowingMovies, getContext());
         rvNowShowingMovies.setAdapter(nowShowingMoviesAdapter);
     }
 
     private void setupUpcomingMovieAdapter() {
-        List<Movie> movies = getDummyNowShowingMovies();
-        upcomingMoviesAdapter = new UpcomingMoviesAdapter(movies, getContext());
+        upcomingMoviesAdapter = new UpcomingMoviesAdapter(upcomingMovies, getContext());
         rvUpcomingMovies.setAdapter(upcomingMoviesAdapter);
     }
 
     private void setupLatestMovieAdapter() {
-        List<Movie> movies = getDummyMovies();
-        latestMoviesAdapter = new LatestMoviesAdapter(movies, getContext());
+        latestMoviesAdapter = new LatestMoviesAdapter(latestMovies, getContext());
         rvLatestMovies.setAdapter(latestMoviesAdapter);
     }
 
-    private List<Movie> getDummyMovies() {
-        List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(1, "Captain Marvel",
-                "https://m.media-amazon.com/images/M/MV5BMTE0YWFmOTMtYTU2ZS00ZTIxLWE3OTEtYTNiYzBkZjViZThiXkEyXkFqcGdeQXVyODMzMzQ4OTI@._V1_.jpg",
-                "ĐANG CHIẾU", 7.4, "", 13));
-        movies.add(new Movie(2, "Captain Marvel",
-                "https://m.media-amazon.com/images/M/MV5BMTE0YWFmOTMtYTU2ZS00ZTIxLWE3OTEtYTNiYzBkZjViZThiXkEyXkFqcGdeQXVyODMzMzQ4OTI@._V1_.jpg",
-                "ĐANG CHIẾU", 7.4, "", 13));
-        movies.add(new Movie(3, "Captain Marvel",
-                "https://m.media-amazon.com/images/M/MV5BMTE0YWFmOTMtYTU2ZS00ZTIxLWE3OTEtYTNiYzBkZjViZThiXkEyXkFqcGdeQXVyODMzMzQ4OTI@._V1_.jpg",
-                "ĐANG CHIẾU", 7.4, "", 13));
-        return movies;
-    }
+    private void getNowShowingMovies() {
+        AppManager.getInstance().getCommService().getNowShowingMovies(TAG_NOW_SHOWING_MOVIES,
+                new DataParser.DataResponseListener<LinkedList<Movie>>() {
+                    @Override
+                    public void onDataResponse(LinkedList<Movie> result) {
+                        nowShowingMovies = result;
+                        nowShowingMoviesAdapter.setNowShowingMovies(nowShowingMovies);
+                    }
 
-    private List<Movie> getDummyNowShowingMovies() {
-        List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(1, "Captain Marvel",
-                "https://m.media-amazon.com/images/M/MV5BMTE0YWFmOTMtYTU2ZS00ZTIxLWE3OTEtYTNiYzBkZjViZThiXkEyXkFqcGdeQXVyODMzMzQ4OTI@._V1_.jpg",
-                "ĐANG CHIẾU", 7.4, "", 13));
-        movies.add(new Movie(2, "Captain Marvel",
-                "https://m.media-amazon.com/images/M/MV5BMTE0YWFmOTMtYTU2ZS00ZTIxLWE3OTEtYTNiYzBkZjViZThiXkEyXkFqcGdeQXVyODMzMzQ4OTI@._V1_.jpg",
-                "ĐANG CHIẾU", 7.4, "", 13));
-        movies.add(new Movie(3, "Captain Marvel",
-                "https://m.media-amazon.com/images/M/MV5BMTE0YWFmOTMtYTU2ZS00ZTIxLWE3OTEtYTNiYzBkZjViZThiXkEyXkFqcGdeQXVyODMzMzQ4OTI@._V1_.jpg",
-                "ĐANG CHIẾU", 7.4, "", 13));
-        movies.add(new Movie(3, "Captain Marvel",
-                "https://m.media-amazon.com/images/M/MV5BMTE0YWFmOTMtYTU2ZS00ZTIxLWE3OTEtYTNiYzBkZjViZThiXkEyXkFqcGdeQXVyODMzMzQ4OTI@._V1_.jpg",
-                "ĐANG CHIẾU", 7.4, "", 13));
-        movies.add(new Movie(3, "Captain Marvel",
-                "https://m.media-amazon.com/images/M/MV5BMTE0YWFmOTMtYTU2ZS00ZTIxLWE3OTEtYTNiYzBkZjViZThiXkEyXkFqcGdeQXVyODMzMzQ4OTI@._V1_.jpg",
-                "ĐANG CHIẾU", 7.4, "", 13));
-        movies.add(new Movie(3, "Captain Marvel",
-                "https://m.media-amazon.com/images/M/MV5BMTE0YWFmOTMtYTU2ZS00ZTIxLWE3OTEtYTNiYzBkZjViZThiXkEyXkFqcGdeQXVyODMzMzQ4OTI@._V1_.jpg",
-                "ĐANG CHIẾU", 7.4, "", 13));
-        return movies;
+                    @Override
+                    public void onDataError(String errorMessage) {
+
+                    }
+
+                    @Override
+                    public void onRequestError(String errorMessage, VolleyError volleyError) {
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+
     }
 
     private void getAllLatestMovies() {
         AppManager.getInstance().getCommService().getLatestMovies(TAG_LATEST_MOVIES,
                 new DataParser.DataResponseListener<LinkedList<Movie>>() {
+                    @Override
+                    public void onDataResponse(LinkedList<Movie> result) {
+                        latestMovies = result;
+                        latestMoviesAdapter.setLatestMovies(latestMovies);
+                    }
+
+                    @Override
+                    public void onDataError(String errorMessage) {
+
+                    }
+
+                    @Override
+                    public void onRequestError(String errorMessage, VolleyError volleyError) {
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+
+    }
+
+
+    private void getUpcomingMovies() {
+        AppManager.getInstance().getCommService().getUpcomingMovies(TAG_UPCOMING_MOVIES,
+                new DataParser.DataResponseListener<LinkedList<Movie>>() {
             @Override
             public void onDataResponse(LinkedList<Movie> result) {
-                latestMovies = result;
+                upcomingMovies = result;
+                upcomingMoviesAdapter.setUpcomingMovies(upcomingMovies);
             }
 
             @Override

@@ -28,6 +28,11 @@ public class LatestMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.mContext = mContext;
     }
 
+    public void setLatestMovies(List<Movie> latestMovies) {
+        this.latestMovies = latestMovies;
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.latest_movie_item, viewGroup, false);

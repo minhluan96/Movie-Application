@@ -93,7 +93,31 @@ public class CommunicationManager {
     }
 
     public void doUpdateUserInfo(String tag, JSONObject body, DataParser.DataResponseListener<JSONObject> listener) {
-        makeJSONObjectRequest(tag, Request.Method.POST, "User", "Update", body, new DataParser(listener,null, JSONObject.class));
+        makeJSONObjectRequest(tag, Request.Method.POST, "User", "Update", body, new DataParser(listener, null, JSONObject.class));
+    }
+
+    public void getNowShowingMovies(String tag, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {
+        Type type = new TypeToken<LinkedList<Movie>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "NowShowing", null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void getUpcomingMovies(String tag, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {
+        Type type = new TypeToken<LinkedList<Movie>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "Upcoming", null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void getMovieDetail(String tag, String movieID, final DataParser.DataResponseListener<Movie> listener) {
+        Type type = new TypeToken<Movie>() {
+        }.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "Detail", movieID,null, new DataParser<Movie>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    // TODO: rename this function later
+    public void getMovieByPage(String tag, int page, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {
+        Type type = new TypeToken<LinkedList<Movie>>() {
+        }.getType();
+        int perPage = 50;
+        makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "List", page + "/" + perPage,null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
     public void makeJSONObjectRequest(String tag, int method, final String service, final String entry, final JSONObject params, final DataParser parser) {

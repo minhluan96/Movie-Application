@@ -25,6 +25,11 @@ public class UpcomingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.mContext = mContext;
     }
 
+    public void setUpcomingMovies(List<Movie> upcomingMovies) {
+        this.upcomingMovies = upcomingMovies;
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.upcoming_movie_home_item, viewGroup, false);

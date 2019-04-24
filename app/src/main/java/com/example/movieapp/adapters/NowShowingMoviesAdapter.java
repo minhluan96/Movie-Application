@@ -26,6 +26,11 @@ public class NowShowingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.mContext = mContext;
     }
 
+    public void setNowShowingMovies(List<Movie> nowShowingMovies) {
+        this.nowShowingMovies = nowShowingMovies;
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.now_showing_movie_home_item, viewGroup, false);
