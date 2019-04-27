@@ -1,5 +1,6 @@
 package com.example.movieapp.activities;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,7 +39,8 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
         txtTotalPrice = findViewById(R.id.txtTotalPrice);
 
         txtContinue.setOnClickListener(v -> {
-
+            Intent intent = new Intent(ConfirmationActivity.this, ResultTicketActivity.class);
+            startActivity(intent);
         });
         setupPaymentMethodAdapter();
     }
@@ -62,6 +64,10 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
     public void onMethodSelected(int pos) {
         cardInfoFragment = new CardInfoFragment();
         showFragmentWithCustomAnimation(cardInfoFragment, R.id.container_fragment, R.anim.slide_in_up, R.anim.slide_out_up);
+    }
+
+    public void removeCardInfoFragment() {
+        hideFragment(cardInfoFragment);
     }
 
     @Override

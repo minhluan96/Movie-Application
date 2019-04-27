@@ -1,5 +1,6 @@
 package com.example.movieapp.fragments;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,11 +14,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.movieapp.R;
+import com.example.movieapp.activities.ConfirmationActivity;
 import com.example.movieapp.adapters.BankListAdapter;
 import com.example.movieapp.models.Bank;
+import com.whiteelephant.monthpicker.MonthPickerDialog;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class CardInfoFragment extends BaseFragment implements BankListAdapter.BankListener {
 
@@ -30,6 +36,7 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
     private RecyclerView.LayoutManager layoutManager;
     private BankListAdapter adapter;
     private List<Bank> bankList;
+    private Calendar calendar = Calendar.getInstance();
 
     public CardInfoFragment() {
     }
@@ -57,8 +64,40 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
         rvBankList.setLayoutManager(layoutManager);
         setupDummyBankList();
         setupAdapter();
+        setupDatePicker();
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ConfirmationActivity) getActivity()).removeCardInfoFragment();
+            }
+        });
 
         return v;
+    }
+
+
+
+    private void setupDatePicker() {
+        MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getActivity(), this::updateExpirationDate,
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
+
+        etExpiration.setOnClickListener(v -> builder.setActivatedMonth(Calendar.JANUARY)
+                .setMinYear(1990)
+                .setActivatedYear(2019)
+                .setMaxYear(2050)
+                .setMonthRange(Calendar.JANUARY, Calendar.DECEMBER).build().show());
+    }
+
+    private void updateExpirationDate(int selectedMonth, int selectedYear) {
+        etExpiration.setText(selectedMonth + "/" + selectedYear);
     }
 
     public boolean isBankListDisplay() {
