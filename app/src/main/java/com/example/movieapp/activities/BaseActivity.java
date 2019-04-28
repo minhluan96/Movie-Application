@@ -38,8 +38,24 @@ public class BaseActivity extends AppCompatActivity {
         getSupportFragmentManager().executePendingTransactions();
     }
 
+    public void showFragmentWithCustomAnimation(Fragment fragment, int containerLayoutId, int firstAnim, int secondAnim) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(firstAnim, secondAnim);
+        transaction.replace(containerLayoutId, fragment, fragment.getClass().getSimpleName());
+        transaction.commit();
+        getSupportFragmentManager().executePendingTransactions();
+    }
+
     protected void hideFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.hide(fragment);
+        transaction.commit();
+        getSupportFragmentManager().executePendingTransactions();
+    }
+
+    public void hideFragmentWithCustomAnimation(Fragment fragment, int firstAnim, int secondAnim) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(firstAnim, secondAnim);
         transaction.hide(fragment);
         transaction.commit();
         getSupportFragmentManager().executePendingTransactions();

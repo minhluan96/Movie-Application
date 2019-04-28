@@ -19,10 +19,15 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private List<PaymentMethod> paymentMethods;
     private Context context;
+    private PaymentMethodListener listener;
 
     public PaymentMethodAdapter(List<PaymentMethod> paymentMethods, Context context) {
         this.paymentMethods = paymentMethods;
         this.context = context;
+    }
+
+    public void setListener(PaymentMethodListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -42,6 +47,13 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<RecyclerView.View
             Picasso.get().load(paymentMethod.getImgUrl()).error(R.drawable.credit_card).into(paymentMethodViewHolder.imgCreditCard);
         }
         paymentMethodViewHolder.txtCreditCard.setText(paymentMethod.getName());
+        paymentMethodViewHolder.itemView.setOnClickListener(v -> {
+            listener.onMethodSelected(i);
+        });
+    }
+
+    public interface PaymentMethodListener {
+        void onMethodSelected(int pos);
     }
 
     @Override
