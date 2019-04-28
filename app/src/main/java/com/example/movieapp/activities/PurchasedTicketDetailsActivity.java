@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.movieapp.R;
-import com.example.movieapp.fragments.UserInfoFormFragment;
+import com.example.movieapp.fragments.PurchasedTicketInfoFragment;
 import com.example.movieapp.models.Booking;
 
 import java.util.HashMap;
@@ -21,6 +21,8 @@ public class PurchasedTicketDetailsActivity extends BaseActivity {
     private ViewPager viewPager;
     private Map<Fragment, String> fragmentStringMap;
 
+    private PurchasedTicketInfoFragment purchasedTicketInfoFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,16 +32,20 @@ public class PurchasedTicketDetailsActivity extends BaseActivity {
         viewPager = findViewById(R.id.viewpager);
 
         Bundle bundle = getIntent().getExtras();
-        Booking booking = bundle. getParcelable("purchased_ticket_info");
+        Booking booking = bundle.getParcelable("purchased_ticket_info");
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("BẮT ĐẦU LÚC " + formatTime(booking.getTime()));
 
-//        userInfoFormFragment = new UserInfoFormFragment();
+        bundle = new Bundle();
+        bundle.putParcelable("purchased_ticket_info", booking);
+        purchasedTicketInfoFragment = new PurchasedTicketInfoFragment();
+        purchasedTicketInfoFragment.setArguments(bundle);
+
         fragmentStringMap = new HashMap<>();
 
-//        fragmentStringMap.put(userInfoFormFragment, "Thông tin cá nhân");
+        fragmentStringMap.put(purchasedTicketInfoFragment, "Thông tin vé đã mua");
 
         setupViewPager(viewPager, fragmentStringMap);
     }

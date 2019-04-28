@@ -20,8 +20,6 @@ import com.example.movieapp.activities.HomeActivity;
 import com.example.movieapp.activities.LoginActivity;
 import com.example.movieapp.adapters.PurchasedTicketsAdapter;
 import com.example.movieapp.models.Account;
-import com.example.movieapp.models.BookedCombo;
-import com.example.movieapp.models.BookedSeat;
 import com.example.movieapp.models.Booking;
 import com.example.movieapp.utils.AppManager;
 import com.example.movieapp.utils.DataParser;
@@ -35,8 +33,6 @@ public class PurchasedTicketsFragment extends BaseFragment implements OnClickLis
 
     private RecyclerView recyclerView;
     private List<Booking> bookingList;
-    private List<BookedSeat> bookedSeatList;
-    private List<BookedCombo> bookedComboList;
     private PurchasedTicketsAdapter purchasedTicketsAdapter;
     private RecyclerView.LayoutManager purchaseTicketsLayoutManager;
 
@@ -49,8 +45,6 @@ public class PurchasedTicketsFragment extends BaseFragment implements OnClickLis
     private Account accountInfo;
 
     private static final String TAG_PURCHASED_TICKETS = "TAG_PURCHASED_TICKETS";
-    private static final String TAG_BOOKING_BOOKED_SEATS = "TAG_BOOKING_BOOKED_SEATS";
-    private static final String TAG_BOOKING_BOOKED_COMBOS = "TAG_BOOKING_BOOKED_COMBOS";
 
     public PurchasedTicketsFragment() {}
 
@@ -69,8 +63,6 @@ public class PurchasedTicketsFragment extends BaseFragment implements OnClickLis
         accountInfo = SaveSharedPreference.getAccountInfo(getContext());
 
         bookingList = new ArrayList<>();
-        bookedSeatList = new ArrayList<>();
-        bookedComboList = new ArrayList<>();
 
         purchasedTicketsAdapter = new PurchasedTicketsAdapter(getContext(), bookingList);
 
@@ -120,19 +112,6 @@ public class PurchasedTicketsFragment extends BaseFragment implements OnClickLis
                     public void onDataResponse(LinkedList<Booking> response) {
                         bookingList = response;
 
-//                        // get booked seats and booked combos info
-//                        for (int i = 0; i < bookingList.size(); i++) {
-//                            int bookingID = bookingList.get(i).getId();
-//                            getAllBookedSeatsByBooking(bookingID);
-//                            getAllBookedCombosByBooking(bookingID);
-//
-//                            bookingList.get(i).setBookedSeatList(new ArrayList<>());
-//                            bookingList.get(i).setBookedComboList(new ArrayList<>());
-//
-//                            bookingList.get(i).setBookedSeatList(bookedSeatList);
-//                            bookingList.get(i).setBookedComboList(bookedComboList);
-//                        }
-
                         purchasedTicketsAdapter.setBookingsByAccount(bookingList);
 
                         // Show purchased tickets layout, hide no ticket info layout
@@ -171,56 +150,4 @@ public class PurchasedTicketsFragment extends BaseFragment implements OnClickLis
                     }
                 });
     }
-
-//    private void getAllBookedSeatsByBooking(int id) {
-//        String bookingID = String.valueOf(id);
-//        AppManager.getInstance().getCommService().getBookedSeatsByBooking(TAG_BOOKING_BOOKED_SEATS, bookingID,
-//                new DataParser.DataResponseListener<LinkedList<BookedSeat>>() {
-//                    @Override
-//                    public void onDataResponse(LinkedList<BookedSeat> response) {
-//                        bookedSeatList = response;
-//                    }
-//
-//                    @Override
-//                    public void onDataError(String errorMessage) {
-//                    }
-//
-//                    @Override
-//                    public void onRequestError(String errorMessage, VolleyError volleyError) {
-//                        Log.e("API-Booking/BookedSeats", errorMessage);
-//                        Toast.makeText(getContext(), "Máy chủ bị lỗi! Vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//
-//                    }
-//                });
-//    }
-//
-//    private void getAllBookedCombosByBooking(int id) {
-//        String bookingID = String.valueOf(id);
-//        AppManager.getInstance().getCommService().getBookedCombosByBooking(TAG_BOOKING_BOOKED_COMBOS, bookingID,
-//                new DataParser.DataResponseListener<LinkedList<BookedCombo>>() {
-//                    @Override
-//                    public void onDataResponse(LinkedList<BookedCombo> response) {
-//                        bookedComboList = response;
-//                    }
-//
-//                    @Override
-//                    public void onDataError(String errorMessage) {
-//                    }
-//
-//                    @Override
-//                    public void onRequestError(String errorMessage, VolleyError volleyError) {
-//                        Log.e("API-Booking/BookedCombos", errorMessage);
-//                        Toast.makeText(getContext(), "Máy chủ bị lỗi! Vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//
-//                    }
-//                });
-//    }
 }

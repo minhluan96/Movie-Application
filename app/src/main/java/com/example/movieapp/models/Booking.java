@@ -18,6 +18,7 @@ public class Booking implements Parcelable {
     private String room;
     private String releaseDate;
     private String time;
+    private String runningTime;
     private List<BookedSeat> bookedSeatList;
     private List<BookedCombo> bookedComboList;
 
@@ -39,6 +40,7 @@ public class Booking implements Parcelable {
         dest.writeString(room);
         dest.writeString(releaseDate);
         dest.writeString(time);
+        dest.writeString(runningTime);
 
         dest.writeList(bookedSeatList);
         dest.writeList(bookedComboList);
@@ -65,6 +67,7 @@ public class Booking implements Parcelable {
         this.room = in.readString();
         this.releaseDate = in.readString();
         this.time = in.readString();
+        this.runningTime = in.readString();
 
         bookedSeatList = new ArrayList<>();
         in.readList(bookedSeatList, BookedSeat.class.getClassLoader());
@@ -74,7 +77,7 @@ public class Booking implements Parcelable {
 
     public Booking() {}
 
-    public Booking(int id, String code, String movieName, String minAge, String imgURL, String cinemaName, String iconURL, String address, String room, String releaseDate, String time, List<BookedSeat> bookedSeatList, List<BookedCombo> bookedComboList) {
+    public Booking(int id, String code, String movieName, String minAge, String imgURL, String cinemaName, String iconURL, String address, String room, String releaseDate, String time, String runningTime, List<BookedSeat> bookedSeatList, List<BookedCombo> bookedComboList) {
         this.id = id;
         this.code = code;
         this.movieName = movieName;
@@ -86,6 +89,7 @@ public class Booking implements Parcelable {
         this.room = room;
         this.releaseDate = releaseDate;
         this.time = time;
+        this.runningTime = runningTime;
         this.bookedSeatList = bookedSeatList;
         this.bookedComboList = bookedComboList;
     }
@@ -176,6 +180,14 @@ public class Booking implements Parcelable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getRunningTime() {
+        return runningTime;
+    }
+
+    public void setRunningTime(String runningTime) {
+        this.runningTime = runningTime;
     }
 
     public List<BookedSeat> getBookedSeatList() {

@@ -61,13 +61,13 @@ public class PurchasedTicketsAdapter extends RecyclerView.Adapter<PurchasedTicke
         final Booking item = bookingList.get(position);
         viewHolder.movie.setText(item.getMovieName());
         viewHolder.cinema.setText(item.getCinemaName());
-        viewHolder.rated.setText(item.getMinAge() + "+");
+        viewHolder.rated.setText("C"+ item.getMinAge());
         viewHolder.date.setText(convertDate(item.getReleaseDate()));
         viewHolder.time.setText(formatTime(item.getTime()));
         viewHolder.room.setText(item.getRoom());
 
-        String seats = "";
         // get seat places
+        String seats = "";
         for (int i = 0; i < item.getBookedSeatList().size(); i++) {
             seats += (item.getBookedSeatList().get(i).getRow() + item.getBookedSeatList().get(i).getNumber() + "  ");
         }
