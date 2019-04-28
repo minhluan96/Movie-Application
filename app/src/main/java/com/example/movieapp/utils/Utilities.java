@@ -6,12 +6,15 @@ import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -94,6 +97,13 @@ public class Utilities {
 
         }
 
+        return formatted;
+    }
+
+    public static String formatTime(String time) {
+        String newStr = time;
+        String[] data = newStr.split(":");
+        String formatted = data[0] + ":" + data[1];
         return formatted;
     }
 

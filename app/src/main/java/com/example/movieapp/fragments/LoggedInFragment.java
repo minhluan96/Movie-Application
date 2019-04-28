@@ -2,8 +2,6 @@ package com.example.movieapp.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,9 +34,8 @@ public class LoggedInFragment extends BaseFragment implements OnClickListener {
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.logged_in_fragment, container, false);
 
         btnChangePassword = v.findViewById(R.id.btnChangePassword);
@@ -75,6 +72,9 @@ public class LoggedInFragment extends BaseFragment implements OnClickListener {
         if (v.getId() == btnLogout.getId()) {
             // Set LoggedIn status to false
             SaveSharedPreference.setLoggedIn(getContext(), false);
+
+            // Set last selected tab to default: 0
+            SaveSharedPreference.setLastSelectedTab(getContext(), 0);
 
             // Remove user info
             SaveSharedPreference.removeUserInfo(getContext());

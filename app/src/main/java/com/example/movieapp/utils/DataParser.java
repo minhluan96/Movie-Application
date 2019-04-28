@@ -115,8 +115,6 @@ public class DataParser<T> {
                 errorMessage = "The server is under maintenance. Please try again later.";
             } else if (volleyError.networkResponse.statusCode == HttpStatus.SC_FORBIDDEN) {
                 errorMessage = "You are not authorized to access this event";
-            } else if (volleyError.networkResponse.statusCode == HttpStatus.SC_NO_CONTENT) {
-                errorMessage = "The server successfully processed the request and is not returning any content.";
             } else if (volleyError.networkResponse.statusCode == HttpStatus.SC_BAD_REQUEST) {
                 errorMessage = "The server cannot or will not process the request due to an apparent client error (e.g., malformed request syntax, size too large, invalid request message framing, or deceptive request routing)";
             }
