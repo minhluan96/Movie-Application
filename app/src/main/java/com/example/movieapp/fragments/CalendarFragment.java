@@ -14,28 +14,46 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.example.movieapp.R;
 import com.example.movieapp.adapters.ExpandableListAdapter;
 import com.example.movieapp.adapters.HorizontalCalendarAdapter;
 import com.example.movieapp.models.Calendar;
 import com.example.movieapp.models.Cinema;
+import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.Showtime;
+import com.example.movieapp.utils.AppManager;
+import com.example.movieapp.utils.DataParser;
+import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class CalendarFragment extends Fragment {
 
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private HorizontalCalendarAdapter horizontalCalendarAdapter;
+    private TextView txtNotify;
     private RecyclerView rvCalendar;
     private RecyclerView.LayoutManager rvCalendarLayoutManager;
     private List<Cinema> cinemas;
     private List<Calendar> calendars;
     private HashMap<Cinema, List<Showtime>> listDataChild;
+    private Movie movie;
+    private static final String TAG_MOVIE_CALENDARS = "TAG_MOVIE_CALENDARS";
 
     public CalendarFragment() {
     }
@@ -51,10 +69,12 @@ public class CalendarFragment extends Fragment {
 
         rvCalendar = v.findViewById(R.id.rv_calendar);
         expandableListView = v.findViewById(R.id.list_expand);
+        txtNotify = v.findViewById(R.id.txtNotify);
 
 
         setupDummyData();
         expandableListAdapter = new ExpandableListAdapter(getContext(), cinemas, listDataChild);
+        expandableListAdapter.setMovie(movie);
         expandableListView.setAdapter(expandableListAdapter);
 
         rvCalendarLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -77,52 +97,78 @@ public class CalendarFragment extends Fragment {
         return v;
     }
 
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
     private void setupDummyData() {
         cinemas = new ArrayList<>();
         listDataChild = new HashMap<>();
 
-        cinemas.add(new Cinema(1, "BHD Star Cineplex",
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGWHjPhOOr0TpaclExnfdE1gAtAM_22VuZ852BIossve0EPxMQ",
-                "321 Nguyễn Văn Cừ P1 Q5 TPHCM", ""));
-        cinemas.add(new Cinema(2, "BHD Star Cineplex",
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGWHjPhOOr0TpaclExnfdE1gAtAM_22VuZ852BIossve0EPxMQ",
-                "321 Nguyễn Văn Cừ P1 Q5 TPHCM", ""));
-        cinemas.add(new Cinema(3, "BHD Star Cineplex",
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGWHjPhOOr0TpaclExnfdE1gAtAM_22VuZ852BIossve0EPxMQ",
-                "321 Nguyễn Văn Cừ P1 Q5 TPHCM", ""));
-        cinemas.add(new Cinema(4, "BHD Star Cineplex",
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGWHjPhOOr0TpaclExnfdE1gAtAM_22VuZ852BIossve0EPxMQ",
-                "321 Nguyễn Văn Cừ P1 Q5 TPHCM", ""));
+        initCalendarTime();
+        getMovieCalendars();
+    }
 
-        List<Showtime> showtimes = new ArrayList<>();
-        showtimes.add(new Showtime("BHD - 3/2", "11:20", "14:20",
-                "2D - Phụ đề", "70k", "2km"));
+    private void initCalendarTime() {
+        Map<String, String> dayDictionary = new HashMap<>();
+        dayDictionary.put("Monday", "Thứ hai");
+        dayDictionary.put("Tuesday", "Thứ ba");
+        dayDictionary.put("Wednesday", "Thứ tư");
+        dayDictionary.put("Thursday", "Thứ năm");
+        dayDictionary.put("Friday", "Thứ sáu");
+        dayDictionary.put("Saturday", "Thứ bảy");
+        dayDictionary.put("Sunday", "Chủ nhật");
 
-        showtimes.add(new Showtime("BHD - 3/2", "11:20", "14:20",
-                "2D - Phụ đề", "70k", "2km"));
-
-        showtimes.add(new Showtime("BHD - 3/2", "11:20", "14:20",
-                "2D - Phụ đề", "70k", "2km"));
-
-        showtimes.add(new Showtime("BHD - 3/2", "11:20", "14:20",
-                "2D - Phụ đề", "70k", "2km"));
-
-        showtimes.add(new Showtime("BHD - 3/2", "11:20", "14:20",
-                "2D - Phụ đề", "70k", "2km"));
-
-        listDataChild.put(cinemas.get(0), showtimes);
-        listDataChild.put(cinemas.get(1), showtimes);
-        listDataChild.put(cinemas.get(2), showtimes);
-        listDataChild.put(cinemas.get(3), showtimes);
-
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.setTime(new Date());
         calendars = new ArrayList<>();
-        calendars.add(new Calendar("Hôm nay", "24", true));
-        calendars.add(new Calendar("Thứ hai", "25", false));
-        calendars.add(new Calendar("Thứ ba", "26", false));
-        calendars.add(new Calendar("Thứ tư", "27", false));
-        calendars.add(new Calendar("Thứ năm", "28", false));
-        calendars.add(new Calendar("Thứ sáu", "29", false));
-        calendars.add(new Calendar("Thứ bảy", "30", false));
+        for (int i = 0; i < 6; i++) {
+            c.add(java.util.Calendar.DATE, i == 0 ? 0 : 1);
+            Date date = c.getTime();
+            String dayOfWeek = new SimpleDateFormat("EEEE").format(date);
+            String dateNumb = date.getDate() + "/" + (date.getMonth()  + 1);
+            String dayName = dayDictionary.get(dayOfWeek);
+            boolean isToday = i == 0;
+            String todayName = i == 0 ? "Hôm nay" : dayName;
+            calendars.add(new Calendar(todayName, dateNumb, isToday));
+        }
+    }
+
+    private void getMovieCalendars() {
+        AppManager.getInstance().getCommService().getMovieCalendars(TAG_MOVIE_CALENDARS, 1, "1557516579000",
+                new DataParser.DataResponseListener<LinkedList<Cinema>>() {
+                    @Override
+                    public void onDataResponse(LinkedList<Cinema> result) {
+                        cinemas = result;
+
+                        txtNotify.setVisibility(View.GONE);
+                        expandableListView.setVisibility(View.VISIBLE);
+                        listDataChild = new HashMap<>();
+                        for (Cinema cinema : cinemas) {
+                            List<Showtime> showtimes = Arrays.asList(cinema.getShowtime());
+                            listDataChild.put(cinema, showtimes);
+                        }
+                        expandableListAdapter.setCinemaAndShowtimes(cinemas, listDataChild);
+
+                    }
+
+                    @Override
+                    public void onDataError(String errorMessage) {
+                        txtNotify.setVisibility(View.VISIBLE);
+                        expandableListView.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onRequestError(String errorMessage, VolleyError volleyError) {
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
 
     }
 }

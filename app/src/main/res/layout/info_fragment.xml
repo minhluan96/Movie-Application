@@ -80,6 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:text="Nội dung"/>
 
             <TextView
@@ -94,11 +95,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="15sp"
-                android:text="Diễn viên/Đạo diễn"/>
+                android:textStyle="bold"
+                android:text="Đạo diễn"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvActors"
+            <TextView
                 android:layout_marginTop="10dp"
+                android:id="@+id/txtDirectors"
+                android:text="123"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:text="Diễn viên"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/txtActors"
+                android:text="123"
+                android:layout_marginBottom="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

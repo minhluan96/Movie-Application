@@ -45,6 +45,7 @@
                     android:id="@+id/txtBranch"
                     android:text=" - Bitexco"
                     android:textSize="16sp"
+                    android:maxLines="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     />

@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.example.movieapp.R;
 import com.example.movieapp.activities.BookingTicketActivity;
 import com.example.movieapp.models.Cinema;
+import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.Showtime;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -23,11 +25,23 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context mContext;
     private List<Cinema> cinemas;
     private HashMap<Cinema, List<Showtime>> dataChild;
+    private Movie movie;
+    private int selectedCinema = -1;
 
     public ExpandableListAdapter(Context mContext, List<Cinema> cinemas, HashMap<Cinema, List<Showtime>> dataChild) {
         this.mContext = mContext;
         this.cinemas = cinemas;
         this.dataChild = dataChild;
+    }
+
+    public void setCinemaAndShowtimes(List<Cinema> cinemas, HashMap<Cinema, List<Showtime>> dataChild) {
+        this.cinemas = cinemas;
+        this.dataChild = dataChild;
+        notifyDataSetChanged();
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 
     @Override
@@ -85,7 +99,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         Showtime showtime = (Showtime) getChild(groupPosition, childPosition);
-
+        Cinema cinema = cinemas.get(groupPosition);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.expandable_child_item, null);
@@ -96,12 +110,19 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView txtPrice = convertView.findViewById(R.id.txtPrice);
 
         txtTimeStart.setText(showtime.getTimeStart());
-        txtTimeEnd.setText(showtime.getTimeEnd());
-        txtType.setText(showtime.getTypeMovie());
-        txtPrice.setText("~" + showtime.getPrice());
+        txtTimeEnd.setText("~" + showtime.getFinishTime(movie.getLengthNumb()));
+        txtType.setText(showtime.getTotalSeats() + " ghế");
+        txtPrice.setText("~" + showtime.getFormatedPrice());
 
         convertView.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, BookingTicketActivity.class);
+            Gson gson = new Gson();
+            String jsonMovie = gson.toJson(movie);
+            String jsonShowtime = gson.toJson(showtime);
+            String jsonCinema = gson.toJson(cinema);
+            intent.putExtra("movie", jsonMovie);
+            intent.putExtra("cinema", jsonCinema);
+            intent.putExtra("showtime", jsonShowtime);
             mContext.startActivity(intent);
         });
 

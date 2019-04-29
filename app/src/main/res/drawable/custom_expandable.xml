@@ -4,10 +4,10 @@
         <layer-list>
             <item
                 android:left="0dp"
-                android:right="10dp"
-                android:top="40dp"
-                android:bottom="40dp"
-                android:drawable="@drawable/baseline_keyboard_arrow_right_white_24dp">
+                android:right="30dp"
+                android:top="35dp"
+                android:bottom="35dp"
+                android:drawable="@drawable/right_arrow">
             </item>
         </layer-list>
     </item>
@@ -16,10 +16,10 @@
         <layer-list>
             <item
                 android:left="0dp"
-                android:right="10dp"
-                android:top="40dp"
-                android:bottom="40dp"
-                android:drawable="@drawable/baseline_keyboard_arrow_down_white_24dp">
+                android:right="30dp"
+                android:top="35dp"
+                android:bottom="35dp"
+                android:drawable="@drawable/down_arrow">
             </item>
         </layer-list>
     </item>

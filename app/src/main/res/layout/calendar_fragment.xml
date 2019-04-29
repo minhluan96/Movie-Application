@@ -17,10 +17,20 @@
         />
 
     <ExpandableListView
-        android:dividerHeight="0.5dp"
-        android:groupIndicator="@drawable/custom_expandable"
         android:id="@+id/list_expand"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:dividerHeight="0.5dp"
+        android:groupIndicator="@drawable/custom_expandable" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/txtNotify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:text="Không có suất chiếu cho ngày đã chọn"/>
 
 </LinearLayout>

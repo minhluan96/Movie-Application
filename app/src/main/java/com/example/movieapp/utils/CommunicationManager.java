@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.movieapp.models.Account;
+import com.example.movieapp.models.Cinema;
 import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.User;
 import com.google.gson.reflect.TypeToken;
@@ -94,6 +95,11 @@ public class CommunicationManager {
 
     public void doUpdateUserInfo(String tag, JSONObject body, DataParser.DataResponseListener<JSONObject> listener) {
         makeJSONObjectRequest(tag, Request.Method.POST, "User", "Update", body, new DataParser(listener, null, JSONObject.class));
+    }
+
+    public void getMovieCalendars(String tag, int movie_id, String date, final DataParser.DataResponseListener<LinkedList<Cinema>> listener) {
+        Type type = new TypeToken<LinkedList<Cinema>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "MovieDetail", "Calendar", "/" + movie_id + "/showing/" + date, null, new DataParser<>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
     public void getNowShowingMovies(String tag, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {

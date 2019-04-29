@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.movieapp.R;
 import com.example.movieapp.activities.SellingTicketActivity;
 import com.example.movieapp.models.Movie;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -50,7 +51,10 @@ public class LatestMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         movieViewHolder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SellingTicketActivity.class);
             int pos = movieViewHolder.getAdapterPosition();
+            Gson gson = new Gson();
+            String json = gson.toJson(latestMovies.get(pos));
             intent.putExtra("title", latestMovies.get(pos).getName());
+            intent.putExtra("movie", json);
             mContext.startActivity(intent);
         });
     }

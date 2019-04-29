@@ -1,16 +1,25 @@
 package com.example.movieapp.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Cinema {
 
+    @SerializedName(value = "cinemaID")
     private int id;
 
+    @SerializedName(value = "cinemaName")
     private String name;
 
+    @SerializedName(value = "iconURL")
     private String imgUrl;
 
+    @SerializedName(value = "address")
     private String address;
 
     private String description;
+
+    @SerializedName(value = "showTimes")
+    private Showtime[] showtime;
 
     public Cinema(int id, String name, String imgUrl, String address, String description) {
         this.id = id;
@@ -58,5 +67,13 @@ public class Cinema {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Showtime[] getShowtime() {
+        return showtime;
+    }
+
+    public void setShowtime(Showtime[] showtime) {
+        this.showtime = showtime;
     }
 }
