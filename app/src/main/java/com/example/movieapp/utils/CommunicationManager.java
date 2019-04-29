@@ -9,6 +9,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.movieapp.models.Account;
 import com.example.movieapp.models.Cinema;
+import com.example.movieapp.models.BookedCombo;
+import com.example.movieapp.models.BookedSeat;
+import com.example.movieapp.models.Booking;
 import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.User;
 import com.google.gson.reflect.TypeToken;
@@ -74,9 +77,24 @@ public class CommunicationManager {
         makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "Latest", null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
-    public void getUserInfo(String tag, final DataParser.DataResponseListener<LinkedList<User>> listener) {
+    public void getUserInfo(String tag, String accountID, final DataParser.DataResponseListener<LinkedList<User>> listener) {
         Type type = new TypeToken<LinkedList<User>>() {}.getType();
-        makeJSONObjectRequest(tag, Request.Method.GET, "User", "Info", null, new DataParser<LinkedList<User>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+        makeJSONObjectRequest(tag, Request.Method.GET, "User", "Info", accountID,null, new DataParser<LinkedList<User>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void getBookingsByAccount(String tag, String accountID, final DataParser.DataResponseListener<LinkedList<Booking>> listener) {
+        Type type = new TypeToken<LinkedList<Booking>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Account", "PurchasedTickets", accountID,null, new DataParser<LinkedList<Booking>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void getBookedSeatsByBooking(String tag, String bookingID, final DataParser.DataResponseListener<LinkedList<BookedSeat>> listener) {
+        Type type = new TypeToken<LinkedList<BookedSeat>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Booking", "BookedSeats", bookingID,null, new DataParser<LinkedList<BookedSeat>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void getBookedCombosByBooking(String tag, String bookingID, final DataParser.DataResponseListener<LinkedList<BookedCombo>> listener) {
+        Type type = new TypeToken<LinkedList<BookedCombo>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Booking", "BookedCombos", bookingID,null, new DataParser<LinkedList<BookedCombo>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
     public void doLogin(String tag, JSONObject body, DataParser.DataResponseListener<LinkedList<Account>> listener) {

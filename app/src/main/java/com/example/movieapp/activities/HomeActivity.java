@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 import com.example.movieapp.R;
 import com.example.movieapp.fragments.HomeFragment;
 import com.example.movieapp.fragments.PersonalFragment;
+import com.example.movieapp.utils.SaveSharedPreference;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 

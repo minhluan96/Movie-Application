@@ -61,6 +61,8 @@ public class UserInfoFormFragment extends BaseFragment implements OnClickListene
     private static final String TAG_USER_INFO = "TAG_USER_INFO";
     private static final String TAG_USER_UPDATE = "TAG_USER_UPDATE";
 
+    private Account accountInfo;
+
     public  UserInfoFormFragment() {}
 
     @Override
@@ -85,6 +87,8 @@ public class UserInfoFormFragment extends BaseFragment implements OnClickListene
         edtPhone = v.findViewById(R.id.edtPhone);
         edtAddress = v.findViewById(R.id.edtAddress);
         btnUpdate = v.findViewById(R.id.btnUpdate);
+
+        accountInfo = SaveSharedPreference.getAccountInfo(getContext());
 
         // get user info in server
         getUserInfo();
@@ -148,7 +152,6 @@ public class UserInfoFormFragment extends BaseFragment implements OnClickListene
     }
 
     private void updateUserInfo() {
-        Account accountInfo = SaveSharedPreference.getAccountInfo(getContext());
         int id = accountInfo.getId();
         String fullName = edtFullName.getText().toString();
         Integer gender;
@@ -223,7 +226,8 @@ public class UserInfoFormFragment extends BaseFragment implements OnClickListene
     }
 
     private void getUserInfo() {
-        AppManager.getInstance().getCommService().getUserInfo(TAG_USER_INFO,
+        String accountID = String.valueOf(accountInfo.getId());
+        AppManager.getInstance().getCommService().getUserInfo(TAG_USER_INFO, accountID,
                 new DataParser.DataResponseListener<LinkedList<User>>() {
                     @Override
                     public void onDataResponse(LinkedList<User> response) {

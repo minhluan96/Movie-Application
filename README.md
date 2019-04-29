@@ -55,6 +55,7 @@ private void getAllLatestMovies() {
 * Màn hình thông tin tài khoản (100%)
 * Màn hình cập nhật thông tin cá nhân (100%)
 * Màn hình đổi mật khẩu (100%)
+* Màn hình lịch sử các vé đã mua (100%)
 
 ### Các thư viện sử dụng trong ứng dụng
 * Thư viện load hình ảnh (từ resource hoặc từ url): https://square.github.io/picasso/
@@ -63,3 +64,5 @@ private void getAllLatestMovies() {
 * Shimmer loading: https://github.com/sharish/ShimmerRecyclerView
 * RecyclerView: https://www.androidhive.info/2016/01/android-working-with-recycler-view/
 * MovieSeatView: https://github.com/captain-miao/SelectMovieSeat
+* TicketView: https://github.com/vipulasri/TicketView
+* QRGen: https://github.com/kenglxn/QRGen

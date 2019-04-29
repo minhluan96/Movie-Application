@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import com.example.movieapp.models.Account;
 import com.example.movieapp.models.User;
 
+import static com.example.movieapp.utils.Constant.LAST_SELECTED_TAB_PREF;
 import static com.example.movieapp.utils.Constant.LOGGED_IN_PREF;
 
 public class SaveSharedPreference {
@@ -22,6 +23,16 @@ public class SaveSharedPreference {
 
     public static boolean getLoggedStatus(Context context) {
         return getPreferences(context).getBoolean(LOGGED_IN_PREF, false);
+    }
+
+    public static void setLastSelectedTab(Context context, int lastSelectedTab) {
+        SharedPreferences.Editor editor = getPreferences(context).edit();
+        editor.putInt(LAST_SELECTED_TAB_PREF, lastSelectedTab);
+        editor.apply();
+    }
+
+    public static int getLastSelectedTab(Context context) {
+        return getPreferences(context).getInt(LAST_SELECTED_TAB_PREF, 0);
     }
 
     public static void setAccountInfo(Context context, Account accountInfo) {

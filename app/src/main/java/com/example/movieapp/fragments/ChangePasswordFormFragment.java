@@ -45,9 +45,8 @@ public class ChangePasswordFormFragment extends BaseFragment implements OnClickL
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.change_password_form_fragment, container, false);
 
         tabLayout = v.findViewById(R.id.tabs);

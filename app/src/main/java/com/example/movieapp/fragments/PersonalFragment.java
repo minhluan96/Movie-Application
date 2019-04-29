@@ -1,8 +1,6 @@
 package com.example.movieapp.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TabLayout.OnTabSelectedListener;
 import android.support.v4.view.ViewPager;
@@ -25,9 +23,6 @@ public class PersonalFragment extends BaseFragment implements OnTabSelectedListe
     private LoggedInFragment loggedInFragment;
     private PurchasedTicketsFragment purchasedTicketsFragment;
     private NotificationFragment notificationFragment;
-    private NoTicketInfoFragment noTicketInfoFragment;
-    private NoNotificationInfoFragment noNotificationInfoFragment;
-    private int tabSelected;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,9 +31,8 @@ public class PersonalFragment extends BaseFragment implements OnTabSelectedListe
 
     public PersonalFragment() {}
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.personal_fragment, container, false);
 
         tabLayout = v.findViewById(R.id.tabs);
@@ -52,8 +46,6 @@ public class PersonalFragment extends BaseFragment implements OnTabSelectedListe
         loggedInFragment = new LoggedInFragment();
         purchasedTicketsFragment = new PurchasedTicketsFragment();
         notificationFragment = new NotificationFragment();
-        noTicketInfoFragment = new NoTicketInfoFragment();
-        noNotificationInfoFragment = new NoNotificationInfoFragment();
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
@@ -68,24 +60,26 @@ public class PersonalFragment extends BaseFragment implements OnTabSelectedListe
         // If account is already logged in
         if(SaveSharedPreference.getLoggedStatus(getContext())) {
             adapter.addFragment(loggedInFragment, "Tài khoản");
-            adapter.addFragment(purchasedTicketsFragment, "Vé đã mua");
-            adapter.addFragment(notificationFragment, "Thông báo");
         } else {
             adapter.addFragment(loggedOutFragment, "Tài khoản");
-            adapter.addFragment(noTicketInfoFragment, "Vé đã mua");
-            adapter.addFragment(noNotificationInfoFragment, "Thông báo");
         }
+        adapter.addFragment(purchasedTicketsFragment, "Vé đã mua");
+        adapter.addFragment(notificationFragment, "Thông báo");
         viewPager.setAdapter(adapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        int tabSelected = SaveSharedPreference.getLastSelectedTab(getContext());
+        TabLayout.Tab tab = tabLayout.getTabAt(tabSelected);
+        tab.select();
     }
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        tabSelected = tab.getPosition();
+        int tabSelected = tab.getPosition();
+        SaveSharedPreference.setLastSelectedTab(getContext(), tabSelected);
     }
 
     @Override
