@@ -11,7 +11,11 @@ import android.widget.TextView;
 
 import com.example.movieapp.R;
 import com.example.movieapp.adapters.TicketTypeAdapter;
+import com.example.movieapp.models.Cinema;
+import com.example.movieapp.models.Movie;
+import com.example.movieapp.models.Showtime;
 import com.example.movieapp.models.Ticket;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +29,10 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
     private ImageView imgClose;
     private RecyclerView.LayoutManager layoutManager;
     private TicketTypeAdapter ticketTypeAdapter;
+    private Movie movie;
+    private Showtime showtime;
+    private Cinema cinema;
+    private Gson gson = new Gson();
 
     private double totalPrice = 0;
 
@@ -45,6 +53,9 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
         imgClose = findViewById(R.id.imgClose);
         rvTicketTypes = findViewById(R.id.rv_ticket_type);
 
+        getDataFromPreviousIntent();
+        setupUIData();
+
         layoutManager = new LinearLayoutManager(this);
         rvTicketTypes.setLayoutManager(layoutManager);
         setupTicketTypeAdapter();
@@ -57,6 +68,27 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
         });
 
         imgClose.setOnClickListener(v -> finish());
+    }
+
+    private void getDataFromPreviousIntent() {
+        String movieJson = getIntent().getStringExtra("movie");
+        String showtimeJson = getIntent().getStringExtra("showtime");
+        String cinemaJson = getIntent().getStringExtra("cinema");
+        if (!movieJson.isEmpty()) {
+            movie = gson.fromJson(movieJson, Movie.class);
+        }
+        if (!showtimeJson.isEmpty()) {
+            showtime = gson.fromJson(showtimeJson, Showtime.class);
+        }
+        if (!cinemaJson.isEmpty()) {
+            cinema = gson.fromJson(cinemaJson, Cinema.class);
+        }
+    }
+
+    private void setupUIData() {
+        txtCinema.setText(cinema.getName());
+        String roomName = showtime.getBranchName().substring(showtime.getBranchName().lastIndexOf(" ") + 1);
+        txtBranch.setText(" - " + roomName);
     }
 
     private void setupTicketTypeAdapter() {

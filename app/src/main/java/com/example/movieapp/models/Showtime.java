@@ -1,34 +1,49 @@
 package com.example.movieapp.models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class Showtime {
 
+    @SerializedName(value = "id")
+    private int id;
+
+    @SerializedName(value = "location")
     private String branchName;
 
+    @SerializedName(value = "time")
     private String timeStart;
 
     private String timeEnd;
 
     private String typeMovie;
 
-    private String price;
+    @SerializedName(value = "price")
+    private long price;
 
-    private String distance;
+    private int totalSeats;
 
-    public Showtime(String branchName, String timeStart, String timeEnd, String typeMovie, String price, String distance) {
+    public Showtime(String branchName, String timeStart, String timeEnd, String typeMovie, long price, int totalSeats) {
         this.branchName = branchName;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.typeMovie = typeMovie;
         this.price = price;
-        this.distance = distance;
+        this.totalSeats = totalSeats;
     }
 
-    public String getDistance() {
-        return distance;
+    public int getTotalSeats() {
+        return totalSeats;
     }
 
-    public void setDistance(String distance) {
-        this.distance = distance;
+    public void setTotalSeats(int totalSeats) {
+        this.totalSeats = totalSeats;
     }
 
     public String getBranchName() {
@@ -40,7 +55,19 @@ public class Showtime {
     }
 
     public String getTimeStart() {
-        return timeStart;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String time = "";
+        Date date = null;
+        try {
+            date = sdf.parse(timeStart);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            time = "00:00";
+        }
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.setTime(date);
+        time = sdf.format(cal.getTime());
+        return time;
     }
 
     public void setTimeStart(String timeStart) {
@@ -48,6 +75,7 @@ public class Showtime {
     }
 
     public String getTimeEnd() {
+
         return timeEnd;
     }
 
@@ -63,11 +91,40 @@ public class Showtime {
         this.typeMovie = typeMovie;
     }
 
-    public String getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public String getFormatedPrice() {
+        NumberFormat formatter = new DecimalFormat("#,###đ");
+        String formattedNumber = formatter.format(price);
+        return formattedNumber;
+    }
+
+    public void setPrice(long price) {
         this.price = price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFinishTime(int length) {
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        Date d = null;
+        try {
+            d = df.parse(timeStart);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.setTime(d);
+        cal.add(Calendar.MINUTE, length);
+        String newTime = df.format(cal.getTime());
+        return newTime;
     }
 }
