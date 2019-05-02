@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.movieapp.R;
 import com.example.movieapp.activities.BookingTicketActivity;
+import com.example.movieapp.models.Calendar;
 import com.example.movieapp.models.Cinema;
 import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.Showtime;
@@ -26,6 +27,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<Cinema> cinemas;
     private HashMap<Cinema, List<Showtime>> dataChild;
     private Movie movie;
+    private Calendar calendar;
     private int selectedCinema = -1;
 
     public ExpandableListAdapter(Context mContext, List<Cinema> cinemas, HashMap<Cinema, List<Showtime>> dataChild) {
@@ -38,6 +40,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         this.cinemas = cinemas;
         this.dataChild = dataChild;
         notifyDataSetChanged();
+    }
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
     }
 
     public void setMovie(Movie movie) {
@@ -120,9 +126,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             String jsonMovie = gson.toJson(movie);
             String jsonShowtime = gson.toJson(showtime);
             String jsonCinema = gson.toJson(cinema);
+            String jsonCalendar = gson.toJson(calendar);
             intent.putExtra("movie", jsonMovie);
             intent.putExtra("cinema", jsonCinema);
             intent.putExtra("showtime", jsonShowtime);
+            intent.putExtra("calendar", jsonCalendar);
             mContext.startActivity(intent);
         });
 

@@ -7,6 +7,8 @@ import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -112,6 +114,12 @@ public class Utilities {
         Pattern pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    public static String formatCurrency(double price) {
+        NumberFormat formatter = new DecimalFormat("#,### đ");
+        String formattedNumber = formatter.format(price);
+        return formattedNumber;
     }
 
     public static String[] extractDateFromString(String dateStr) {
