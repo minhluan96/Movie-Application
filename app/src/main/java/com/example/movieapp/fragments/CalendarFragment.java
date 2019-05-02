@@ -41,7 +41,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements HorizontalCalendarAdapter.ItemCalendarListener {
 
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
@@ -54,6 +54,7 @@ public class CalendarFragment extends Fragment {
     private HashMap<Cinema, List<Showtime>> listDataChild;
     private Movie movie;
     private static final String TAG_MOVIE_CALENDARS = "TAG_MOVIE_CALENDARS";
+    private Calendar calendar;
 
     public CalendarFragment() {
     }
@@ -76,10 +77,12 @@ public class CalendarFragment extends Fragment {
         expandableListAdapter = new ExpandableListAdapter(getContext(), cinemas, listDataChild);
         expandableListAdapter.setMovie(movie);
         expandableListView.setAdapter(expandableListAdapter);
+        expandableListAdapter.setCalendar(calendar);
 
         rvCalendarLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvCalendar.setLayoutManager(rvCalendarLayoutManager);
         horizontalCalendarAdapter = new HorizontalCalendarAdapter(calendars, getContext());
+        horizontalCalendarAdapter.setListener(this);
         rvCalendar.setAdapter(horizontalCalendarAdapter);
 
         Display display =  getActivity().getWindowManager().getDefaultDisplay();
@@ -133,6 +136,7 @@ public class CalendarFragment extends Fragment {
             String todayName = i == 0 ? "Hôm nay" : dayName;
             calendars.add(new Calendar(todayName, dateNumb, isToday));
         }
+        calendar = calendars.get(0);
     }
 
     private void getMovieCalendars() {
@@ -170,5 +174,11 @@ public class CalendarFragment extends Fragment {
                     }
                 });
 
+    }
+
+    @Override
+    public void onCalendarSelected(Calendar calendar) {
+        this.calendar = calendar;
+        expandableListAdapter.setCalendar(calendar);
     }
 }

@@ -22,6 +22,7 @@ public class Showtime {
 
     private String timeEnd;
 
+    @SerializedName(value = "type")
     private String typeMovie;
 
     @SerializedName(value = "price")
@@ -96,7 +97,7 @@ public class Showtime {
     }
 
     public String getFormatedPrice() {
-        NumberFormat formatter = new DecimalFormat("#,###đ");
+        NumberFormat formatter = new DecimalFormat("#,### đ");
         String formattedNumber = formatter.format(price);
         return formattedNumber;
     }

@@ -19,11 +19,16 @@ public class HorizontalCalendarAdapter extends RecyclerView.Adapter<RecyclerView
     private List<Calendar> calendars;
     private Context mContext;
     private Calendar selectedCalendar;
+    private ItemCalendarListener listener;
 
     public HorizontalCalendarAdapter(List<Calendar> calendars, Context mContext) {
         this.calendars = calendars;
         this.mContext = mContext;
         this.selectedCalendar = calendars.get(0);
+    }
+
+    public void setListener(ItemCalendarListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -50,8 +55,13 @@ public class HorizontalCalendarAdapter extends RecyclerView.Adapter<RecyclerView
         holder.itemView.setOnClickListener(v -> {
             int selectedPos = holder.getAdapterPosition();
             selectedCalendar = calendars.get(selectedPos);
+            listener.onCalendarSelected(selectedCalendar);
             notifyDataSetChanged();
         });
+    }
+
+    public interface ItemCalendarListener {
+        void onCalendarSelected(Calendar calendar);
     }
 
     @Override

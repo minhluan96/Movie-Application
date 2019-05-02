@@ -1,8 +1,6 @@
 package com.example.movieapp.models;
 
-import android.icu.text.DecimalFormat;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+import com.example.movieapp.utils.Utilities;
 
 public class Ticket {
 
@@ -42,10 +40,7 @@ public class Ticket {
         this.price = price;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public String getPriceString() {
-        DecimalFormat formatter = new DecimalFormat("#,###.00");
-
-        return formatter.format(price) + "đ";
+        return Utilities.formatCurrency(price);
     }
 }
