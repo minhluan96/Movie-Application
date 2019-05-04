@@ -17,4 +17,5 @@
     <color name="colorGreen">#4CAF50</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorCardView">#0E1940</color>
+    <color name="dialogButtonText">#D81B60</color>
 </resources>

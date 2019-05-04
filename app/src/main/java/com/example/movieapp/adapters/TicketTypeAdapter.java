@@ -64,12 +64,12 @@ public class TicketTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             quantity++;
             if (quantity > 10) return;
             ticketTypeViewHolder.txtQuantity.setText(String.valueOf(quantity));
-            ticketChangeListener.onAddButtonChanged(quantity, ticket.getPrice());
+            ticketChangeListener.onAddButtonChanged(quantity, ticket.getPrice(), ticket);
         });
 
         ticketTypeViewHolder.imgSubtract.setOnClickListener(v -> {
             int quantity = getCurrentQuantityOfTicket(ticketTypeViewHolder);
-            ticketChangeListener.onSubtractButtonChanged(quantity, ticket.getPrice());
+            ticketChangeListener.onSubtractButtonChanged(quantity, ticket.getPrice(), ticket);
             quantity--;
             ticketTypeViewHolder.txtQuantity.setText(String.valueOf(quantity));
             if (quantity == 0) {
@@ -87,8 +87,8 @@ public class TicketTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public interface TicketChangeListener {
-        void onAddButtonChanged(int totalQuantity, double pricePerTicket);
-        void onSubtractButtonChanged(int totalQuantity, double pricePerTicket);
+        void onAddButtonChanged(int totalQuantity, double pricePerTicket, Ticket ticket);
+        void onSubtractButtonChanged(int totalQuantity, double pricePerTicket, Ticket ticket);
     }
 
     public void setTicketChangeListener(TicketChangeListener ticketChangeListener) {

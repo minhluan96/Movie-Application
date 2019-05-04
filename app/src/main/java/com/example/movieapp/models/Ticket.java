@@ -1,8 +1,12 @@
 package com.example.movieapp.models;
 
-import com.example.movieapp.utils.Utilities;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Ticket {
+import com.example.movieapp.utils.Utilities;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+public class Ticket implements Parcelable {
 
     private int id;
 
@@ -43,4 +47,32 @@ public class Ticket {
     public String getPriceString() {
         return Utilities.formatCurrency(price);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeDouble(price);
+    }
+
+    private Ticket(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        price = in.readDouble();
+    }
+
+    public static final Parcelable.Creator<Ticket> CREATOR = new Parcelable.Creator<Ticket>() {
+        public Ticket createFromParcel(Parcel in) {
+            return new Ticket(in);
+        }
+
+        public Ticket[] newArray(int size) {
+            return new Ticket[size];
+        }
+    };
 }

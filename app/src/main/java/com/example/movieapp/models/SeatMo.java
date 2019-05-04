@@ -19,6 +19,8 @@ public class SeatMo extends BaseMo implements BaseSeatMo {
      */
     public int column;
 
+    public int typeSeat;
+
     /**
      * seat status:1：available，0：sold，-1：unavailable
      */
@@ -58,5 +60,13 @@ public class SeatMo extends BaseMo implements BaseSeatMo {
 
     public void setSelected() {
         status = 2;
+    }
+
+    public int getTypeSeat() {
+        return typeSeat;
+    }
+
+    public void setTypeSeat(int typeSeat) {
+        this.typeSeat = typeSeat;
     }
 }

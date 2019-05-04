@@ -1,6 +1,7 @@
 package com.example.movieapp.activities;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,14 +18,22 @@ import com.example.movieapp.models.Cinema;
 import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.Showtime;
 import com.example.movieapp.models.Ticket;
+import com.example.movieapp.utils.CustomJacksonModule;
 import com.example.movieapp.utils.Utilities;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BookingTicketActivity extends BaseActivity implements TicketTypeAdapter.TicketChangeListener {
 
@@ -39,6 +48,7 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
     private Calendar calendar;
     private Showtime showtime;
     private Cinema cinema;
+    private Map<Ticket, Integer> boughtTicketList = new HashMap<>();
     private Gson gson = new Gson();
 
     private double totalPrice = 0;
@@ -82,6 +92,7 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
             String jsonCinema = gson.toJson(cinema);
             String jsonCalendar = gson.toJson(calendar);
             intent.putExtra("movie", jsonMovie);
+            intent.putExtra("boughtTicketMap", (Serializable) boughtTicketList);
             intent.putExtra("cinema", jsonCinema);
             intent.putExtra("showtime", jsonShowtime);
             intent.putExtra("calendar", jsonCalendar);
@@ -138,21 +149,30 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
     private List<Ticket> getDummyData() {
         List<Ticket> tickets = new ArrayList<>();
         tickets.add(new Ticket(1, "Vé thường 2D", 90000));
-        tickets.add(new Ticket(1, "Vé VIP 2D", 100000));
-        tickets.add(new Ticket(1, "Ghế đôi 2D", 120000));
+        tickets.add(new Ticket(2, "Vé VIP 2D", 100000));
+        tickets.add(new Ticket(3, "Ghế đôi 2D", 120000));
         return tickets;
     }
 
     @Override
-    public void onAddButtonChanged(int totalQuantity, double pricePerTicket) {
+    public void onAddButtonChanged(int totalQuantity, double pricePerTicket, Ticket ticket) {
         totalPrice += pricePerTicket;
+        boughtTicketList.put(ticket, totalQuantity);
         txtTotalPrice.setText(Utilities.formatCurrency(totalPrice));
         ticketTypeAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onSubtractButtonChanged(int totalQuantity, double pricePerTicket) {
+    public void onSubtractButtonChanged(int totalQuantity, double pricePerTicket, Ticket ticket) {
         totalPrice -= pricePerTicket;
+        int quantity = boughtTicketList.get(ticket);
+        int subtract = quantity - totalQuantity;
+        if (subtract <= 0) {
+            boughtTicketList.remove(ticket);
+        } else {
+            boughtTicketList.put(ticket, totalQuantity);
+        }
+
         txtTotalPrice.setText(Utilities.formatCurrency(totalPrice));
         ticketTypeAdapter.notifyDataSetChanged();
     }
