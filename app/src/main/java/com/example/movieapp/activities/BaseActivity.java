@@ -14,7 +14,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 
+import com.example.movieapp.R;
 import com.example.movieapp.adapters.ViewPagerHomeAdapter;
 import com.example.movieapp.utils.AppManager;
 
@@ -96,16 +98,26 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showDialogErrorWithOKButton(Context context, String title, String content) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(title);
+        builder.setTitle(Html.fromHtml("<font color='#323232'>"  + title +"</font>"));
         builder.setMessage(content);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setPositiveButton("OK", (dialog, which) -> {
 
-            }
         });
         builder.setCancelable(false);
-        builder.show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
+
+    public void showDialogErrorWithOKButtonListener(Context context, String title, String content, DialogInterface.OnClickListener onClickListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(Html.fromHtml("<font color='#323232'>"  + title +"</font>"));
+        builder.setMessage(content);
+        builder.setPositiveButton("OK", onClickListener);
+        builder.setCancelable(false);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
     protected void setupViewPager(ViewPager viewPager, Map<Fragment, String> fragments) {

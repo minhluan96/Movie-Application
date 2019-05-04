@@ -14,7 +14,7 @@ public class Showtime {
     @SerializedName(value = "id")
     private int id;
 
-    @SerializedName(value = "location")
+    @SerializedName(value = "location_name")
     private String branchName;
 
     @SerializedName(value = "time")
@@ -27,6 +27,9 @@ public class Showtime {
 
     @SerializedName(value = "price")
     private long price;
+
+    @SerializedName(value = "location_id")
+    private int location_id;
 
     private int totalSeats;
 
@@ -127,5 +130,13 @@ public class Showtime {
         cal.add(Calendar.MINUTE, length);
         String newTime = df.format(cal.getTime());
         return newTime;
+    }
+
+    public int getLocation_id() {
+        return location_id;
+    }
+
+    public void setLocation_id(int location_id) {
+        this.location_id = location_id;
     }
 }
