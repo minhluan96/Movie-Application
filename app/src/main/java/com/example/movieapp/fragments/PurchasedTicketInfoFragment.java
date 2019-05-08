@@ -2,7 +2,6 @@ package com.example.movieapp.fragments;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -32,7 +31,6 @@ import java.util.List;
 
 public class PurchasedTicketInfoFragment extends BaseFragment {
 
-    private TabLayout tabLayout;
     private ViewPager viewPager;
     private Toolbar toolbar;
     private TextView txtTitle, txtMinAge, txtDescription, txtCinema, txtAddress, txtDate, txtTime, txtRoom,
@@ -57,7 +55,6 @@ public class PurchasedTicketInfoFragment extends BaseFragment {
 
         bookedComboList = new ArrayList<>();
 
-        tabLayout = v.findViewById(R.id.tabs);
         viewPager = v.findViewById(R.id.viewpager);
         toolbar = v.findViewById(R.id.toolbar);
         txtTitle = v.findViewById(R.id.txtTitle);
@@ -78,7 +75,7 @@ public class PurchasedTicketInfoFragment extends BaseFragment {
 
         txtTitle.setText(bookingInfo.getMovieName());
         txtMinAge.setText("C" + bookingInfo.getMinAge());
-        txtDescription.setText(bookingInfo.getRunningTime() + " - 2D - Phụ đề");
+        txtDescription.setText(bookingInfo.getRunningTime() + " - " + bookingInfo.getType());
         txtCinema.setText(bookingInfo.getCinemaName());
         txtAddress.setText(bookingInfo.getAddress());
         Picasso.get().load(bookingInfo.getIconURL()).error(R.drawable.purchased_tickets).into(cinemaIcon);

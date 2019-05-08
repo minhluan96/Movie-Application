@@ -7,45 +7,42 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.movieapp.R;
-import com.example.movieapp.fragments.PurchasedTicketInfoFragment;
-import com.example.movieapp.models.Booking;
+import com.example.movieapp.fragments.NotificationInfoFragment;
+import com.example.movieapp.models.Notification;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.movieapp.utils.Utilities.formatTime;
-
-public class PurchasedTicketDetailsActivity extends BaseActivity {
-
+public class NotificationDetailsActivity extends BaseActivity {
     private Toolbar toolbar;
     private ViewPager viewPager;
     private Map<Fragment, String> fragmentStringMap;
 
-    private PurchasedTicketInfoFragment purchasedTicketInfoFragment;
+    private NotificationInfoFragment notificationInfoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.purchased_ticket_details_activity);
+        setContentView(R.layout.notification_details_activity);
 
         toolbar = findViewById(R.id.toolbar);
         viewPager = findViewById(R.id.viewpager);
 
         Bundle bundle = getIntent().getExtras();
-        Booking booking = bundle.getParcelable("purchased_ticket_info");
+        Notification notification = bundle.getParcelable("notification_info");
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("BẮT ĐẦU LÚC " + formatTime(booking.getTime()));
+        getSupportActionBar().setTitle(getNotificationType(notification.getType()));
 
         bundle = new Bundle();
-        bundle.putParcelable("purchased_ticket_info", booking);
-        purchasedTicketInfoFragment = new PurchasedTicketInfoFragment();
-        purchasedTicketInfoFragment.setArguments(bundle);
+        bundle.putParcelable("notification_info", notification);
+        notificationInfoFragment = new NotificationInfoFragment();
+        notificationInfoFragment.setArguments(bundle);
 
         fragmentStringMap = new HashMap<>();
 
-        fragmentStringMap.put(purchasedTicketInfoFragment, "Thông tin vé đã mua");
+        fragmentStringMap.put(notificationInfoFragment, "Thông báo");
 
         setupViewPager(viewPager, fragmentStringMap);
     }
@@ -58,6 +55,14 @@ public class PurchasedTicketDetailsActivity extends BaseActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public String getNotificationType(int type) {
+        switch (type){
+            case 0: return "Tin mới";
+            case 1: return "Ưu đãi";
+            default: return "";
         }
     }
 }

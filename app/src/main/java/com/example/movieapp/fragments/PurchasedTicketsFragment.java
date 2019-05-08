@@ -2,6 +2,7 @@ package com.example.movieapp.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,12 +30,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PurchasedTicketsFragment extends BaseFragment implements OnClickListener  {
+public class PurchasedTicketsFragment extends BaseFragment implements OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recyclerView;
     private List<Booking> bookingList;
     private PurchasedTicketsAdapter purchasedTicketsAdapter;
     private RecyclerView.LayoutManager purchaseTicketsLayoutManager;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private Button btnDirection;
     private TextView txtMessage;
@@ -59,6 +61,7 @@ public class PurchasedTicketsFragment extends BaseFragment implements OnClickLis
 
         purchasedTickets = v.findViewById(R.id.purchasedTickets);
         noPurchasedTicketsInfo = v.findViewById(R.id.noPurchasedTicketsInfo);
+        swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
 
         accountInfo = SaveSharedPreference.getAccountInfo(getContext());
 
@@ -92,7 +95,17 @@ public class PurchasedTicketsFragment extends BaseFragment implements OnClickLis
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(purchasedTicketsAdapter);
 
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         return v;
+    }
+
+    @Override
+    public void onRefresh() {
+        getAllBookingsByAccount();
+        if (swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -115,27 +128,15 @@ public class PurchasedTicketsFragment extends BaseFragment implements OnClickLis
                         purchasedTicketsAdapter.setBookingsByAccount(bookingList);
 
                         // Show purchased tickets layout, hide no ticket info layout
-                        if (purchasedTickets.getVisibility() == View.GONE) {
-                            purchasedTickets.setVisibility(View.VISIBLE);
-                            noPurchasedTicketsInfo.setVisibility(View.GONE);
-                        }
-                        else {
-                            noPurchasedTicketsInfo.setVisibility(View.GONE);
-                            purchasedTickets.setVisibility(View.VISIBLE);
-                        }
+                        purchasedTickets.setVisibility(View.VISIBLE);
+                        noPurchasedTicketsInfo.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onDataError(String errorMessage) {
                         // Show no ticket info layout, hide purchased tickets layout
-                        if (noPurchasedTicketsInfo.getVisibility() == View.GONE) {
-                            noPurchasedTicketsInfo.setVisibility(View.VISIBLE);
-                            purchasedTickets.setVisibility(View.GONE);
-                        }
-                        else {
-                            purchasedTickets.setVisibility(View.GONE);
-                            noPurchasedTicketsInfo.setVisibility(View.VISIBLE);
-                        }
+                        noPurchasedTicketsInfo.setVisibility(View.VISIBLE);
+                        purchasedTickets.setVisibility(View.GONE);
                     }
 
                     @Override

@@ -15,7 +15,7 @@
             android:layout_width="@dimen/thumbnailWidth"
             android:layout_height="@dimen/thumbnailHeight"
             android:layout_marginRight="16dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitXY" />
 
         <LinearLayout
             android:id="@+id/txtMovieInfo"
