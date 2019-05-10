@@ -10,6 +10,7 @@ public class Booking implements Parcelable {
     private int id;
     private String code;
     private String movieName;
+    private String type;
     private String minAge;
     private String imgURL;
     private String cinemaName;
@@ -32,6 +33,7 @@ public class Booking implements Parcelable {
         dest.writeInt(id);
         dest.writeString(code);
         dest.writeString(movieName);
+        dest.writeString(type);
         dest.writeString(minAge);
         dest.writeString(imgURL);
         dest.writeString(cinemaName);
@@ -59,6 +61,7 @@ public class Booking implements Parcelable {
         this.id = in.readInt();
         this.code = in.readString();
         this.movieName = in.readString();
+        this.type = in.readString();
         this.minAge = in.readString();
         this.imgURL = in.readString();
         this.cinemaName = in.readString();
@@ -77,10 +80,11 @@ public class Booking implements Parcelable {
 
     public Booking() {}
 
-    public Booking(int id, String code, String movieName, String minAge, String imgURL, String cinemaName, String iconURL, String address, String room, String releaseDate, String time, String runningTime, List<BookedSeat> bookedSeatList, List<BookedCombo> bookedComboList) {
+    public Booking(int id, String code, String movieName, String type, String minAge, String imgURL, String cinemaName, String iconURL, String address, String room, String releaseDate, String time, String runningTime, List<BookedSeat> bookedSeatList, List<BookedCombo> bookedComboList) {
         this.id = id;
         this.code = code;
         this.movieName = movieName;
+        this.type = type;
         this.minAge = minAge;
         this.imgURL = imgURL;
         this.cinemaName = cinemaName;
@@ -116,6 +120,14 @@ public class Booking implements Parcelable {
 
     public void setMovieName(String movieName) {
         this.movieName = movieName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getMinAge() {

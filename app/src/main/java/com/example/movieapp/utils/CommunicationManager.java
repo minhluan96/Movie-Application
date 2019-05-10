@@ -13,6 +13,7 @@ import com.example.movieapp.models.BookedCombo;
 import com.example.movieapp.models.BookedSeat;
 import com.example.movieapp.models.Booking;
 import com.example.movieapp.models.Movie;
+import com.example.movieapp.models.Notification;
 import com.example.movieapp.models.User;
 import com.google.gson.reflect.TypeToken;
 
@@ -100,6 +101,11 @@ public class CommunicationManager {
     public void getBookedCombosByBooking(String tag, String bookingID, final DataParser.DataResponseListener<LinkedList<BookedCombo>> listener) {
         Type type = new TypeToken<LinkedList<BookedCombo>>() {}.getType();
         makeJSONObjectRequest(tag, Request.Method.GET, "Booking", "BookedCombos", bookingID,null, new DataParser<LinkedList<BookedCombo>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void getAllNotifications(String tag, final DataParser.DataResponseListener<LinkedList<Notification>> listener) {
+        Type type = new TypeToken<LinkedList<Notification>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Notifications", "GetAll", null, new DataParser<LinkedList<Notification>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
     public void doLogin(String tag, JSONObject body, DataParser.DataResponseListener<LinkedList<Account>> listener) {

@@ -102,6 +102,35 @@ public class Utilities {
         return formatted;
     }
 
+    public static String convertDateTime(String s) {
+        //2018-04-18T23:57:09
+        String newStr = s;
+        String[] parts = newStr.split("T");
+        String[] date = parts[0].split("-");
+        String[] time = parts[1].split(":");
+        String formatted = "";
+        for (int i = 0; i < time.length - 1; i++)
+        {
+            if (i != time.length - 2) {
+                formatted += time[i] + ":";
+            } else {
+                formatted += time[i];
+            }
+        }
+        formatted += " ";
+        for (int i = date.length - 1; i >= 0; i--)
+        {
+            if (i != 0) {
+                formatted += date[i] + "/";
+            } else {
+                formatted += date[i];
+            }
+
+        }
+
+        return formatted;
+    }
+
     public static String formatTime(String time) {
         String newStr = time;
         String[] data = newStr.split(":");
