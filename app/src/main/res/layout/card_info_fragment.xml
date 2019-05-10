@@ -65,6 +65,7 @@
                 />
             
             <TextView
+                android:id="@+id/txtDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -109,6 +110,7 @@
             <EditText
                 android:id="@+id/etCardOwner"
                 android:maxLines="1"
+                android:textAllCaps="true"
                 android:backgroundTint="@color/colorPrimary"
                 android:textColor="@android:color/darker_gray"
                 android:layout_width="match_parent"

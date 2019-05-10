@@ -17,6 +17,10 @@ import com.example.movieapp.R;
 import com.example.movieapp.activities.ConfirmationActivity;
 import com.example.movieapp.adapters.BankListAdapter;
 import com.example.movieapp.models.Bank;
+import com.example.movieapp.models.Cinema;
+import com.example.movieapp.models.SeatMo;
+import com.example.movieapp.models.Ticket;
+import com.example.movieapp.utils.Utilities;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import java.text.SimpleDateFormat;
@@ -24,10 +28,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class CardInfoFragment extends BaseFragment implements BankListAdapter.BankListener {
 
-    private TextView txtToolbarTitle;
+    private TextView txtToolbarTitle, txtDescription;
     private View bankListContainer, cardInfoContainer;
     private RecyclerView rvBankList;
     private EditText etCardOwner, etCardNumber, etExpiration;
@@ -37,6 +42,8 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
     private BankListAdapter adapter;
     private List<Bank> bankList;
     private Calendar calendar = Calendar.getInstance();
+    private CardInfoListener listener;
+
 
     public CardInfoFragment() {
     }
@@ -59,17 +66,23 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
         etExpiration = v.findViewById(R.id.etCardExpiration);
         btnCancel = v.findViewById(R.id.btnCancel);
         btnConfirm = v.findViewById(R.id.btnConfirm);
+        txtDescription = v.findViewById(R.id.txtDescription);
 
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rvBankList.setLayoutManager(layoutManager);
         setupDummyBankList();
         setupAdapter();
         setupDatePicker();
+        setUIData();
 
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (etCardNumber.getText().toString().isEmpty() || etCardOwner.getText().toString().isEmpty() || etExpiration.getText().toString().isEmpty()) {
+                    ((ConfirmationActivity)getActivity()).showDialogErrorWithOKButton(getActivity(), "Lỗi", "Vui lòng nhập đầy đủ các thông tin thanh toán");
+                    return;
+                }
+                listener.onFinishInputCardHolder(etCardOwner.getText().toString(), etCardNumber.getText().toString(), etExpiration.getText().toString());
             }
         });
 
@@ -83,6 +96,27 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
         return v;
     }
 
+    public void setListener(CardInfoListener listener) {
+        this.listener = listener;
+    }
+
+    private void setUIData() {
+        String infoPayment = "";
+        infoPayment += ((ConfirmationActivity) getActivity()).getCinema().getName() + " - ";
+        infoPayment += ((ConfirmationActivity) getActivity()).getMovie().getName() + " - ";
+        List<SeatMo> selectedSeat = ((ConfirmationActivity) getActivity()).getSelectedSeats();
+        for (SeatMo seat : selectedSeat) {
+            infoPayment += seat.seatName + " ";
+        }
+        Map<Ticket, Integer> map = ((ConfirmationActivity) getActivity()).getMap();
+        double totalPrice = 0;
+        for (Map.Entry<Ticket, Integer> entry : map.entrySet()) {
+            totalPrice += entry.getKey().getPrice()  * entry.getValue();
+        }
+        infoPayment += "- " + Utilities.formatCurrency(totalPrice);
+        txtDescription.setText(infoPayment);
+    }
+
 
 
     private void setupDatePicker() {
@@ -90,7 +124,7 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
 
         etExpiration.setOnClickListener(v -> builder.setActivatedMonth(Calendar.JANUARY)
-                .setMinYear(1990)
+                .setMinYear(2018)
                 .setActivatedYear(2019)
                 .setMaxYear(2050)
                 .setMonthRange(Calendar.JANUARY, Calendar.DECEMBER).build().show());
@@ -137,5 +171,9 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
     @Override
     public void onBankItemSelected(int pos) {
         showCardInfoContainer(true);
+    }
+
+    public interface CardInfoListener {
+        void onFinishInputCardHolder(String name, String cardNumber, String expirationDate);
     }
 }

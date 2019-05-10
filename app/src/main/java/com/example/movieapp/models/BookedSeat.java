@@ -8,6 +8,9 @@ public class BookedSeat implements Parcelable {
     private String block;
     private String row;
     private String number;
+    private int type;
+    private int status;
+    private int id;
 
     @Override
     public int describeContents() {
@@ -20,6 +23,7 @@ public class BookedSeat implements Parcelable {
         dest.writeString(block);
         dest.writeString(row);
         dest.writeString(number);
+        dest.writeInt(id);
     }
 
     public static final Parcelable.Creator<BookedSeat> CREATOR = new Parcelable.Creator<BookedSeat>() {
@@ -37,6 +41,9 @@ public class BookedSeat implements Parcelable {
         block = in.readString();
         row =  in.readString();
         number = in.readString();
+        type = in.readInt();
+        status = in.readInt();
+        id = in.readInt();
     }
 
     public BookedSeat() {};
@@ -78,5 +85,29 @@ public class BookedSeat implements Parcelable {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

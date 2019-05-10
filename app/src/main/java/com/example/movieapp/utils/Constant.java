@@ -1,5 +1,8 @@
 package com.example.movieapp.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Constant {
     public static final String BASE_URL = "https://ticketnow-api.herokuapp.com";
 
