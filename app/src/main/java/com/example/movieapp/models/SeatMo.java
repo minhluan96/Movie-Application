@@ -21,6 +21,10 @@ public class SeatMo extends BaseMo implements BaseSeatMo {
 
     public int typeSeat;
 
+    public double price;
+
+    public int id;
+
     /**
      * seat status:1：available，0：sold，-1：unavailable
      */
@@ -68,5 +72,21 @@ public class SeatMo extends BaseMo implements BaseSeatMo {
 
     public void setTypeSeat(int typeSeat) {
         this.typeSeat = typeSeat;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

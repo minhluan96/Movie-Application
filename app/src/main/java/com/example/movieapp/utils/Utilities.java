@@ -163,4 +163,9 @@ public class Utilities {
         String str[] = newDateStr.split("/");
         return str;
     }
+
+    public static int convertStringToInt(String str) {
+        char c = str.charAt(0); // because the string only has a character
+        return c - 'A' + 1;
+    }
 }

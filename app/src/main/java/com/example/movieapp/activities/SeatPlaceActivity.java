@@ -11,15 +11,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.example.movieapp.R;
+import com.example.movieapp.models.BookedSeat;
 import com.example.movieapp.models.Calendar;
 import com.example.movieapp.models.Cinema;
 import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.SeatMo;
 import com.example.movieapp.models.Showtime;
 import com.example.movieapp.models.Ticket;
+import com.example.movieapp.utils.AppManager;
 import com.example.movieapp.utils.Constant;
 import com.example.movieapp.utils.CustomDeserializer;
+import com.example.movieapp.utils.DataParser;
 import com.example.movieapp.utils.Utilities;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -59,6 +64,8 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
 
     private int maxRow = 10;
     private int maxColumn = 12;
+    private static final String TAG_BOOKED_SEAT = "TAG_BOOKED_SEAT";
+    private List<BookedSeat> bookedSeats = new ArrayList<>();
 
     private Cinema cinema;
     private Calendar calendar;
@@ -92,6 +99,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
 
         getDataFromPreviousActivity();
         initSeatTable();
+        getBookedSeatOfMovie();
         setupUIData();
 
         txtContinue.setOnClickListener(v -> {
@@ -143,6 +151,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         txtDate.setText(calendar.getName());
         txtTime.setText(" - " + showtime.getTimeStart());
         txtRoomNumber.setVisibility(View.GONE);
+        txtCurrentTime.setTextColor(getResources().getColor(R.color.colorPrimary));
 
         new CountDownTimer(300000, 1000) {
             @Override
@@ -173,6 +182,39 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
                 (dialog, which) -> finish()));
     }
 
+    private void getBookedSeatOfMovie() {
+        AppManager.getInstance().getCommService().getBookedSeatByMovie(TAG_BOOKED_SEAT, movie.getId(), cinema.getId(), new DataParser.DataResponseListener<LinkedList<BookedSeat>>() {
+            @Override
+            public void onDataResponse(LinkedList<BookedSeat> result) {
+                bookedSeats = result;
+                for (BookedSeat bookedSeat : bookedSeats) {
+                    String blockName = bookedSeat.getRow();
+                    int actualRow = Utilities.convertStringToInt(blockName) - 1;
+                    int col = Integer.parseInt(bookedSeat.getNumber()) - 1;
+                    SeatMo seatMo = seatTable[actualRow][col];
+                    if (seatMo == null) continue;
+                    seatMo.setId(bookedSeat.getId());
+                    if (bookedSeat.getStatus() == -1)
+                        seatMo.status = bookedSeat.getStatus();
+                }
+            }
+
+            @Override
+            public void onDataError(String errorMessage) {
+                bookedSeats = new ArrayList<>();
+            }
+
+            @Override
+            public void onRequestError(String errorMessage, VolleyError volleyError) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
 
     private void initSeatTable() {
         seatTable = new SeatMo[maxRow][maxColumn];// mock data
@@ -183,18 +225,21 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
                 seat.row = i;
                 seat.column = j;
                 seat.rowName = String.valueOf((char)('A' + i));
-                seat.seatName = seat.rowName + " Row" + (j + 1) + " Seat";
+                seat.seatName = seat.rowName + (j + 1);
                 seat.status = 0;
                 if (i < Constant.SeatTypePosition.NORMAL && isNormal) {
                     seat.status = 1;
+                    seat.setPrice(90000);
                     seat.setTypeSeat(Constant.SeatTypePosition.NORMAL);
                 }
                 if (i >= Constant.SeatTypePosition.NORMAL && i < Constant.SeatTypePosition.VIP && isVip) {
                     seat.status = 1;
+                    seat.setPrice(100000);
                     seat.setTypeSeat(Constant.SeatTypePosition.VIP);
                 }
                 if (i >= Constant.SeatTypePosition.VIP && i < Constant.SeatTypePosition.COUPLE && isCouple) {
                     seat.status = 1;
+                    seat.setPrice(120000);
                     seat.setTypeSeat(Constant.SeatTypePosition.COUPLE);
                 }
 
