@@ -106,7 +106,7 @@ public class PurchasedTicketInfoFragment extends BaseFragment {
         Picasso.get().load(bookingInfo.getIconURL()).error(R.drawable.purchased_tickets).into(cinemaIcon);
         txtDate.setText(convertDate(bookingInfo.getReleaseDate()));
         txtTime.setText(formatTime(bookingInfo.getTime()));
-        txtRoom.setText(bookingInfo.getRoom().replace("Phòng chiếu ", ""));
+        txtRoom.setText(bookingInfo.getRoom().replace("Rạp ", ""));
 
         getAllBookedCombosByBooking(bookingInfo.getId());
 
@@ -151,7 +151,7 @@ public class PurchasedTicketInfoFragment extends BaseFragment {
         txtDate.setText(convertDate(bookingInfo.getReleaseDate()));
         txtTime.setText(formatTime(bookingInfo.getTime()));
         txtGateway.setText(bookingInfo.getGateway());
-        txtBlocks.setText(bookingInfo.getBlock().replace("Khán đài", ""));
+        txtBlocks.setText(bookingInfo.getBlock().replace("Khán đài ", ""));
         Picasso.get().load(bookingInfo.getIconURL()).error(R.drawable.purchased_tickets).into(unitIcon);
 
         // get rows, numbers
