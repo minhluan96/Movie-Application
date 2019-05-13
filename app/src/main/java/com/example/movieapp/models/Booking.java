@@ -8,18 +8,29 @@ import java.util.List;
 
 public class Booking implements Parcelable {
     private int id;
+    private int type;
     private String code;
     private String movieName;
-    private String type;
     private String minAge;
-    private String imgURL;
-    private String cinemaName;
-    private String iconURL;
-    private String address;
-    private String room;
-    private String releaseDate;
-    private String time;
     private String runningTime;
+    private String movieType;
+    private String genre;
+    private String cinemaName;
+    private String time;
+    private String room;
+    private String venue;
+    private String address;
+    private String imgURL;
+    private String iconURL;
+    private String releaseDate;
+    private String eventName;
+    private int eventCategory;
+    private String unitName;
+    private String gateway;
+    private String organizer;
+    private String description;
+    private String block;
+
     private List<BookedSeat> bookedSeatList;
     private List<BookedCombo> bookedComboList;
 
@@ -31,18 +42,28 @@ public class Booking implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
+        dest.writeInt(type);
         dest.writeString(code);
         dest.writeString(movieName);
-        dest.writeString(type);
         dest.writeString(minAge);
-        dest.writeString(imgURL);
-        dest.writeString(cinemaName);
-        dest.writeString(iconURL);
-        dest.writeString(address);
-        dest.writeString(room);
-        dest.writeString(releaseDate);
-        dest.writeString(time);
         dest.writeString(runningTime);
+        dest.writeString(movieType);
+        dest.writeString(genre);
+        dest.writeString(cinemaName);
+        dest.writeString(time);
+        dest.writeString(room);
+        dest.writeString(venue);
+        dest.writeString(address);
+        dest.writeString(imgURL);
+        dest.writeString(iconURL);
+        dest.writeString(releaseDate);
+        dest.writeString(eventName);
+        dest.writeInt(eventCategory);
+        dest.writeString(unitName);
+        dest.writeString(gateway);
+        dest.writeString(organizer);
+        dest.writeString(description);
+        dest.writeString(block);
 
         dest.writeList(bookedSeatList);
         dest.writeList(bookedComboList);
@@ -59,18 +80,28 @@ public class Booking implements Parcelable {
 
     public Booking(Parcel in) {
         this.id = in.readInt();
+        this.type = in.readInt();
         this.code = in.readString();
         this.movieName = in.readString();
-        this.type = in.readString();
         this.minAge = in.readString();
-        this.imgURL = in.readString();
-        this.cinemaName = in.readString();
-        this.iconURL = in.readString();
-        this.address = in.readString();
-        this.room = in.readString();
-        this.releaseDate = in.readString();
-        this.time = in.readString();
         this.runningTime = in.readString();
+        this.movieType = in.readString();
+        this.genre = in.readString();
+        this.cinemaName = in.readString();
+        this.time = in.readString();
+        this.room = in.readString();
+        this.venue = in.readString();
+        this.address = in.readString();
+        this.imgURL = in.readString();
+        this.iconURL = in.readString();
+        this.releaseDate = in.readString();
+        this.eventName = in.readString();
+        this.eventCategory = in.readInt();
+        this.unitName = in.readString();
+        this.gateway = in.readString();
+        this.organizer = in.readString();
+        this.description = in.readString();
+        this.block = in.readString();
 
         bookedSeatList = new ArrayList<>();
         in.readList(bookedSeatList, BookedSeat.class.getClassLoader());
@@ -80,20 +111,30 @@ public class Booking implements Parcelable {
 
     public Booking() {}
 
-    public Booking(int id, String code, String movieName, String type, String minAge, String imgURL, String cinemaName, String iconURL, String address, String room, String releaseDate, String time, String runningTime, List<BookedSeat> bookedSeatList, List<BookedCombo> bookedComboList) {
-        this.id = id;
+    public Booking(int type, String code, String movieName, String minAge, String runningTime, String movieType, String genre, String cinemaName, String time, String room, String venue, String address, String imgURL, String iconURL, String releaseDate, String eventName, int eventType, String unitName, String gateway, String organizer, String description, String block, List<BookedSeat> bookedSeatList, List<BookedCombo> bookedComboList) {
+        this.type = type;
         this.code = code;
         this.movieName = movieName;
-        this.type = type;
         this.minAge = minAge;
-        this.imgURL = imgURL;
-        this.cinemaName = cinemaName;
-        this.iconURL = iconURL;
-        this.address = address;
-        this.room = room;
-        this.releaseDate = releaseDate;
-        this.time = time;
         this.runningTime = runningTime;
+        this.movieType = movieType;
+        this.genre = genre;
+        this.cinemaName = cinemaName;
+        this.time = time;
+        this.room = room;
+        this.venue = venue;
+        this.address = address;
+        this.imgURL = imgURL;
+        this.iconURL = iconURL;
+        this.releaseDate = releaseDate;
+        this.eventName = eventName;
+        this.eventCategory = eventType;
+        this.unitName = unitName;
+        this.gateway = gateway;
+        this.organizer = organizer;
+        this.description = description;
+        this.block = block;
+
         this.bookedSeatList = bookedSeatList;
         this.bookedComboList = bookedComboList;
     }
@@ -104,6 +145,14 @@ public class Booking implements Parcelable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getCode() {
@@ -122,14 +171,6 @@ public class Booking implements Parcelable {
         this.movieName = movieName;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getMinAge() {
         return minAge;
     }
@@ -138,12 +179,28 @@ public class Booking implements Parcelable {
         this.minAge = minAge;
     }
 
-    public String getImgURL() {
-        return imgURL;
+    public String getRunningTime() {
+        return runningTime;
     }
 
-    public void setImgURL(String imgURL) {
-        this.imgURL = imgURL;
+    public void setRunningTime(String runningTime) {
+        this.runningTime = runningTime;
+    }
+
+    public String getMovieType() {
+        return movieType;
+    }
+
+    public void setMovieType(String movieType) {
+        this.movieType = movieType;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public String getCinemaName() {
@@ -154,20 +211,12 @@ public class Booking implements Parcelable {
         this.cinemaName = cinemaName;
     }
 
-    public String getIconURL() {
-        return iconURL;
+    public String getTime() {
+        return time;
     }
 
-    public void setIconURL(String iconURL) {
-        this.iconURL = iconURL;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getRoom() {
@@ -178,6 +227,38 @@ public class Booking implements Parcelable {
         this.room = room;
     }
 
+    public String getVenue() {
+        return venue;
+    }
+
+    public void setVenue(String venue) {
+        this.venue = venue;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
+
+    public String getIconURL() {
+        return iconURL;
+    }
+
+    public void setIconURL(String iconURL) {
+        this.iconURL = iconURL;
+    }
+
     public String getReleaseDate() {
         return releaseDate;
     }
@@ -186,20 +267,60 @@ public class Booking implements Parcelable {
         this.releaseDate = releaseDate;
     }
 
-    public String getTime() {
-        return time;
+    public String getEventName() {
+        return eventName;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
-    public String getRunningTime() {
-        return runningTime;
+    public int getEventCategory() {
+        return eventCategory;
     }
 
-    public void setRunningTime(String runningTime) {
-        this.runningTime = runningTime;
+    public void setEventCategory(int eventCategory) {
+        this.eventCategory = eventCategory;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    public String getGateway() {
+        return gateway;
+    }
+
+    public void setGateway(String gateway) {
+        this.gateway = gateway;
+    }
+
+    public String getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(String organizer) {
+        this.organizer = organizer;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBlock() {
+        return block;
+    }
+
+    public void setBlock(String block) {
+        this.block = block;
     }
 
     public List<BookedSeat> getBookedSeatList() {

@@ -9,6 +9,7 @@
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="textColorPrimaryDark">#9ba3af</color>
     <color name="textColorDark">#ff000000</color>
+    <color name="textColorDarkGrey">#B2202020</color>
     <color name="colorLightGreen">#7FCF26</color>
     <color name="colorLightOrange">#DA5342</color>
     <color name="colorFacebook">#f55585c5</color>

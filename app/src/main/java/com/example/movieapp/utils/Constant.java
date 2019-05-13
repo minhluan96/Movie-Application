@@ -21,4 +21,9 @@ public class Constant {
         int VIP = 8;
         int COUPLE = 10;
     }
+
+    public interface TicketType {
+        int MOVIE = 0;
+        int EVENT = 1;
+    }
 }

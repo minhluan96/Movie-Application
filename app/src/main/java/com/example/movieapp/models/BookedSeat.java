@@ -24,6 +24,8 @@ public class BookedSeat implements Parcelable {
         dest.writeString(row);
         dest.writeString(number);
         dest.writeInt(id);
+        dest.writeInt(status);
+        dest.writeInt(type);
     }
 
     public static final Parcelable.Creator<BookedSeat> CREATOR = new Parcelable.Creator<BookedSeat>() {
@@ -48,11 +50,13 @@ public class BookedSeat implements Parcelable {
 
     public BookedSeat() {};
 
-    public BookedSeat(int bookingID, String block, String row, String number) {
+    public BookedSeat(int bookingID, String block, String row, String number, int type, int status) {
         this.bookingID = bookingID;
         this.block = block;
         this.row = row;
         this.number = number;
+        this.type = type;
+        this.status = status;
     }
 
     public int getBookingID() {
