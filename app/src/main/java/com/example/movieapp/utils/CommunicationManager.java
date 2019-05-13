@@ -14,6 +14,8 @@ import com.example.movieapp.models.BookedSeat;
 import com.example.movieapp.models.Booking;
 import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.Notification;
+import com.example.movieapp.models.Ticket;
+import com.example.movieapp.models.TicketInfo;
 import com.example.movieapp.models.User;
 import com.google.gson.reflect.TypeToken;
 
@@ -108,6 +110,11 @@ public class CommunicationManager {
         makeJSONObjectRequest(tag, Request.Method.GET, "Notifications", "GetAll", null, new DataParser<LinkedList<Notification>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
+    public void getTicketInfoOfUser(String tag, int ticketId, int userId, final DataParser.DataResponseListener<TicketInfo> listener) {
+        Type type = new TypeToken<TicketInfo>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Ticket", "Info", ticketId + "/account/" + userId,null, new DataParser<TicketInfo>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
     public void doLogin(String tag, JSONObject body, DataParser.DataResponseListener<LinkedList<Account>> listener) {
         Type type = new TypeToken<LinkedList<Account>>() {}.getType();
         makeJSONObjectRequest(tag, Request.Method.POST, "Account", "Login", body, new DataParser(listener,null, type));
@@ -126,8 +133,8 @@ public class CommunicationManager {
         makeJSONObjectRequest(tag, Request.Method.POST, "User", "Update", body, new DataParser(listener, null, JSONObject.class));
     }
 
-    public void createMovieTicket(String tag, JSONObject body, DataParser.DataResponseListener<JSONObject> listener) {
-        makeJSONObjectRequest(tag, Request.Method.POST, "Ticket", "Create", body, new DataParser(listener, null, JSONObject.class));
+    public void createMovieTicket(String tag, JSONObject body, DataParser.DataResponseListener<Ticket> listener) {
+        makeJSONObjectRequest(tag, Request.Method.POST, "Ticket", "Create", body, new DataParser(listener, null, Ticket.class));
     }
 
     public void getMovieCalendars(String tag, int movie_id, String date, final DataParser.DataResponseListener<LinkedList<Cinema>> listener) {

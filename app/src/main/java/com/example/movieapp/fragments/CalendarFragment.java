@@ -31,6 +31,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -134,16 +135,18 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
             String dayName = dayDictionary.get(dayOfWeek);
             boolean isToday = i == 0;
             String todayName = i == 0 ? "Hôm nay" : dayName;
-            calendars.add(new Calendar(todayName, dateNumb, isToday));
+            calendars.add(new Calendar(todayName, dateNumb, isToday, date));
         }
         calendar = calendars.get(0);
     }
 
     private void getMovieCalendars() {
-        AppManager.getInstance().getCommService().getMovieCalendars(TAG_MOVIE_CALENDARS, 1, "1557516579000",
+        String timeStamp = String.valueOf(calendar.getDate().getTime());
+        AppManager.getInstance().getCommService().getMovieCalendars(TAG_MOVIE_CALENDARS, movie.getId(), timeStamp,
                 new DataParser.DataResponseListener<LinkedList<Cinema>>() {
                     @Override
                     public void onDataResponse(LinkedList<Cinema> result) {
+                        cinemas.clear();
                         cinemas = result;
 
                         txtNotify.setVisibility(View.GONE);
@@ -179,6 +182,7 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
     @Override
     public void onCalendarSelected(Calendar calendar) {
         this.calendar = calendar;
+        getMovieCalendars();
         expandableListAdapter.setCalendar(calendar);
     }
 }
