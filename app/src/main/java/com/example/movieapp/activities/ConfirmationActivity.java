@@ -1,5 +1,6 @@
 package com.example.movieapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -96,10 +97,6 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
                 showDialogErrorWithOKButton(ConfirmationActivity.this, "Thông báo", "Vui lòng chọn phương thức thanh toán để tiếp tục");
                 return;
             }
-            cardNumber = "";
-
-            Intent intent = new Intent(ConfirmationActivity.this, ResultTicketActivity.class);
-            startActivity(intent);
         });
 
         getDataFromPreviousActivity();
@@ -247,7 +244,7 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("account_id", 1);
-            jsonObject.put("movie_showing_id", movie.getId());
+            jsonObject.put("movie_showings_id", showtime.getId());
             jsonObject.put("location_id", showtime.getLocation_id());
             jsonObject.put("card_number", cardNumber);
             JSONArray array = new JSONArray();
@@ -268,22 +265,34 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
     }
 
     private void createTicket(JSONObject body) {
-        AppManager.getInstance().getCommService().createMovieTicket(TAG_CREATE_TICKET, body, new DataParser.DataResponseListener<JSONObject>() {
+        ProgressDialog dialog = new ProgressDialog(this);
+        dialog.show();
+        AppManager.getInstance().getCommService().createMovieTicket(TAG_CREATE_TICKET, body, new DataParser.DataResponseListener<Ticket>() {
             @Override
-            public void onDataResponse(JSONObject result) {
-                JSONObject jsonObject = result;
-
+            public void onDataResponse(Ticket result) {
+                Ticket ticket = result;
+                cardNumber = "";
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                Intent intent = new Intent(ConfirmationActivity.this, ResultTicketActivity.class);
+                // TODO: using the real user id instead of the fake data
+                intent.putExtra("user_id", 1);
+                intent.putExtra("ticket_id", ticket.getId());
+                startActivity(intent);
             }
 
             @Override
             public void onDataError(String errorMessage) {
                 String error = errorMessage;
                 cardNumber = null;
+                Toast.makeText(ConfirmationActivity.this, "Thanh toán thất bại. Vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRequestError(String errorMessage, VolleyError volleyError) {
                 cardNumber = null;
+                Toast.makeText(ConfirmationActivity.this, "Thanh toán thất bại. Vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
             }
 
             @Override
