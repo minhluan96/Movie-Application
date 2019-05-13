@@ -1,5 +1,7 @@
 package com.example.movieapp.models;
 
+import java.util.Date;
+
 public class Calendar {
 
     private String name;
@@ -8,10 +10,13 @@ public class Calendar {
 
     private boolean isToday;
 
-    public Calendar(String name, String numberOfDate, boolean isToday) {
+    private Date date;
+
+    public Calendar(String name, String numberOfDate, boolean isToday, Date date) {
         this.name = name;
         this.numberOfDate = numberOfDate;
         this.isToday = isToday;
+        this.date = date;
     }
 
     public String getName() {
@@ -36,5 +41,13 @@ public class Calendar {
 
     public void setToday(boolean today) {
         isToday = today;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

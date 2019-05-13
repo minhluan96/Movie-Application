@@ -44,8 +44,9 @@ public class InfoFragment extends BaseFragment {
         txtDescription = v.findViewById(R.id.txtDescription);
         txtDirectors = v.findViewById(R.id.txtDirectors);
         txtActors = v.findViewById(R.id.txtActors);
-
-        Picasso.get().load(movie.getImgURL()).error(R.drawable.poster).into(imgThumbnail);
+        if (movie.getImgURL() != null) {
+            Picasso.get().load(movie.getImgURL()).error(R.drawable.poster).into(imgThumbnail);
+        }
         txtTitle.setText(movie.getName());
         txtType.setText(movie.getType());
         txtStartDate.setText(movie.getReleaseDate());
