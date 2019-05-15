@@ -6,11 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.movieapp.R;
 import com.example.movieapp.models.Movie;
+import com.example.movieapp.utils.Constant;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class UpcomingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private List<Movie> upcomingMovies;
     private Context mContext;
+    private int type;
 
     public UpcomingMoviesAdapter(List<Movie> upcomingMovies, Context mContext) {
         this.upcomingMovies = upcomingMovies;
@@ -30,9 +33,22 @@ public class UpcomingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.notifyDataSetChanged();
     }
 
+    public void addNewUpcomingMovies(List<Movie> upcomingMovies) {
+        this.upcomingMovies.addAll(upcomingMovies);
+        this.notifyDataSetChanged();
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.upcoming_movie_home_item, viewGroup, false);
+        int layout = R.layout.upcoming_movie_home_item;
+        if (type == Constant.SizeThumbnail.SMALL) {
+            layout = R.layout.upcoming_movie_home_item_small;
+        }
+        View view = LayoutInflater.from(mContext).inflate(layout, viewGroup, false);
         return new UpcomingMovieViewHolder(view);
     }
 

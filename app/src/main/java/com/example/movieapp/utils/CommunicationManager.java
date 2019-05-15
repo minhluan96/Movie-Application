@@ -142,14 +142,14 @@ public class CommunicationManager {
         makeJSONObjectRequest(tag, Request.Method.GET, "MovieDetail", "Calendar", "/" + movie_id + "/showing/" + date, null, new DataParser<>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
-    public void getNowShowingMovies(String tag, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {
+    public void getNowShowingMovies(String tag, int size, int page, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {
         Type type = new TypeToken<LinkedList<Movie>>() {}.getType();
-        makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "NowShowing", null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+        makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "NowShowing", "?pageNo=" + page + "&size=" + size,null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
-    public void getUpcomingMovies(String tag, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {
+    public void getUpcomingMovies(String tag, int size, int page, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {
         Type type = new TypeToken<LinkedList<Movie>>() {}.getType();
-        makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "Upcoming", null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+        makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "Upcoming", "?pageNo=" + page + "&size=" + size, null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
     public void getMovieDetail(String tag, String movieID, final DataParser.DataResponseListener<Movie> listener) {

@@ -26,4 +26,10 @@ public class Constant {
         int MOVIE = 0;
         int EVENT = 1;
     }
+
+    public interface SizeThumbnail {
+        int SMALL = 1;
+        int MEDIUM = 2;
+        int LARGEST = 3;
+    }
 }

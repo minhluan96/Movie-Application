@@ -1,6 +1,7 @@
 package com.example.movieapp.activities;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import com.example.movieapp.models.Showtime;
 import com.example.movieapp.models.Ticket;
 import com.example.movieapp.utils.AppManager;
 import com.example.movieapp.utils.CommunicationManager;
+import com.example.movieapp.utils.Constant;
 import com.example.movieapp.utils.DataParser;
 import com.example.movieapp.utils.Utilities;
 import com.google.gson.Gson;
@@ -90,13 +92,13 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
         txtSeatPlaces = findViewById(R.id.txtSeatPlaces);
 
         txtContinue.setOnClickListener(v -> {
-            JSONObject jsonObject = prepareBodyRequest(cardNumber);
-            createTicket(jsonObject);
-
             if (cardNumber == null || cardNumber.isEmpty()) {
                 showDialogErrorWithOKButton(ConfirmationActivity.this, "Thông báo", "Vui lòng chọn phương thức thanh toán để tiếp tục");
                 return;
             }
+
+            JSONObject jsonObject = prepareBodyRequest(cardNumber);
+            createTicket(jsonObject);
         });
 
         getDataFromPreviousActivity();
@@ -144,7 +146,12 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
 
             @Override
             public void onFinish() {
-                Toast.makeText(ConfirmationActivity.this, "Hết thời gian đặt vé", Toast.LENGTH_SHORT).show();
+                showDialogErrorWithOKButtonListener(ConfirmationActivity.this, "Thông báo", "Đã hết thời gian đặt vé. Vui lòng thử lại", (dialog, which) -> {
+                    Intent intent = new Intent(ConfirmationActivity.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                });
+                // Toast.makeText(ConfirmationActivity.this, "Hết thời gian đặt vé", Toast.LENGTH_SHORT).show();
             }
         }.start();
 
@@ -189,6 +196,7 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
     @Override
     public void onMethodSelected(int pos) {
         cardInfoFragment = new CardInfoFragment();
+        cardInfoFragment.setType(pos - 1); // due to the type is only has 2 values [0, 1]
         cardInfoFragment.setListener(this);
         showFragmentWithCustomAnimation(cardInfoFragment, R.id.container_fragment, R.anim.slide_in_up, R.anim.slide_out_up);
     }
@@ -199,7 +207,7 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
 
     @Override
     public void onBackPressed() {
-        if (cardInfoFragment.isVisible()) {
+        if (cardInfoFragment != null && cardInfoFragment.isVisible()) {
             if (cardInfoFragment.isBankListDisplay()) {
                 hideFragment(cardInfoFragment);
             } else {
@@ -246,6 +254,7 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
             jsonObject.put("account_id", 1);
             jsonObject.put("movie_showings_id", showtime.getId());
             jsonObject.put("location_id", showtime.getLocation_id());
+            jsonObject.put("type", Constant.TicketType.MOVIE);
             jsonObject.put("card_number", cardNumber);
             JSONArray array = new JSONArray();
             for (SeatMo seat : selectedSeats) {
@@ -266,6 +275,7 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
 
     private void createTicket(JSONObject body) {
         ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setTitle("Hệ thống đang xử lý");
         dialog.show();
         AppManager.getInstance().getCommService().createMovieTicket(TAG_CREATE_TICKET, body, new DataParser.DataResponseListener<Ticket>() {
             @Override

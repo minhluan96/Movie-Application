@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.movieapp.R;
 import com.example.movieapp.models.Movie;
+import com.example.movieapp.models.Sport;
 import com.squareup.picasso.Picasso;
 
 public class InfoFragment extends BaseFragment {
@@ -22,6 +23,7 @@ public class InfoFragment extends BaseFragment {
     private ImageView imgThumbnail, imgPlay;
     private TextView txtTitle, txtType, txtStartDate, txtTime, txtDescription, txtDirectors, txtActors;
     private Movie movie;
+    private Sport sport;
 
     public InfoFragment() {
 
@@ -29,6 +31,10 @@ public class InfoFragment extends BaseFragment {
 
     public void setMovie(Movie movie) {
         this.movie = movie;
+    }
+
+    public void setSport(Sport sport) {
+        this.sport = sport;
     }
 
     @Nullable
@@ -44,6 +50,15 @@ public class InfoFragment extends BaseFragment {
         txtDescription = v.findViewById(R.id.txtDescription);
         txtDirectors = v.findViewById(R.id.txtDirectors);
         txtActors = v.findViewById(R.id.txtActors);
+
+        if (movie != null) {
+            initMovieUI();
+        }
+
+        return v;
+    }
+
+    private void initMovieUI() {
         if (movie.getImgURL() != null) {
             Picasso.get().load(movie.getImgURL()).error(R.drawable.poster).into(imgThumbnail);
         }
@@ -56,8 +71,6 @@ public class InfoFragment extends BaseFragment {
         txtActors.setText(movie.getCasts());
 
         imgPlay.setOnClickListener(v1 -> openExternalLink());
-
-        return v;
     }
 
     private void openExternalLink() {

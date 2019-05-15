@@ -15,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ResultTicketActivity"></activity>
+        <activity android:name=".activities.NowShowingActivity"></activity>
+        <activity android:name=".activities.ComingSoonActivity" />
+        <activity android:name=".activities.SellingSportTicketActivity" />
+        <activity android:name=".activities.ResultTicketActivity" />
         <activity android:name=".activities.ConfirmationActivity" />
         <activity android:name=".activities.SeatPlaceActivity" />
         <activity android:name=".activities.BookingTicketActivity" />

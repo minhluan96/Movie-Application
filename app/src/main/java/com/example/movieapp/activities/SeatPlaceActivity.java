@@ -162,7 +162,15 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
 
             @Override
             public void onFinish() {
-                Toast.makeText(SeatPlaceActivity.this, "Hết thời gian đặt vé", Toast.LENGTH_SHORT).show();
+                showDialogErrorWithOKButtonListener(SeatPlaceActivity.this, "Thông báo", "Đã hết thời gian đặt vé. Vui lòng thử lại", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(SeatPlaceActivity.this, HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+                // Toast.makeText(SeatPlaceActivity.this, "Hết thời gian đặt vé", Toast.LENGTH_SHORT).show();
             }
         }.start();
 
@@ -243,7 +251,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
                     seat.setTypeSeat(Constant.SeatTypePosition.COUPLE);
                 }
 
-                if (j == 3 || j == 8) {
+                if ((j == 3 || j == 8) && i < 8) {
                     seat = null;
                 }
                 seatTable[i][j] = seat;
@@ -316,6 +324,15 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         return sum;
     }
 
+    private SeatMo findPairSeatWithSeatHasColumn(int row, int column) {
+        SeatMo pairSeat = null;
+        if (column % 2 == 0) {
+            pairSeat = seatTable[row][column + 1];
+        } else {
+            pairSeat = seatTable[row][column - 1];
+        }
+        return pairSeat;
+    }
 
     @Override
     public boolean onClickSeat(int row, int column, BaseSeatMo seat) {
@@ -341,6 +358,11 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
                 if (selectedSeats.size() < max_seats && totalSelectedSeatByType < maxSeatByType) {
                     seatMo.setSelected();
                     selectedSeats.add(seatMo);
+                    if (type == Constant.SeatType.COUPLE) {
+                        SeatMo pairSeat = findPairSeatWithSeatHasColumn(row, column);
+                        pairSeat.setSelected();
+                        selectedSeats.add(pairSeat);
+                    }
                     return true;
                 } else {
                     if (totalSelectedSeatByType >= maxSeatByType) {
@@ -354,6 +376,11 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
             } else if (seatMo.isSelected()) {
                 seatMo.setOnSale();
                 selectedSeats.remove(seatMo);
+                if (row >= Constant.SeatTypePosition.VIP && row < Constant.SeatTypePosition.COUPLE && isCouple) {
+                    SeatMo pairSeat = findPairSeatWithSeatHasColumn(row, column);
+                    pairSeat.setOnSale();
+                    selectedSeats.remove(pairSeat);
+                }
                 return true;
             }
         }

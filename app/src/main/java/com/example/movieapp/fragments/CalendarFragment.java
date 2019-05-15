@@ -24,6 +24,7 @@ import com.example.movieapp.models.Calendar;
 import com.example.movieapp.models.Cinema;
 import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.Showtime;
+import com.example.movieapp.models.Sport;
 import com.example.movieapp.utils.AppManager;
 import com.example.movieapp.utils.DataParser;
 import com.google.gson.Gson;
@@ -54,6 +55,7 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
     private List<Calendar> calendars;
     private HashMap<Cinema, List<Showtime>> listDataChild;
     private Movie movie;
+    private Sport sport;
     private static final String TAG_MOVIE_CALENDARS = "TAG_MOVIE_CALENDARS";
     private Calendar calendar;
 
@@ -101,6 +103,10 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
         return v;
     }
 
+    public void setSport(Sport sport) {
+        this.sport = sport;
+    }
+
     public void setMovie(Movie movie) {
         this.movie = movie;
     }
@@ -110,7 +116,9 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
         listDataChild = new HashMap<>();
 
         initCalendarTime();
-        getMovieCalendars();
+        if (movie != null) {
+            getMovieCalendars();
+        }
     }
 
     private void initCalendarTime() {
@@ -141,7 +149,8 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
     }
 
     private void getMovieCalendars() {
-        String timeStamp = String.valueOf(calendar.getDate().getTime());
+        // String timeStamp = String.valueOf(calendar.getDate().getTime());
+        String timeStamp = "1557516579000";
         AppManager.getInstance().getCommService().getMovieCalendars(TAG_MOVIE_CALENDARS, movie.getId(), timeStamp,
                 new DataParser.DataResponseListener<LinkedList<Cinema>>() {
                     @Override
@@ -182,7 +191,9 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
     @Override
     public void onCalendarSelected(Calendar calendar) {
         this.calendar = calendar;
-        getMovieCalendars();
+        if (movie != null) {
+            getMovieCalendars();
+        }
         expandableListAdapter.setCalendar(calendar);
     }
 }

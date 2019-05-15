@@ -1,5 +1,6 @@
 package com.example.movieapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,19 +10,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.movieapp.R;
+import com.example.movieapp.activities.ComingSoonActivity;
+import com.example.movieapp.activities.NowShowingActivity;
 import com.example.movieapp.adapters.LatestMoviesAdapter;
 import com.example.movieapp.adapters.NowShowingMoviesAdapter;
 import com.example.movieapp.adapters.UpcomingMoviesAdapter;
 import com.example.movieapp.models.Movie;
 import com.example.movieapp.utils.AppManager;
 import com.example.movieapp.utils.DataParser;
-
-import org.json.JSONObject;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -30,11 +31,14 @@ import java.util.List;
 public class MovieHomeFragment extends BaseFragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ShimmerFrameLayout shimmerLatest, shimmerNowShowing, shimmerUpcoming;
     private RecyclerView rvLatestMovies, rvNowShowingMovies, rvUpcomingMovies;
     private LatestMoviesAdapter latestMoviesAdapter;
     private NowShowingMoviesAdapter nowShowingMoviesAdapter;
     private UpcomingMoviesAdapter upcomingMoviesAdapter;
     private RecyclerView.LayoutManager latestMoviesLayoutManager, nowShowingMoviesLayoutManager, upComingMoviesLayoutManager;
+    private TextView txtUpcomingShowAll, txtNowShowingShowAll;
+
     private static final String TAG_LATEST_MOVIES = "TAG_LATEST_MOVIES";
     private static final String TAG_NOW_SHOWING_MOVIES = "TAG_NOW_SHOWING_MOVIES";
     private static final String TAG_UPCOMING_MOVIES = "TAG_UPCOMING_MOVIES";
@@ -42,6 +46,9 @@ public class MovieHomeFragment extends BaseFragment {
     private List<Movie> latestMovies = new ArrayList<>();
     private List<Movie> upcomingMovies = new ArrayList<>();
     private List<Movie> nowShowingMovies = new ArrayList<>();
+
+    private int page = 1;
+    private int size = 8;
 
     public MovieHomeFragment() {
     }
@@ -59,7 +66,11 @@ public class MovieHomeFragment extends BaseFragment {
         rvLatestMovies = v.findViewById(R.id.rv_latest_movie);
         rvNowShowingMovies = v.findViewById(R.id.rv_now_showing_movie);
         rvUpcomingMovies = v.findViewById(R.id.rv_upcoming_movie);
-
+        shimmerLatest = v.findViewById(R.id.shimmer_latest_view);
+        shimmerNowShowing = v.findViewById(R.id.shimmer_now_showing_view);
+        shimmerUpcoming = v.findViewById(R.id.shimmer_upcoming_view);
+        txtUpcomingShowAll = v.findViewById(R.id.txtUpcomingShowAll);
+        txtNowShowingShowAll = v.findViewById(R.id.txtNowShowingShowAll);
 
         latestMoviesLayoutManager = new LinearLayoutManager(getContext());
         rvLatestMovies.setLayoutManager(latestMoviesLayoutManager);
@@ -79,7 +90,29 @@ public class MovieHomeFragment extends BaseFragment {
         getUpcomingMovies();
         getNowShowingMovies();
 
+        txtUpcomingShowAll.setOnClickListener(v1 -> {
+            Intent intent = new Intent(getActivity(), ComingSoonActivity.class);
+            startActivity(intent);
+        });
+
+        txtNowShowingShowAll.setOnClickListener(v12 -> {
+            Intent intent = new Intent(getActivity(), NowShowingActivity.class);
+            startActivity(intent);
+        });
+
         return v;
+    }
+
+    private void showShimmer(ShimmerFrameLayout shimmer, View view) {
+        shimmer.startShimmerAnimation();
+        shimmer.setVisibility(View.VISIBLE);
+        view.setVisibility(View.GONE);
+    }
+
+    private void stopShimmer(ShimmerFrameLayout shimmer, View view) {
+        shimmer.stopShimmerAnimation();
+        shimmer.setVisibility(View.GONE);
+        view.setVisibility(View.VISIBLE);
     }
 
     private void setupNowShowingMovieAdapter() {
@@ -98,12 +131,14 @@ public class MovieHomeFragment extends BaseFragment {
     }
 
     private void getNowShowingMovies() {
-        AppManager.getInstance().getCommService().getNowShowingMovies(TAG_NOW_SHOWING_MOVIES,
+        showShimmer(shimmerNowShowing, rvNowShowingMovies);
+        AppManager.getInstance().getCommService().getNowShowingMovies(TAG_NOW_SHOWING_MOVIES, size, page,
                 new DataParser.DataResponseListener<LinkedList<Movie>>() {
                     @Override
                     public void onDataResponse(LinkedList<Movie> result) {
                         nowShowingMovies = result;
                         nowShowingMoviesAdapter.setNowShowingMovies(nowShowingMovies);
+                        stopShimmer(shimmerNowShowing, rvNowShowingMovies);
                     }
 
                     @Override
@@ -125,12 +160,14 @@ public class MovieHomeFragment extends BaseFragment {
     }
 
     private void getAllLatestMovies() {
+        showShimmer(shimmerLatest, rvLatestMovies);
         AppManager.getInstance().getCommService().getLatestMovies(TAG_LATEST_MOVIES,
                 new DataParser.DataResponseListener<LinkedList<Movie>>() {
                     @Override
                     public void onDataResponse(LinkedList<Movie> result) {
                         latestMovies = result;
                         latestMoviesAdapter.setLatestMovies(latestMovies);
+                        stopShimmer(shimmerLatest, rvLatestMovies);
                     }
 
                     @Override
@@ -153,12 +190,14 @@ public class MovieHomeFragment extends BaseFragment {
 
 
     private void getUpcomingMovies() {
-        AppManager.getInstance().getCommService().getUpcomingMovies(TAG_UPCOMING_MOVIES,
+        showShimmer(shimmerUpcoming, rvUpcomingMovies);
+        AppManager.getInstance().getCommService().getUpcomingMovies(TAG_UPCOMING_MOVIES, size, page,
                 new DataParser.DataResponseListener<LinkedList<Movie>>() {
             @Override
             public void onDataResponse(LinkedList<Movie> result) {
                 upcomingMovies = result;
                 upcomingMoviesAdapter.setUpcomingMovies(upcomingMovies);
+                stopShimmer(shimmerUpcoming, rvUpcomingMovies);
             }
 
             @Override

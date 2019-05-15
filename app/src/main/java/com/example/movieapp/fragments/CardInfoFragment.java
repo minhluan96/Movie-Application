@@ -43,6 +43,7 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
     private List<Bank> bankList;
     private Calendar calendar = Calendar.getInstance();
     private CardInfoListener listener;
+    private int type;
 
 
     public CardInfoFragment() {
@@ -70,7 +71,11 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
 
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rvBankList.setLayoutManager(layoutManager);
-        setupDummyBankList();
+        if (type == 1) {
+            setupDummyBankList();
+        } else {
+            setupDummyVisaCard();
+        }
         setupAdapter();
         setupDatePicker();
         setUIData();
@@ -94,6 +99,10 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
         });
 
         return v;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public void setListener(CardInfoListener listener) {
@@ -146,6 +155,13 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
         bankList.add(new Bank(4, "HSBC", "https://www.bankingtech.com/files/2017/06/HSBC-Commercial-Banking.png"));
         bankList.add(new Bank(5, "DongA Bank", "https://qdtek.vn/upload/post/partner/lg/090617093944.jpg"));
         bankList.add(new Bank(6, "Techcombank", "https://cdn.itviec.com/employers/techcombank/logo/social/G2KPh7rcAfxKYZWawVF1vLAw/techcombank-logo.png"));
+    }
+
+    private void setupDummyVisaCard() {
+        bankList = new ArrayList<>();
+        bankList.add(new Bank(1, "Visa", "http://www.theshelbyreport.com/wp-content/uploads/2018/01/21558844_2173448309347840_2.jpg"));
+        bankList.add(new Bank(2, "Master", "https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fsteveolenski%2Ffiles%2F2016%2F07%2FMastercard_new_logo-1200x865.jpg"));
+        bankList.add(new Bank(3, "JSB", "http://ph.jcb/about/acceptance/img/img_about_emblem01.png"));
     }
 
     private void setupAdapter() {

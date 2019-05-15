@@ -24,10 +24,10 @@ public class SellingTicketActivity extends BaseActivity {
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private CalendarFragment calendarFragment;
-    private InfoFragment infoFragment;
-    private Map<Fragment, String> fragmentStringMap;
-    private Gson gson = new Gson();
+    protected CalendarFragment calendarFragment;
+    protected InfoFragment infoFragment;
+    protected Map<Fragment, String> fragmentStringMap;
+    protected Gson gson = new Gson();
     private Movie movie;
 
 
@@ -48,13 +48,12 @@ public class SellingTicketActivity extends BaseActivity {
         if (!title.isEmpty()) {
             getSupportActionBar().setTitle(title);
         }
-        if (!movieJson.isEmpty()) {
+        if (movieJson != null && !movieJson.isEmpty()) {
             movie = gson.fromJson(movieJson, Movie.class);
         }
 
         fragmentStringMap = new LinkedHashMap<>();
-        InfoFragment infoFragment = new InfoFragment();
-        CalendarFragment calendarFragment = new CalendarFragment();
+        infoFragment = new InfoFragment();calendarFragment = new CalendarFragment();
         infoFragment.setMovie(movie);
         calendarFragment.setMovie(movie);
 
