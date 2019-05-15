@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.movieapp.R;
 import com.example.movieapp.models.Movie;
+import com.example.movieapp.utils.Constant;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class NowShowingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private List<Movie> nowShowingMovies;
     private Context mContext;
+    private int type;
 
     public NowShowingMoviesAdapter(List<Movie> nowShowingMovies, Context mContext) {
         this.nowShowingMovies = nowShowingMovies;
@@ -31,9 +33,22 @@ public class NowShowingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.notifyDataSetChanged();
     }
 
+    public void addNowShowingMovies(List<Movie> nowShowingMovies) {
+        this.nowShowingMovies.addAll(nowShowingMovies);
+        this.notifyDataSetChanged();
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.now_showing_movie_home_item, viewGroup, false);
+        int layout = R.layout.now_showing_movie_home_item;
+        if (type == Constant.SizeThumbnail.SMALL) {
+            layout = R.layout.now_showing_movie_home_item_small;
+        }
+        View view = LayoutInflater.from(mContext).inflate(layout, viewGroup, false);
         return new NowShowingMovieViewHolder(view);
     }
 

@@ -9,4 +9,8 @@
     <dimen name="landscapeHeight">180dp</dimen>
     <dimen name="portraitWidth">100dp</dimen>
     <dimen name="portraitHeight">128dp</dimen>
+    <dimen name="placeholder_image">50dp</dimen>
+    <dimen name="placeholder_text_height">8dp</dimen>
+    <dimen name="activity_padding">16dp</dimen>
+    <dimen name="item_offset">5dp</dimen>
 </resources>

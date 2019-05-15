@@ -1,8 +1,10 @@
 package com.example.movieapp.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +28,7 @@ public class ResultTicketActivity extends BaseActivity {
 
     private TextView txtTitle, txtMinAge, txtDescription,
             txtSeatPlaces, txtCode, txtType,
-            txtDate, txtTime;
+            txtDate, txtTime, txtHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +43,16 @@ public class ResultTicketActivity extends BaseActivity {
         txtDate = findViewById(R.id.txtDate);
         txtTime = findViewById(R.id.txtTime);
         txtCode = findViewById(R.id.txtCode);
+        txtHome = findViewById(R.id.txtHome);
 
         getDataFromPreviousActivity();
         getTicket();
+
+        txtHome.setOnClickListener(v -> {
+            Intent intent = new Intent(ResultTicketActivity.this, HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        });
     }
 
     private void initialGUI() {
