@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -19,17 +20,15 @@
             android:layout_height="48dp" />
 
         <TextView
-            android:id="@+id/txtCinema"
+            android:id="@+id/txtName"
             android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="BHD Star Cineplex"
             android:layout_gravity="center_vertical"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
+
     </LinearLayout>
-
-
 
     <View
         android:layout_width="match_parent"

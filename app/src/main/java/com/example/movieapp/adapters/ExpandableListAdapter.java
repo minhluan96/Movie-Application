@@ -93,7 +93,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.expandable_list_group, null);
         }
 
-        TextView txtCinemaName = convertView.findViewById(R.id.txtCinema);
+        TextView txtCinemaName = convertView.findViewById(R.id.txtName);
         ImageView imgLogo = convertView.findViewById(R.id.imgLogo);
 
         txtCinemaName.setText(cinema.getName());
