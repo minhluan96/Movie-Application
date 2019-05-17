@@ -17,6 +17,7 @@
     <color name="colorZalo">#f456b0f1</color>
     <color name="colorWhite">#fff</color>
     <color name="colorGreen">#4CAF50</color>
+    <color name="colorYellow">#FFFFC107</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorCardView">#0E1940</color>
     <color name="dialogButtonText">#D81B60</color>

@@ -25,16 +25,6 @@ public class SaveSharedPreference {
         return getPreferences(context).getBoolean(LOGGED_IN_PREF, false);
     }
 
-    public static void setLastSelectedTab(Context context, int lastSelectedTab) {
-        SharedPreferences.Editor editor = getPreferences(context).edit();
-        editor.putInt(LAST_SELECTED_TAB_PREF, lastSelectedTab);
-        editor.apply();
-    }
-
-    public static int getLastSelectedTab(Context context) {
-        return getPreferences(context).getInt(LAST_SELECTED_TAB_PREF, 0);
-    }
-
     public static void setAccountInfo(Context context, Account accountInfo) {
         SharedPreferences.Editor editor = getPreferences(context).edit();
         editor.putInt("id", accountInfo.getId());

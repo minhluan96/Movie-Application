@@ -12,11 +12,13 @@ import com.example.movieapp.models.Cinema;
 import com.example.movieapp.models.BookedCombo;
 import com.example.movieapp.models.BookedSeat;
 import com.example.movieapp.models.Booking;
+import com.example.movieapp.models.Cineplex;
 import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.Notification;
 import com.example.movieapp.models.Ticket;
 import com.example.movieapp.models.TicketInfo;
 import com.example.movieapp.models.User;
+import com.example.movieapp.models.Venue;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
@@ -113,6 +115,16 @@ public class CommunicationManager {
     public void getTicketInfoOfUser(String tag, int ticketId, int userId, final DataParser.DataResponseListener<TicketInfo> listener) {
         Type type = new TypeToken<TicketInfo>() {}.getType();
         makeJSONObjectRequest(tag, Request.Method.GET, "Ticket", "Info", ticketId + "/account/" + userId,null, new DataParser<TicketInfo>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void getAllCineplex(String tag, final DataParser.DataResponseListener<LinkedList<Cineplex>> listener) {
+        Type type = new TypeToken<LinkedList<Cineplex>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Location", "Cineplex", null, new DataParser<LinkedList<Cineplex>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void getAllVenues(String tag, final DataParser.DataResponseListener<LinkedList<Venue>> listener) {
+        Type type = new TypeToken<LinkedList<Venue>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Location", "Venues", null, new DataParser<LinkedList<Venue>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
     public void doLogin(String tag, JSONObject body, DataParser.DataResponseListener<LinkedList<Account>> listener) {

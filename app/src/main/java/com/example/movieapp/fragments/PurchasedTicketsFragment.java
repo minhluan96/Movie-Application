@@ -25,6 +25,7 @@ import com.example.movieapp.models.Booking;
 import com.example.movieapp.utils.AppManager;
 import com.example.movieapp.utils.DataParser;
 import com.example.movieapp.utils.SaveSharedPreference;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -32,11 +33,13 @@ import java.util.List;
 
 public class PurchasedTicketsFragment extends BaseFragment implements OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
+    private View v;
     private RecyclerView recyclerView;
     private List<Booking> bookingList;
     private PurchasedTicketsAdapter purchasedTicketsAdapter;
     private RecyclerView.LayoutManager purchaseTicketsLayoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ShimmerFrameLayout shimmerLayout;
 
     private Button btnDirection;
     private TextView txtMessage;
@@ -57,11 +60,12 @@ public class PurchasedTicketsFragment extends BaseFragment implements OnClickLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.purchased_tickets_fragment, container, false);
+        v = inflater.inflate(R.layout.purchased_tickets_fragment, container, false);
 
         purchasedTickets = v.findViewById(R.id.purchasedTickets);
         noPurchasedTicketsInfo = v.findViewById(R.id.noPurchasedTicketsInfo);
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
+        shimmerLayout = v.findViewById(R.id.shimmer_view);
 
         accountInfo = SaveSharedPreference.getAccountInfo(getContext());
 
@@ -100,6 +104,19 @@ public class PurchasedTicketsFragment extends BaseFragment implements OnClickLis
         return v;
     }
 
+    private void showShimmer() {
+        RecyclerView rv = v.findViewById(R.id.recycler_view);
+        shimmerLayout.startShimmerAnimation();
+        shimmerLayout.setVisibility(View.VISIBLE);
+        rv.setVisibility(View.GONE);
+    }
+
+    private void stopShimmer() {
+        RecyclerView rv = v.findViewById(R.id.recycler_view);
+        shimmerLayout.setVisibility(View.GONE);
+        rv.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onRefresh() {
         getAllBookingsByAccount();
@@ -118,6 +135,7 @@ public class PurchasedTicketsFragment extends BaseFragment implements OnClickLis
     }
 
     private void getAllBookingsByAccount() {
+        showShimmer();
         String accountID = String.valueOf(accountInfo.getId());
         AppManager.getInstance().getCommService().getBookingsByAccount(TAG_PURCHASED_TICKETS, accountID,
                 new DataParser.DataResponseListener<LinkedList<Booking>>() {
@@ -130,6 +148,8 @@ public class PurchasedTicketsFragment extends BaseFragment implements OnClickLis
                         // Show purchased tickets layout, hide no ticket info layout
                         purchasedTickets.setVisibility(View.VISIBLE);
                         noPurchasedTicketsInfo.setVisibility(View.GONE);
+
+                        stopShimmer();
                     }
 
                     @Override

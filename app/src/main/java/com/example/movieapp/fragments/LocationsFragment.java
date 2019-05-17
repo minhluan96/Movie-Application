@@ -12,17 +12,14 @@ import android.view.ViewGroup;
 
 import com.example.movieapp.R;
 import com.example.movieapp.adapters.ViewPagerHomeAdapter;
-import com.example.movieapp.utils.SaveSharedPreference;
 
-public class PersonalFragment extends BaseFragment implements OnTabSelectedListener {
+public class LocationsFragment extends BaseFragment implements OnTabSelectedListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Toolbar toolbar;
-    private LoggedOutFragment loggedOutFragment;
-    private LoggedInFragment loggedInFragment;
-    private PurchasedTicketsFragment purchasedTicketsFragment;
-    private NotificationFragment notificationFragment;
+    private CineplexFragment cineplexFragment;
+    private VenuesFragment venuesFragment;
     private static int tabSelected = 0;
 
     @Override
@@ -30,11 +27,11 @@ public class PersonalFragment extends BaseFragment implements OnTabSelectedListe
         super.onCreate(savedInstanceState);
     }
 
-    public PersonalFragment() {}
+    public LocationsFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.personal_fragment, container, false);
+        View v = inflater.inflate(R.layout.locations_fragment, container, false);
 
         tabLayout = v.findViewById(R.id.tabs);
         viewPager = v.findViewById(R.id.viewpager);
@@ -43,10 +40,8 @@ public class PersonalFragment extends BaseFragment implements OnTabSelectedListe
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
-        loggedOutFragment = new LoggedOutFragment();
-        loggedInFragment = new LoggedInFragment();
-        purchasedTicketsFragment = new PurchasedTicketsFragment();
-        notificationFragment = new NotificationFragment();
+        cineplexFragment = new CineplexFragment();
+        venuesFragment = new VenuesFragment();
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
@@ -58,14 +53,8 @@ public class PersonalFragment extends BaseFragment implements OnTabSelectedListe
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerHomeAdapter adapter = new ViewPagerHomeAdapter(getChildFragmentManager());
-        // If account is already logged in
-        if(SaveSharedPreference.getLoggedStatus(getContext())) {
-            adapter.addFragment(loggedInFragment, "Tài khoản");
-        } else {
-            adapter.addFragment(loggedOutFragment, "Tài khoản");
-        }
-        adapter.addFragment(purchasedTicketsFragment, "Vé đã mua");
-        adapter.addFragment(notificationFragment, "Thông báo");
+        adapter.addFragment(cineplexFragment, "Hệ thống rạp");
+        adapter.addFragment(venuesFragment, "Sân vận động");
         viewPager.setAdapter(adapter);
     }
 

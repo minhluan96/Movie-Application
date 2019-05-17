@@ -5,8 +5,8 @@ import android.widget.FrameLayout;
 
 import com.example.movieapp.R;
 import com.example.movieapp.fragments.HomeFragment;
+import com.example.movieapp.fragments.LocationsFragment;
 import com.example.movieapp.fragments.PersonalFragment;
-import com.example.movieapp.utils.SaveSharedPreference;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -30,8 +30,9 @@ public class HomeActivity extends BaseActivity implements OnTabSelectListener {
         if (tabId == R.id.tab_trending) {
             HomeFragment homeFragment = new HomeFragment();
             showFragment(homeFragment, R.id.container_layout);
-        } else if (tabId == R.id.tab_theater) {
-            // TODO: Implement tab for selling ticket places here
+        } else if (tabId == R.id.tab_location) {
+            LocationsFragment locationsFragment = new LocationsFragment();
+            showFragment(locationsFragment, R.id.container_layout);
         } else if (tabId == R.id.tab_user) {
             PersonalFragment personalFragment = new PersonalFragment();
             showFragment(personalFragment, R.id.container_layout);
@@ -45,8 +46,9 @@ public class HomeActivity extends BaseActivity implements OnTabSelectListener {
         if (tabSelected == R.id.tab_trending) {
             HomeFragment homeFragment = new HomeFragment();
             showFragment(homeFragment, R.id.container_layout);
-        } else if (tabSelected == R.id.tab_theater) {
-            // TODO: Implement tab for selling ticket places here
+        } else if (tabSelected == R.id.tab_location) {
+            LocationsFragment locationsFragment = new LocationsFragment();
+            showFragment(locationsFragment, R.id.container_layout);
         } else if (tabSelected == R.id.tab_user) {
             PersonalFragment personalFragment = new PersonalFragment();
             showFragment(personalFragment, R.id.container_layout);

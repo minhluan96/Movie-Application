@@ -20,12 +20,11 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:visibility="invisible"
-                    android:id="@+id/notification">
+                    android:id="@+id/venues">
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_view"
@@ -34,16 +33,20 @@
                         android:scrollbars="vertical" />
 
                     <include android:id="@+id/shimmer_view"
-                        layout="@layout/notification_shimmer_view_layout" />
+                        layout="@layout/shimmer_view_layout" />
 
                 </LinearLayout>
 
-                <include
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/noNotificationInfo"
+                <TextView
                     android:visibility="gone"
-                    layout="@layout/no_notification_info_layout" />
+                    android:id="@+id/txtNotify"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:paddingTop="15dp"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:text="Không tìm thấy thông tin dữ liệu về các sân vận động"/>
 
             </RelativeLayout>
 

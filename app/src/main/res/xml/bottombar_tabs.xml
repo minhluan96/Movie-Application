@@ -4,9 +4,9 @@
         icon="@drawable/tickets"
         title="Nổi bật" />
     <tab
-        id="@+id/tab_theater"
+        id="@+id/tab_location"
         icon="@drawable/courthouse"
-        title="Địa điểm bán" />
+        title="Địa điểm" />
     <tab
         id="@+id/tab_user"
         icon="@drawable/user"
