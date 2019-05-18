@@ -73,9 +73,6 @@ public class LoggedInFragment extends BaseFragment implements OnClickListener {
             // Set LoggedIn status to false
             SaveSharedPreference.setLoggedIn(getContext(), false);
 
-            // Set last selected tab to default: 0
-            SaveSharedPreference.setLastSelectedTab(getContext(), 0);
-
             // Remove user info
             SaveSharedPreference.removeUserInfo(getContext());
 

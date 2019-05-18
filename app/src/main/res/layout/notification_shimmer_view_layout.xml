@@ -12,11 +12,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/recipe_placeholder_item" />
+        <include layout="@layout/notification_recipe_placeholder_item" />
 
-        <include layout="@layout/recipe_placeholder_item" />
+        <include layout="@layout/notification_recipe_placeholder_item" />
 
-        <include layout="@layout/recipe_placeholder_item" />
+        <include layout="@layout/notification_recipe_placeholder_item" />
 
     </LinearLayout>
 

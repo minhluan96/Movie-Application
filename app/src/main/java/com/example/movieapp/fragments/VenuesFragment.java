@@ -9,12 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.example.movieapp.R;
-import com.example.movieapp.adapters.NotificationAdapter;
-import com.example.movieapp.models.Notification;
+import com.example.movieapp.adapters.VenuesAdapter;
+import com.example.movieapp.models.Venue;
 import com.example.movieapp.utils.AppManager;
 import com.example.movieapp.utils.DataParser;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -23,21 +24,22 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class NotificationFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class VenuesFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private View v;
     private RecyclerView recyclerView;
-    private List<Notification> notificationList;
-    private NotificationAdapter notificationAdapter;
-    private RecyclerView.LayoutManager notificationLayoutManager;
+    private List<Venue> venueList;
+    private VenuesAdapter venuesAdapter;
+    private RecyclerView.LayoutManager venuesLayoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ShimmerFrameLayout shimmerLayout;
 
-    private View notification, noNotificationInfo;
+    private View venuesView;
+    private TextView txtNotify;
 
-    private static final String TAG_NOTIFICATION = "TAG_NOTIFICATION";
+    private static final String TAG_LOCATION_VENUES = "TAG_LOCATION_VENUES";
 
-    public  NotificationFragment() {}
+    public VenuesFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,24 +48,24 @@ public class NotificationFragment extends BaseFragment implements SwipeRefreshLa
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.notification_fragment, container, false);
+        v = inflater.inflate(R.layout.venues_fragment, container, false);
 
-        notification = v.findViewById(R.id.notification);
-        noNotificationInfo = v.findViewById(R.id.noNotificationInfo);
+        txtNotify = v.findViewById(R.id.txtNotify);
+        venuesView = v.findViewById(R.id.venues);
+        recyclerView = v.findViewById(R.id.recycler_view);
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         shimmerLayout = v.findViewById(R.id.shimmer_view);
 
-        notificationList = new ArrayList<>();
+        venueList = new ArrayList<>();
 
-        notificationAdapter = new NotificationAdapter(getContext(), notificationList);
+        venuesAdapter = new VenuesAdapter(getContext(), venueList);
 
-        getAllNotifications();
+        getAllVenues();
 
-        recyclerView = v.findViewById(R.id.recycler_view);
-        notificationLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(notificationLayoutManager);
+        venuesLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(venuesLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(notificationAdapter);
+        recyclerView.setAdapter(venuesAdapter);
 
         swipeRefreshLayout.setOnRefreshListener(this);
 
@@ -85,39 +87,37 @@ public class NotificationFragment extends BaseFragment implements SwipeRefreshLa
 
     @Override
     public void onRefresh() {
-        getAllNotifications();
+        getAllVenues();
         if (swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
     }
 
-    private void getAllNotifications() {
+    private void getAllVenues() {
         showShimmer();
-        AppManager.getInstance().getCommService().getAllNotifications(TAG_NOTIFICATION,
-                new DataParser.DataResponseListener<LinkedList<Notification>>() {
+        AppManager.getInstance().getCommService().getAllVenues(TAG_LOCATION_VENUES,
+                new DataParser.DataResponseListener<LinkedList<Venue>>() {
                     @Override
-                    public void onDataResponse(LinkedList<Notification> response) {
-                        notificationList = response;
+                    public void onDataResponse(LinkedList<Venue> response) {
+                        venueList = response;
 
-                        notificationAdapter.setNotifications(notificationList);
+                        venuesAdapter.setVenues(venueList);
 
-                        // Show notification layout, hide no notification info layout
-                        notification.setVisibility(View.VISIBLE);
-                        noNotificationInfo.setVisibility(View.GONE);
+                        venuesView.setVisibility(View.VISIBLE);
+                        txtNotify.setVisibility(View.GONE);
 
                         stopShimmer();
                     }
 
                     @Override
                     public void onDataError(String errorMessage) {
-                        // Show no notification info layout, hide notification layout
-                        noNotificationInfo.setVisibility(View.VISIBLE);
-                        notification.setVisibility(View.GONE);
+                        txtNotify.setVisibility(View.VISIBLE);
+                        venuesView.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onRequestError(String errorMessage, VolleyError volleyError) {
-                        Log.e("API-PurchasedTickets", errorMessage);
+                        Log.e("API-Venues", errorMessage);
                         Toast.makeText(getContext(), "Máy chủ bị lỗi! Vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
                     }
 

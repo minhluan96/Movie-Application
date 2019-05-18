@@ -18,15 +18,18 @@ public class Cinema {
 
     private String description;
 
+    private float avgPoint;
+
     @SerializedName(value = "showTimes")
     private Showtime[] showtime;
 
-    public Cinema(int id, String name, String imgUrl, String address, String description) {
+    public Cinema(int id, String name, String imgUrl, String address, String description, float avgPoint) {
         this.id = id;
         this.name = name;
         this.imgUrl = imgUrl;
         this.address = address;
         this.description = description;
+        this.avgPoint = avgPoint;
     }
 
     public int getId() {
@@ -67,6 +70,14 @@ public class Cinema {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public float getAvgPoint() {
+        return avgPoint;
+    }
+
+    public void setAvgPoint(float avgPoint) {
+        this.avgPoint = avgPoint;
     }
 
     public Showtime[] getShowtime() {

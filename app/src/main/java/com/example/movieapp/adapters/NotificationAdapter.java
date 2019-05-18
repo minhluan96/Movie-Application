@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.movieapp.R;
@@ -30,7 +29,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, brief, type, createdAt;
         public ImageView thumbnail;
-        public RelativeLayout viewForeground;
 
         public MyViewHolder(View view) {
             super(view);
@@ -38,7 +36,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             createdAt = view.findViewById(R.id.txtCreatedAt);
             brief = view.findViewById(R.id.txtBrief);
             thumbnail = view.findViewById(R.id.imgThumbnail);
-            viewForeground = view.findViewById(R.id.view_foreground);
         }
     }
 

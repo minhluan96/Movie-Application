@@ -18,7 +18,6 @@ import java.util.List;
 
 import static com.example.movieapp.utils.Constant.*;
 import static com.example.movieapp.utils.Utilities.convertDate;
-import static com.example.movieapp.utils.Utilities.convertDateTime;
 import static com.example.movieapp.utils.Utilities.formatTime;
 
 public class PurchasedTicketsAdapter extends RecyclerView.Adapter<PurchasedTicketsAdapter.MyViewHolder>{
@@ -79,7 +78,7 @@ public class PurchasedTicketsAdapter extends RecyclerView.Adapter<PurchasedTicke
                 itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.purchased_movie_ticket_item, parent, false);
                 return new MovieTicketViewHolder(itemView);
             case TicketType.EVENT:
-                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.puchased_event_ticket_item, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.purchased_event_ticket_item, parent, false);
                 return new EventTicketViewHolder(itemView);
         }
         return new MyViewHolder(itemView);

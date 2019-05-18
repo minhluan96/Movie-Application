@@ -15,39 +15,38 @@
             android:fillViewport="true"
             android:scrollbars="none">
 
-            <RelativeLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
+                <ExpandableListView
+                    android:id="@+id/list_expand"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:visibility="invisible"
-                    android:id="@+id/purchasedTickets">
+                    android:dividerHeight="0.5dp"
+                    android:nestedScrollingEnabled="true"
+                    android:groupIndicator="@drawable/custom_expandable" />
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="vertical" />
+                <include android:id="@+id/shimmer_view"
+                    layout="@layout/shimmer_view_layout" />
 
-                    <include android:id="@+id/shimmer_view"
-                        layout="@layout/shimmer_view_layout" />
-
-                </LinearLayout>
-
-                <include
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/noPurchasedTicketsInfo"
+                <TextView
                     android:visibility="gone"
-                    layout="@layout/no_purchased_tickets_info_layout" />
+                    android:id="@+id/txtNotify"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:text="Không tìm thấy thông tin dữ liệu về hệ thống rạp"/>
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>
+
