@@ -1,11 +1,10 @@
 package com.example.movieapp.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,20 +24,13 @@ import com.example.movieapp.utils.Constant;
 import com.example.movieapp.utils.CustomDeserializer;
 import com.example.movieapp.utils.DataParser;
 import com.example.movieapp.utils.Utilities;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.captain_miao.seatview.BaseSeatMo;
 import com.github.captain_miao.seatview.MovieSeatView;
 import com.github.captain_miao.seatview.SeatPresenter;
 import com.google.gson.Gson;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,37 +38,36 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
 
     private static final String TAG = "SelectMovieSeat";
     private static final int MAX_SEATS = 5;
 
-    private MovieSeatView mMovieSeatView;
-    private SeatMo[][] seatTable;
+    protected MovieSeatView mMovieSeatView;
+    protected SeatMo[][] seatTable;
 
     public List<SeatMo> selectedSeats;
-    private TextView txtTotalPrice, txtContinue;
-    private TextView  txtCinema, txtBranch, txtDate,
+    protected TextView txtTotalPrice, txtContinue;
+    protected TextView  txtCinema, txtBranch, txtDate,
             txtTime, txtRoomNumber, txtCurrentTime;
-    private ImageView imgClose;
+    protected ImageView imgClose;
 
-    private int maxRow = 10;
-    private int maxColumn = 12;
+    protected int maxRow = 10;
+    protected int maxColumn = 12;
     private static final String TAG_BOOKED_SEAT = "TAG_BOOKED_SEAT";
-    private List<BookedSeat> bookedSeats = new ArrayList<>();
+    protected List<BookedSeat> bookedSeats = new ArrayList<>();
 
     private Cinema cinema;
-    private Calendar calendar;
+    protected Calendar calendar;
     private Movie movie;
     private Showtime showtime;
 
     @JsonDeserialize(keyUsing = CustomDeserializer.class, keyAs = Ticket.class)
-    private Map<Ticket, Integer> map = new HashMap<>();
-    private Gson gson = new Gson();
-    private boolean isNormal, isVip, isCouple;
-    private long currentTime;
+    protected Map<Ticket, Integer> map = new HashMap<>();
+    protected Gson gson = new Gson();
+    protected boolean isNormal, isVip, isCouple;
+    protected long currentTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,32 +90,34 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
 
         getDataFromPreviousActivity();
         initSeatTable();
-        getBookedSeatOfMovie();
+        getBookedSeatOfEvent();
         setupUIData();
 
-        txtContinue.setOnClickListener(v -> {
-            if (selectedSeats.size() == 0) {
-                showDialogErrorWithOKButton(SeatPlaceActivity.this, "Lỗi", "Vui lòng chọn ghế để tiến hành thanh toán");
-                return;
-            }
-            Intent intent = new Intent(SeatPlaceActivity.this, ConfirmationActivity.class);
-            String jsonMovie = gson.toJson(movie);
-            String jsonShowtime = gson.toJson(showtime);
-            String jsonCinema = gson.toJson(cinema);
-            String jsonCalendar = gson.toJson(calendar);
-
-            intent.putExtra("movie", jsonMovie);
-            intent.putExtra("boughtTicketMap", (Serializable) map);
-            intent.putExtra("cinema", jsonCinema);
-            intent.putExtra("showtime", jsonShowtime);
-            intent.putExtra("calendar", jsonCalendar);
-            intent.putExtra("timer", currentTime);
-            intent.putExtra("selectedSeat", (Serializable) selectedSeats);
-            startActivity(intent);
-        });
+        txtContinue.setOnClickListener(v -> sendDataToNextActivity());
     }
 
-    private void getDataFromPreviousActivity() {
+    protected void sendDataToNextActivity() {
+        if (selectedSeats.size() == 0) {
+            showDialogErrorWithOKButton(SeatPlaceActivity.this, "Lỗi", "Vui lòng chọn ghế để tiến hành thanh toán");
+            return;
+        }
+        Intent intent = new Intent(SeatPlaceActivity.this, ConfirmationActivity.class);
+        String jsonMovie = gson.toJson(movie);
+        String jsonShowtime = gson.toJson(showtime);
+        String jsonCinema = gson.toJson(cinema);
+        String jsonCalendar = gson.toJson(calendar);
+
+        intent.putExtra("movie", jsonMovie);
+        intent.putExtra("boughtTicketMap", (Serializable) map);
+        intent.putExtra("cinema", jsonCinema);
+        intent.putExtra("showtime", jsonShowtime);
+        intent.putExtra("calendar", jsonCalendar);
+        intent.putExtra("timer", currentTime);
+        intent.putExtra("selectedSeat", (Serializable) selectedSeats);
+        startActivity(intent);
+    }
+
+    protected void getDataFromPreviousActivity() {
         String movieJson = getIntent().getStringExtra("movie");
         String showtimeJson = getIntent().getStringExtra("showtime");
         String cinemaJson = getIntent().getStringExtra("cinema");
@@ -144,15 +137,16 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         map = (Map<Ticket, Integer>) getIntent().getSerializableExtra("boughtTicketMap");
     }
 
-    private void setupUIData() {
+
+
+    protected void setDataForEvent() {
         txtCinema.setText(cinema.getName());
         String roomName = showtime.getBranchName().substring(showtime.getBranchName().lastIndexOf(" ") + 1);
         txtBranch.setText(" - " + roomName);
-        txtDate.setText(calendar.getName());
         txtTime.setText(" - " + showtime.getTimeStart());
-        txtRoomNumber.setVisibility(View.GONE);
-        txtCurrentTime.setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
 
+    protected void setupTimer() {
         new CountDownTimer(300000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -173,6 +167,15 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
                 // Toast.makeText(SeatPlaceActivity.this, "Hết thời gian đặt vé", Toast.LENGTH_SHORT).show();
             }
         }.start();
+    }
+
+    protected void setupUIData() {
+        setDataForEvent();
+        txtDate.setText(calendar.getName());
+        txtRoomNumber.setVisibility(View.GONE);
+        txtCurrentTime.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+        setupTimer();
 
         mMovieSeatView.setSeatTable(seatTable);
         mMovieSeatView.setPresenter(this);
@@ -190,7 +193,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
                 (dialog, which) -> finish()));
     }
 
-    private void getBookedSeatOfMovie() {
+    protected void getBookedSeatOfEvent() {
         AppManager.getInstance().getCommService().getBookedSeatByMovie(TAG_BOOKED_SEAT, movie.getId(), cinema.getId(), new DataParser.DataResponseListener<LinkedList<BookedSeat>>() {
             @Override
             public void onDataResponse(LinkedList<BookedSeat> result) {
@@ -224,8 +227,8 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         });
     }
 
-    private void initSeatTable() {
-        seatTable = new SeatMo[maxRow][maxColumn];// mock data
+    protected void initSeatTable() {
+        seatTable = new SeatMo[maxRow][maxColumn];
         enableSeatPos();
         for (int i = 0; i < maxRow; i++) {
             for (int j = 0; j < maxColumn; j++) {
@@ -235,28 +238,34 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
                 seat.rowName = String.valueOf((char)('A' + i));
                 seat.seatName = seat.rowName + (j + 1);
                 seat.status = 0;
-                if (i < Constant.SeatTypePosition.NORMAL && isNormal) {
-                    seat.status = 1;
-                    seat.setPrice(90000);
-                    seat.setTypeSeat(Constant.SeatTypePosition.NORMAL);
-                }
-                if (i >= Constant.SeatTypePosition.NORMAL && i < Constant.SeatTypePosition.VIP && isVip) {
-                    seat.status = 1;
-                    seat.setPrice(100000);
-                    seat.setTypeSeat(Constant.SeatTypePosition.VIP);
-                }
-                if (i >= Constant.SeatTypePosition.VIP && i < Constant.SeatTypePosition.COUPLE && isCouple) {
-                    seat.status = 1;
-                    seat.setPrice(120000);
-                    seat.setTypeSeat(Constant.SeatTypePosition.COUPLE);
-                }
 
-                if ((j == 3 || j == 8) && i < 8) {
-                    seat = null;
-                }
+                seat = configSpecifySeatForPosition(i, j, seat);
                 seatTable[i][j] = seat;
             }
         }
+    }
+
+    protected SeatMo configSpecifySeatForPosition(int i, int j, SeatMo seat) {
+        if (i < Constant.SeatTypePosition.NORMAL && isNormal) {
+            seat.status = 1;
+            seat.setPrice(90000);
+            seat.setTypeSeat(Constant.SeatTypePosition.NORMAL);
+        }
+        if (i >= Constant.SeatTypePosition.NORMAL && i < Constant.SeatTypePosition.VIP && isVip) {
+            seat.status = 1;
+            seat.setPrice(100000);
+            seat.setTypeSeat(Constant.SeatTypePosition.VIP);
+        }
+        if (i >= Constant.SeatTypePosition.VIP && i < Constant.SeatTypePosition.COUPLE && isCouple) {
+            seat.status = 1;
+            seat.setPrice(120000);
+            seat.setTypeSeat(Constant.SeatTypePosition.COUPLE);
+        }
+
+        if ((j == 3 || j == 8) && i < 8) {
+            seat = null;
+        }
+        return seat;
     }
 
     private Map.Entry<Ticket, Integer> getTicketByType(int type) {
@@ -269,7 +278,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         return null;
     }
 
-    private void enableSeatPos() {
+    protected void enableSeatPos() {
         List<Integer> seatTypes = getSeatTypes();
         for (int i = 0; i < seatTypes.size(); i++) {
             if (seatTypes.get(i) == Constant.SeatType.NORMAL) {
@@ -284,7 +293,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         }
     }
 
-    private List<Integer> getSeatTypes() {
+    protected List<Integer> getSeatTypes() {
         List<Integer> types = new ArrayList<>();
         for (Ticket ticket : map.keySet()) {
             types.add(ticket.getId());
@@ -292,7 +301,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         return types;
     }
 
-    private String getTypeName(int type) {
+    protected String getTypeName(int type) {
         switch (type) {
             case Constant.SeatType.NORMAL:
                 return "ghế thường";
@@ -305,7 +314,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         }
     }
 
-    private int getTotalSeatCanSelect() {
+    protected int getTotalSeatCanSelect() {
         int sum = 0;
         List<Integer> types = new ArrayList<>();
         for (int i : map.values()) {
@@ -314,7 +323,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         return sum;
     }
 
-    private int getTotalSelectedSeatByType(int type) {
+    protected int getTotalSelectedSeatByType(int type) {
         int sum = 0;
         for (SeatMo seatMo : selectedSeats) {
             if (seatMo.getTypeSeat() == type) {
@@ -334,6 +343,29 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         return pairSeat;
     }
 
+    protected int getTypeOfSeatOnClick(int row, int column) {
+        int type = 0;
+        if (row < Constant.SeatTypePosition.NORMAL && isNormal) {
+            type = Constant.SeatType.NORMAL;
+        }
+        if (row >= Constant.SeatTypePosition.NORMAL && row < Constant.SeatTypePosition.VIP && isVip) {
+            type = Constant.SeatType.VIP;
+        }
+        if (row >= Constant.SeatTypePosition.VIP && row < Constant.SeatTypePosition.COUPLE && isCouple) {
+            type = Constant.SeatType.COUPLE;
+        }
+        return type;
+    }
+
+    protected void removeSeatAfterClickAtPosition(int row, int column) {
+        SeatMo pairSeat = null;
+        if (row >= Constant.SeatTypePosition.VIP && row < Constant.SeatTypePosition.COUPLE && isCouple) {
+            pairSeat = findPairSeatWithSeatHasColumn(row, column);
+            pairSeat.setOnSale();
+            selectedSeats.remove(pairSeat);
+        }
+    }
+
     @Override
     public boolean onClickSeat(int row, int column, BaseSeatMo seat) {
         SeatMo seatMo = seatTable[row][column];
@@ -341,16 +373,8 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         if(seatMo != null){
             if (seatMo.isOnSale()) {
                 int max_seats = MAX_SEATS;
-                int type = 0;
-                if (row < Constant.SeatTypePosition.NORMAL && isNormal) {
-                    type = Constant.SeatType.NORMAL;
-                }
-                if (row >= Constant.SeatTypePosition.NORMAL && row < Constant.SeatTypePosition.VIP && isVip) {
-                    type = Constant.SeatType.VIP;
-                }
-                if (row >= Constant.SeatTypePosition.VIP && row < Constant.SeatTypePosition.COUPLE && isCouple) {
-                    type = Constant.SeatType.COUPLE;
-                }
+                int type = getTypeOfSeatOnClick(row, column);
+
                 Map.Entry<Ticket, Integer> entry = getTicketByType(type);
                 int maxSeatByType = entry.getValue();
                 int totalSelectedSeatByType = getTotalSelectedSeatByType(seatMo.getTypeSeat());
@@ -376,11 +400,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
             } else if (seatMo.isSelected()) {
                 seatMo.setOnSale();
                 selectedSeats.remove(seatMo);
-                if (row >= Constant.SeatTypePosition.VIP && row < Constant.SeatTypePosition.COUPLE && isCouple) {
-                    SeatMo pairSeat = findPairSeatWithSeatHasColumn(row, column);
-                    pairSeat.setOnSale();
-                    selectedSeats.remove(pairSeat);
-                }
+                removeSeatAfterClickAtPosition(row, column);
                 return true;
             }
         }

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,14 +13,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.movieapp.R;
 import com.example.movieapp.activities.ConfirmationActivity;
+import com.example.movieapp.activities.ConfirmationSportActivity;
 import com.example.movieapp.adapters.BankListAdapter;
 import com.example.movieapp.models.Bank;
 import com.example.movieapp.models.Cinema;
 import com.example.movieapp.models.SeatMo;
 import com.example.movieapp.models.Ticket;
+import com.example.movieapp.utils.Constant;
 import com.example.movieapp.utils.Utilities;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
@@ -44,6 +48,7 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
     private Calendar calendar = Calendar.getInstance();
     private CardInfoListener listener;
     private int type;
+    private int eventType;
 
 
     public CardInfoFragment() {
@@ -80,21 +85,27 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
         setupDatePicker();
         setUIData();
 
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (etCardNumber.getText().toString().isEmpty() || etCardOwner.getText().toString().isEmpty() || etExpiration.getText().toString().isEmpty()) {
-                    ((ConfirmationActivity)getActivity()).showDialogErrorWithOKButton(getActivity(), "Lỗi", "Vui lòng nhập đầy đủ các thông tin thanh toán");
-                    return;
+        btnConfirm.setOnClickListener(v1 -> {
+            if (etCardNumber.getText().toString().isEmpty() || etCardOwner.getText().toString().isEmpty() || etExpiration.getText().toString().isEmpty()) {
+                if (eventType == Constant.EventType.MOVIE) {
+                    ((ConfirmationActivity) getActivity()).showDialogErrorWithOKButton(getActivity(), "Lỗi", "Vui lòng nhập đầy đủ các thông tin thanh toán");
+                } else {
+                    ((ConfirmationSportActivity) getActivity()).showDialogErrorWithOKButton(getActivity(), "Lỗi", "Vui lòng nhập đầy đủ các thông tin thanh toán");
                 }
-                listener.onFinishInputCardHolder(etCardOwner.getText().toString(), etCardNumber.getText().toString(), etExpiration.getText().toString());
+                return;
+
             }
+            listener.onFinishInputCardHolder(etCardOwner.getText().toString(), etCardNumber.getText().toString(), etExpiration.getText().toString());
         });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ConfirmationActivity) getActivity()).removeCardInfoFragment();
+                if (eventType == Constant.EventType.MOVIE) {
+                    ((ConfirmationActivity) getActivity()).removeCardInfoFragment();
+                } else {
+                    ((ConfirmationSportActivity) getActivity()).removeCardInfoFragment();
+                }
             }
         });
 
@@ -110,6 +121,31 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
     }
 
     private void setUIData() {
+        if (eventType == Constant.EventType.MOVIE) {
+            setupUIMovieData();
+        } else {
+            setupUISportData();
+        }
+    }
+
+    private void setupUISportData() {
+        String infoPayment = "";
+        infoPayment += ((ConfirmationSportActivity) getActivity()).getStadium().getName() + " - ";
+        infoPayment += ((ConfirmationSportActivity) getActivity()).getSport().getName() + " - ";
+        List<SeatMo> selectedSeat = ((ConfirmationActivity) getActivity()).getSelectedSeats();
+        for (SeatMo seat : selectedSeat) {
+            infoPayment += seat.seatName + " ";
+        }
+        Map<Ticket, Integer> map = ((ConfirmationActivity) getActivity()).getMap();
+        double totalPrice = 0;
+        for (Map.Entry<Ticket, Integer> entry : map.entrySet()) {
+            totalPrice += entry.getKey().getPrice()  * entry.getValue();
+        }
+        infoPayment += "- " + Utilities.formatCurrency(totalPrice);
+        txtDescription.setText(infoPayment);
+    }
+
+    private void setupUIMovieData() {
         String infoPayment = "";
         infoPayment += ((ConfirmationActivity) getActivity()).getCinema().getName() + " - ";
         infoPayment += ((ConfirmationActivity) getActivity()).getMovie().getName() + " - ";
@@ -191,5 +227,9 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
 
     public interface CardInfoListener {
         void onFinishInputCardHolder(String name, String cardNumber, String expirationDate);
+    }
+
+    public void setEventType(int eventType) {
+        this.eventType = eventType;
     }
 }

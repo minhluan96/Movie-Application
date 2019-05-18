@@ -20,5 +20,14 @@ public class SellingSportTicketActivity extends SellingTicketActivity {
 
         infoFragment.setSport(sport);
         calendarFragment.setSport(sport);
+
+        fragmentStringMap.clear();
+        fragmentStringMap.put(calendarFragment, "Lịch thi đấu");
+        fragmentStringMap.put(infoFragment, "Thông tin");
+
+        setupViewPager(viewPager, fragmentStringMap);
+        tabLayout.setupWithViewPager(viewPager);
     }
+
+
 }

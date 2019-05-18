@@ -22,8 +22,8 @@ import java.util.Map;
 public class SellingTicketActivity extends BaseActivity {
 
     private Toolbar toolbar;
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
+    protected ViewPager viewPager;
+    protected TabLayout tabLayout;
     protected CalendarFragment calendarFragment;
     protected InfoFragment infoFragment;
     protected Map<Fragment, String> fragmentStringMap;

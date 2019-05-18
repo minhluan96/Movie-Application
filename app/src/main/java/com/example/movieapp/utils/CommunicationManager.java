@@ -15,6 +15,8 @@ import com.example.movieapp.models.Booking;
 import com.example.movieapp.models.Cineplex;
 import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.Notification;
+import com.example.movieapp.models.Sport;
+import com.example.movieapp.models.Stadium;
 import com.example.movieapp.models.Ticket;
 import com.example.movieapp.models.TicketInfo;
 import com.example.movieapp.models.User;
@@ -79,7 +81,12 @@ public class CommunicationManager {
 
     public void getLatestMovies(String tag, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {
         Type type = new TypeToken<LinkedList<Movie>>() {}.getType();
-        makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "Latest", null, new DataParser<LinkedList<Movie>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+        makeJSONObjectRequest(tag, Request.Method.GET, "Movie", "Latest", null, new DataParser<>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void getHotEvents(String tag, final DataParser.DataResponseListener<LinkedList<Sport>> listener) {
+        Type type = new TypeToken<LinkedList<Sport>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Event", "HotEvent", null, new DataParser<>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
     public void getUserInfo(String tag, String accountID, final DataParser.DataResponseListener<LinkedList<User>> listener) {
@@ -152,6 +159,11 @@ public class CommunicationManager {
     public void getMovieCalendars(String tag, int movie_id, String date, final DataParser.DataResponseListener<LinkedList<Cinema>> listener) {
         Type type = new TypeToken<LinkedList<Cinema>>() {}.getType();
         makeJSONObjectRequest(tag, Request.Method.GET, "MovieDetail", "Calendar", "/" + movie_id + "/showing/" + date, null, new DataParser<>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void getEventCalendars(String tag, int eventId, String date, final DataParser.DataResponseListener<LinkedList<Stadium>> listener) {
+        Type type = new TypeToken<LinkedList<Stadium>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "EventDetail", "Calendar", "/" + eventId + "/sale/" + date, null, new DataParser<>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
     public void getNowShowingMovies(String tag, int size, int page, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {

@@ -73,4 +73,6 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<RecyclerView.View
             txtCreditCard = itemView.findViewById(R.id.txtCreditCard);
         }
     }
+
+
 }
