@@ -23,8 +23,10 @@ import com.example.movieapp.adapters.HorizontalCalendarAdapter;
 import com.example.movieapp.models.Calendar;
 import com.example.movieapp.models.Cinema;
 import com.example.movieapp.models.Movie;
+import com.example.movieapp.models.ShowMatch;
 import com.example.movieapp.models.Showtime;
 import com.example.movieapp.models.Sport;
+import com.example.movieapp.models.Stadium;
 import com.example.movieapp.utils.AppManager;
 import com.example.movieapp.utils.DataParser;
 import com.google.gson.Gson;
@@ -52,11 +54,14 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
     private RecyclerView rvCalendar;
     private RecyclerView.LayoutManager rvCalendarLayoutManager;
     private List<Cinema> cinemas;
+    private List<Stadium> stadiums;
     private List<Calendar> calendars;
     private HashMap<Cinema, List<Showtime>> listDataChild;
+    private HashMap<Stadium, List<ShowMatch>> listHashMap;
     private Movie movie;
     private Sport sport;
     private static final String TAG_MOVIE_CALENDARS = "TAG_MOVIE_CALENDARS";
+    private static final String TAG_EVENT_CALENDARS = "TAG_EVENT_CALENDARS";
     private Calendar calendar;
 
     public CalendarFragment() {
@@ -77,10 +82,7 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
 
 
         setupDummyData();
-        expandableListAdapter = new ExpandableListAdapter(getContext(), cinemas, listDataChild);
-        expandableListAdapter.setMovie(movie);
-        expandableListView.setAdapter(expandableListAdapter);
-        expandableListAdapter.setCalendar(calendar);
+        setupExpandableListView();
 
         rvCalendarLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvCalendar.setLayoutManager(rvCalendarLayoutManager);
@@ -113,12 +115,37 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
 
     private void setupDummyData() {
         cinemas = new ArrayList<>();
+        stadiums = new ArrayList<>();
         listDataChild = new HashMap<>();
 
         initCalendarTime();
         if (movie != null) {
             getMovieCalendars();
+        } else {
+            getSportCalendars();
         }
+    }
+
+    private void setupExpandableListView() {
+        if (movie != null) {
+            setupExpandableListViewForMovie();
+        } else {
+            setupExpandableListViewForSport();
+        }
+    }
+
+    private void setupExpandableListViewForMovie() {
+        expandableListAdapter = new ExpandableListAdapter(getContext(), cinemas, listDataChild);
+        expandableListAdapter.setMovie(movie);
+        expandableListView.setAdapter(expandableListAdapter);
+        expandableListAdapter.setCalendar(calendar);
+    }
+
+    private void setupExpandableListViewForSport() {
+        expandableListAdapter = new ExpandableListAdapter(getContext(), stadiums, listHashMap, 1);
+        expandableListAdapter.setSport(sport);
+        expandableListView.setAdapter(expandableListAdapter);
+        expandableListAdapter.setCalendar(calendar);
     }
 
     private void initCalendarTime() {
@@ -146,6 +173,41 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
             calendars.add(new Calendar(todayName, dateNumb, isToday, date));
         }
         calendar = calendars.get(0);
+    }
+
+    private void getSportCalendars() {
+        String timeStamp = "1559811600000";
+        AppManager.getInstance().getCommService().getEventCalendars(TAG_EVENT_CALENDARS, sport.getId(), timeStamp,
+                new DataParser.DataResponseListener<LinkedList<Stadium>>() {
+            @Override
+            public void onDataResponse(LinkedList<Stadium> result) {
+                stadiums.clear();
+                stadiums = result;
+                txtNotify.setVisibility(View.GONE);
+                expandableListView.setVisibility(View.VISIBLE);
+                listHashMap = new HashMap<>();
+                for (Stadium stadium : stadiums) {
+                    List<ShowMatch> showMatches = Arrays.asList(stadium.getShowMatches());
+                    listHashMap.put(stadium, showMatches);
+                }
+                expandableListAdapter.setStadumAndShowTimes(stadiums, listHashMap);
+            }
+
+            @Override
+            public void onDataError(String errorMessage) {
+
+            }
+
+            @Override
+            public void onRequestError(String errorMessage, VolleyError volleyError) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
     }
 
     private void getMovieCalendars() {
@@ -193,6 +255,8 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
         this.calendar = calendar;
         if (movie != null) {
             getMovieCalendars();
+        } else {
+            getSportCalendars();
         }
         expandableListAdapter.setCalendar(calendar);
     }

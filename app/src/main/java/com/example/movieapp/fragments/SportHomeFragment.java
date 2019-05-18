@@ -10,12 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.VolleyError;
 import com.example.movieapp.R;
 import com.example.movieapp.adapters.LatestSportsAdapter;
 import com.example.movieapp.adapters.UpcomingSportsAdapter;
 import com.example.movieapp.models.Sport;
+import com.example.movieapp.utils.AppManager;
+import com.example.movieapp.utils.DataParser;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SportHomeFragment extends BaseFragment {
@@ -25,6 +29,9 @@ public class SportHomeFragment extends BaseFragment {
     private RecyclerView.LayoutManager latestSportLayoutManager, upcomingSportLayoutManager;
     private LatestSportsAdapter latestSportsAdapter;
     private UpcomingSportsAdapter upcomingSportsAdapter;
+
+    private static final String TAG_HOTEST_EVENT = "TAG_HOTEST_EVENT";
+    private List<Sport> hotestSports = new ArrayList<>();
 
     public SportHomeFragment() {
     }
@@ -55,9 +62,10 @@ public class SportHomeFragment extends BaseFragment {
 
 
     private void setupLastestSportAdapter() {
-        List<Sport> sports = getDummyLatestSport();
-        latestSportsAdapter = new LatestSportsAdapter(sports, getContext());
+        hotestSports = new ArrayList<>();
+        latestSportsAdapter = new LatestSportsAdapter(hotestSports, getContext());
         rvLatestSports.setAdapter(latestSportsAdapter);
+        getHotestSports();
     }
 
     private void setupUpcomingSportAdapter() {
@@ -83,6 +91,31 @@ public class SportHomeFragment extends BaseFragment {
         sports.add(new Sport(5, "Vietnam - Iraq", "http://img.f51.bdpcdn.net/Assets/Media/2019/01/08/62/vietnam-iran-480.jpg", "ĐANG DIỄN RA", ""));
         sports.add(new Sport(6, "Vietnam - Iraq", "http://img.f51.bdpcdn.net/Assets/Media/2019/01/08/62/vietnam-iran-480.jpg", "ĐANG DIỄN RA", ""));
         return sports;
+    }
+
+    private void getHotestSports() {
+        AppManager.getInstance().getCommService().getHotEvents(TAG_HOTEST_EVENT, new DataParser.DataResponseListener<LinkedList<Sport>>() {
+            @Override
+            public void onDataResponse(LinkedList<Sport> result) {
+                hotestSports = result;
+                latestSportsAdapter.setLatestSports(hotestSports);
+            }
+
+            @Override
+            public void onDataError(String errorMessage) {
+
+            }
+
+            @Override
+            public void onRequestError(String errorMessage, VolleyError volleyError) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
     }
 
 }

@@ -54,6 +54,7 @@ public class HorizontalCalendarAdapter extends RecyclerView.Adapter<RecyclerView
 
         holder.itemView.setOnClickListener(v -> {
             int selectedPos = holder.getAdapterPosition();
+            if (selectedPos < 0) return;
             selectedCalendar = calendars.get(selectedPos);
             listener.onCalendarSelected(selectedCalendar);
             notifyDataSetChanged();

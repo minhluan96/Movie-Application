@@ -45,28 +45,28 @@ import java.util.Map;
 
 public class ConfirmationActivity extends BaseActivity implements PaymentMethodAdapter.PaymentMethodListener, CardInfoFragment.CardInfoListener {
 
-    private RecyclerView rvPaymentMethods;
-    private PaymentMethodAdapter paymentMethodAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private TextView txtContinue, txtTotalPrice;
-    private TextView txtCinema, txtBranch, txtDate,
+    protected RecyclerView rvPaymentMethods;
+    protected PaymentMethodAdapter paymentMethodAdapter;
+    protected RecyclerView.LayoutManager layoutManager;
+    protected TextView txtContinue, txtTotalPrice;
+    protected TextView txtCinema, txtBranch, txtDate,
             txtTime, txtRoomNumber, txtCurrentTime;
 
-    private TextView txtTitle, txtMinAge, txtDescription, txtSeatPlaces;
-    private ImageView imgClose;
+    protected TextView txtTitle, txtMinAge, txtDescription, txtSeatPlaces;
+    protected ImageView imgClose;
 
-    private Gson gson = new Gson();
-    private Calendar calendar;
+    protected Gson gson = new Gson();
+    protected Calendar calendar;
     private Movie movie;
     private Showtime showtime;
     private Cinema cinema;
-    private Map<Ticket, Integer> map = new HashMap<>();
-    private List<SeatMo> selectedSeats = new ArrayList<>();
-    private long currentTime;
-    private String cardNumber;
+    protected Map<Ticket, Integer> map = new HashMap<>();
+    protected List<SeatMo> selectedSeats = new ArrayList<>();
+    protected long currentTime;
+    protected String cardNumber;
     private static final String TAG_CREATE_TICKET = "TAG_CREATE_TICKET";
 
-    private CardInfoFragment cardInfoFragment;
+    protected CardInfoFragment cardInfoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,22 +91,24 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
         txtDescription = findViewById(R.id.txtDescription);
         txtSeatPlaces = findViewById(R.id.txtSeatPlaces);
 
-        txtContinue.setOnClickListener(v -> {
-            if (cardNumber == null || cardNumber.isEmpty()) {
-                showDialogErrorWithOKButton(ConfirmationActivity.this, "Thông báo", "Vui lòng chọn phương thức thanh toán để tiếp tục");
-                return;
-            }
-
-            JSONObject jsonObject = prepareBodyRequest(cardNumber);
-            createTicket(jsonObject);
-        });
+        txtContinue.setOnClickListener(v -> proceedCreateTicketAction());
 
         getDataFromPreviousActivity();
         setupUIData();
         setupPaymentMethodAdapter();
     }
 
-    private void getDataFromPreviousActivity() {
+    protected void proceedCreateTicketAction() {
+        if (cardNumber == null || cardNumber.isEmpty()) {
+            showDialogErrorWithOKButton(ConfirmationActivity.this, "Thông báo", "Vui lòng chọn phương thức thanh toán để tiếp tục");
+            return;
+        }
+
+        JSONObject jsonObject = prepareBodyRequest(cardNumber);
+        createTicket(jsonObject);
+    }
+
+    protected void getDataFromPreviousActivity() {
         String movieJson = getIntent().getStringExtra("movie");
         String showtimeJson = getIntent().getStringExtra("showtime");
         String cinemaJson = getIntent().getStringExtra("cinema");
@@ -128,7 +130,7 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
         map = (Map<Ticket, Integer>) getIntent().getSerializableExtra("boughtTicketMap");
     }
 
-    private void setupUIData() {
+    protected void setupUIData() {
         txtCinema.setText(cinema.getName());
         String roomName = showtime.getBranchName().substring(showtime.getBranchName().lastIndexOf(" ") + 1);
         txtBranch.setText(" - " + roomName);
@@ -195,8 +197,17 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
 
     @Override
     public void onMethodSelected(int pos) {
+        if (pos == 0) {
+            Toast.makeText(getApplicationContext(), "Phương thức thanh toán sẽ được hỗ trợ trong tương lai", Toast.LENGTH_SHORT).show();
+            return;
+        }
         cardInfoFragment = new CardInfoFragment();
         cardInfoFragment.setType(pos - 1); // due to the type is only has 2 values [0, 1]
+        setCardInfoForEvent();
+    }
+
+    protected void setCardInfoForEvent() {
+        cardInfoFragment.setEventType(Constant.EventType.MOVIE);
         cardInfoFragment.setListener(this);
         showFragmentWithCustomAnimation(cardInfoFragment, R.id.container_fragment, R.anim.slide_in_up, R.anim.slide_out_up);
     }
@@ -248,7 +259,7 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
         removeCardInfoFragment();
     }
 
-    private JSONObject prepareBodyRequest(String cardNumber) {
+    protected JSONObject prepareBodyRequest(String cardNumber) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("account_id", 1);
@@ -273,7 +284,7 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
         return jsonObject;
     }
 
-    private void createTicket(JSONObject body) {
+    protected void createTicket(JSONObject body) {
         ProgressDialog dialog = new ProgressDialog(this);
         dialog.setTitle("Hệ thống đang xử lý");
         dialog.show();
@@ -296,6 +307,8 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
             public void onDataError(String errorMessage) {
                 String error = errorMessage;
                 cardNumber = null;
+
+                // TODO: Be carefully with this context
                 Toast.makeText(ConfirmationActivity.this, "Thanh toán thất bại. Vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
             }
 

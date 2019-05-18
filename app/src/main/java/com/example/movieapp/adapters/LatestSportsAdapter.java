@@ -30,6 +30,11 @@ public class LatestSportsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.mContext = mContext;
     }
 
+    public void setLatestSports(List<Sport> latestSports) {
+        this.latestSports = latestSports;
+        this.notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
