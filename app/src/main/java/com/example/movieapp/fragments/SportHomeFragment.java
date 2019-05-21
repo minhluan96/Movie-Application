@@ -17,6 +17,7 @@ import com.example.movieapp.adapters.UpcomingSportsAdapter;
 import com.example.movieapp.models.Sport;
 import com.example.movieapp.utils.AppManager;
 import com.example.movieapp.utils.DataParser;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -25,13 +26,16 @@ import java.util.List;
 public class SportHomeFragment extends BaseFragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ShimmerFrameLayout shimmerLatest, shimmerUpcoming;
     private RecyclerView rvLatestSports, rvUpcomingSports;
     private RecyclerView.LayoutManager latestSportLayoutManager, upcomingSportLayoutManager;
     private LatestSportsAdapter latestSportsAdapter;
     private UpcomingSportsAdapter upcomingSportsAdapter;
 
     private static final String TAG_HOTEST_EVENT = "TAG_HOTEST_EVENT";
+    private static final String TAG_UPCOMING_EVENT = "TAG_UPCOMING_EVENT";
     private List<Sport> hotestSports = new ArrayList<>();
+    private List<Sport> upcomingSports = new ArrayList<>();
 
     public SportHomeFragment() {
     }
@@ -48,6 +52,8 @@ public class SportHomeFragment extends BaseFragment {
         swipeRefreshLayout = v.findViewById(R.id.swipe_layout);
         rvLatestSports = v.findViewById(R.id.rv_latest_sport);
         rvUpcomingSports = v.findViewById(R.id.rv_upcoming_sport);
+        shimmerLatest = v.findViewById(R.id.shimmer_latest_view);
+        shimmerUpcoming = v.findViewById(R.id.shimmer_upcoming_view);
 
         latestSportLayoutManager = new LinearLayoutManager(getContext());
         rvLatestSports.setLayoutManager(latestSportLayoutManager);
@@ -60,6 +66,17 @@ public class SportHomeFragment extends BaseFragment {
         return v;
     }
 
+    private void showShimmer(ShimmerFrameLayout shimmer, View view) {
+        shimmer.startShimmerAnimation();
+        shimmer.setVisibility(View.VISIBLE);
+        view.setVisibility(View.GONE);
+    }
+
+    private void stopShimmer(ShimmerFrameLayout shimmer, View view) {
+        shimmer.stopShimmerAnimation();
+        shimmer.setVisibility(View.GONE);
+        view.setVisibility(View.VISIBLE);
+    }
 
     private void setupLastestSportAdapter() {
         hotestSports = new ArrayList<>();
@@ -69,36 +86,47 @@ public class SportHomeFragment extends BaseFragment {
     }
 
     private void setupUpcomingSportAdapter() {
-        List<Sport> sports = getDummyUpcomingSports();
-        upcomingSportsAdapter = new UpcomingSportsAdapter(sports, getContext());
+        upcomingSports = new ArrayList<>();
+        upcomingSportsAdapter = new UpcomingSportsAdapter(upcomingSports, getContext());
         rvUpcomingSports.setAdapter(upcomingSportsAdapter);
+        getUpcomingSports();
     }
 
-    private List<Sport> getDummyLatestSport() {
-        List<Sport> sports = new ArrayList<>();
-        sports.add(new Sport(1, "Vietnam - Indonesia", "http://img.f51.bdpcdn.net/Assets/Media/2019/01/08/62/vietnam-iran-480.jpg", "ĐANG DIỄN RA", ""));
-        sports.add(new Sport(2, "Vietnam - Australia", "http://img.f51.bdpcdn.net/Assets/Media/2019/01/08/62/vietnam-iran-480.jpg", "ĐANG DIỄN RA", ""));
-        sports.add(new Sport(3, "Vietnam - Iraq", "http://img.f51.bdpcdn.net/Assets/Media/2019/01/08/62/vietnam-iran-480.jpg", "ĐANG DIỄN RA", ""));
-        return sports;
-    }
+    private void getUpcomingSports() {
+        showShimmer(shimmerUpcoming, rvUpcomingSports);
+        AppManager.getInstance().getCommService().getUpcomingEvents(TAG_UPCOMING_EVENT, new DataParser.DataResponseListener<LinkedList<Sport>>() {
+            @Override
+            public void onDataResponse(LinkedList<Sport> result) {
+                upcomingSports = result;
+                upcomingSportsAdapter.setUpcomingSports(upcomingSports);
+                stopShimmer(shimmerUpcoming, rvUpcomingSports);
+            }
 
-    private List<Sport> getDummyUpcomingSports() {
-        List<Sport> sports = new ArrayList<>();
-        sports.add(new Sport(1, "Vietnam - Indonesia", "http://img.f51.bdpcdn.net/Assets/Media/2019/01/08/62/vietnam-iran-480.jpg", "ĐANG DIỄN RA", ""));
-        sports.add(new Sport(2, "Vietnam - Australia", "http://img.f51.bdpcdn.net/Assets/Media/2019/01/08/62/vietnam-iran-480.jpg", "ĐANG DIỄN RA", ""));
-        sports.add(new Sport(3, "Vietnam - Iraq", "http://img.f51.bdpcdn.net/Assets/Media/2019/01/08/62/vietnam-iran-480.jpg", "ĐANG DIỄN RA", ""));
-        sports.add(new Sport(4, "Vietnam - Iraq", "http://img.f51.bdpcdn.net/Assets/Media/2019/01/08/62/vietnam-iran-480.jpg", "ĐANG DIỄN RA", ""));
-        sports.add(new Sport(5, "Vietnam - Iraq", "http://img.f51.bdpcdn.net/Assets/Media/2019/01/08/62/vietnam-iran-480.jpg", "ĐANG DIỄN RA", ""));
-        sports.add(new Sport(6, "Vietnam - Iraq", "http://img.f51.bdpcdn.net/Assets/Media/2019/01/08/62/vietnam-iran-480.jpg", "ĐANG DIỄN RA", ""));
-        return sports;
+            @Override
+            public void onDataError(String errorMessage) {
+
+            }
+
+            @Override
+            public void onRequestError(String errorMessage, VolleyError volleyError) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
     }
 
     private void getHotestSports() {
+        showShimmer(shimmerLatest, rvLatestSports);
         AppManager.getInstance().getCommService().getHotEvents(TAG_HOTEST_EVENT, new DataParser.DataResponseListener<LinkedList<Sport>>() {
             @Override
             public void onDataResponse(LinkedList<Sport> result) {
                 hotestSports = result;
                 latestSportsAdapter.setLatestSports(hotestSports);
+                stopShimmer(shimmerLatest, rvLatestSports);
             }
 
             @Override

@@ -47,6 +47,33 @@ public class TicketInfo {
     @SerializedName(value = "code")
     private String code;
 
+    @SerializedName(value = "venue")
+    private String location;
+
+    @SerializedName(value = "imgURL")
+    private String imgURL;
+
+    @SerializedName(value = "eventName")
+    private String eventName;
+
+    @SerializedName(value = "eventCategory")
+    private int eventCategory;
+
+    @SerializedName(value = "unitName")
+    private String unitName;
+
+    @SerializedName(value = "gateway")
+    private String gateway;
+
+    @SerializedName(value = "organizer")
+    private String host;
+
+    @SerializedName(value = "description")
+    private String description;
+
+    @SerializedName(value = "block")
+    private String block;
+
     @SerializedName(value = "bookedSeats")
     private List<BookedSeat> bookedSeats;
 
@@ -183,5 +210,41 @@ public class TicketInfo {
         cal.setTime(date);
         timeStr = sdf.format(cal.getTime());
         return timeStr;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public int getEventCategory() {
+        return eventCategory;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public String getGateway() {
+        return gateway;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getBlock() {
+        return block;
     }
 }

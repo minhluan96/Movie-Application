@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TicketNow</string>
+    <string name="app_name">Ticket Now</string>
     <string name="seat_max_number">Không thể chọn vượt quá %d ghế</string>
     <string name="seat_max_number_by_type">Không thể chọn vượt quá %d ghế của loại %s</string>
     <string name="string_content_result">Vé đặt mua thành công. Vui lòng xuất trình vé trước khi vào rạp</string>

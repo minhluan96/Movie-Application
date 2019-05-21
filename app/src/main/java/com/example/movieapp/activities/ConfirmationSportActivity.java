@@ -153,6 +153,11 @@ public class ConfirmationSportActivity extends ConfirmationActivity implements P
     }
 
     @Override
+    protected Intent getNextIntent() {
+        return new Intent(ConfirmationSportActivity.this, ResultTicketSportActivity.class);
+    }
+
+    @Override
     protected JSONObject prepareBodyRequest(String cardNumber) {
         JSONObject jsonObject = new JSONObject();
         try {
@@ -176,4 +181,6 @@ public class ConfirmationSportActivity extends ConfirmationActivity implements P
         }
         return jsonObject;
     }
+
+
 }

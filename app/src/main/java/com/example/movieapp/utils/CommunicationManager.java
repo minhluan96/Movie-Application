@@ -89,6 +89,11 @@ public class CommunicationManager {
         makeJSONObjectRequest(tag, Request.Method.GET, "Event", "HotEvent", null, new DataParser<>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
+    public void getUpcomingEvents(String tag, final DataParser.DataResponseListener<LinkedList<Sport>> listener) {
+        Type type = new TypeToken<LinkedList<Sport>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Event", "Upcoming", null, new DataParser<>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
     public void getUserInfo(String tag, String accountID, final DataParser.DataResponseListener<LinkedList<User>> listener) {
         Type type = new TypeToken<LinkedList<User>>() {}.getType();
         makeJSONObjectRequest(tag, Request.Method.GET, "User", "Info", accountID,null, new DataParser<LinkedList<User>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
@@ -97,6 +102,11 @@ public class CommunicationManager {
     public void getBookedSeatByMovie(String tag, int movieId, int cinemaId, final DataParser.DataResponseListener<LinkedList<BookedSeat>> listener) {
         Type type = new TypeToken<LinkedList<BookedSeat>>() {}.getType();
         makeJSONObjectRequest(tag, Request.Method.GET, "Seat", "Booking", movieId + "/location/" + 4,null, new DataParser<>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void getBookedSeatByEvent(String tag, int saleID, int locationID, final DataParser.DataResponseListener<LinkedList<BookedSeat>> listener) {
+        Type type = new TypeToken<LinkedList<BookedSeat>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Seat", "BookingEvent", saleID + "/location/" + locationID,null, new DataParser<>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
     public void getBookingsByAccount(String tag, String accountID, final DataParser.DataResponseListener<LinkedList<Booking>> listener) {

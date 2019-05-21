@@ -1,6 +1,7 @@
 package com.example.movieapp.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -284,9 +286,13 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
         return jsonObject;
     }
 
+    protected Intent getNextIntent() {
+        return new Intent(ConfirmationActivity.this, ResultTicketActivity.class);
+    }
+
     protected void createTicket(JSONObject body) {
         ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setTitle("Hệ thống đang xử lý");
+        dialog.setMessage(Html.fromHtml("<font color='#323232'>"  + "Hệ thống đang xử lý" +"</font>"));
         dialog.show();
         AppManager.getInstance().getCommService().createMovieTicket(TAG_CREATE_TICKET, body, new DataParser.DataResponseListener<Ticket>() {
             @Override
@@ -296,7 +302,7 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
                 if (dialog.isShowing()) {
                     dialog.dismiss();
                 }
-                Intent intent = new Intent(ConfirmationActivity.this, ResultTicketActivity.class);
+                Intent intent = getNextIntent();
                 // TODO: using the real user id instead of the fake data
                 intent.putExtra("user_id", 1);
                 intent.putExtra("ticket_id", ticket.getId());

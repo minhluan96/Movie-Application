@@ -2,6 +2,12 @@ package com.example.movieapp.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class Sport {
 
     @SerializedName(value = "id")
@@ -108,5 +114,36 @@ public class Sport {
 
     public void setNumberOfTickets(int numberOfTickets) {
         this.numberOfTickets = numberOfTickets;
+    }
+
+    public String getReleaseDateStr() {
+        TimeZone tz = TimeZone.getTimeZone("Asia/Calcutta");
+        java.util.Calendar cal = Calendar.getInstance(tz);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdf.setCalendar(cal);
+        try {
+            cal.setTime(sdf.parse(releaseDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date date = cal.getTime();
+        sdf = new SimpleDateFormat("dd-MM-yyyy");
+        return sdf.format(date);
+    }
+
+    public String getTimeStart() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String timeStr = "";
+        Date date = null;
+        try {
+            date = sdf.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            timeStr = "00:00";
+        }
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.setTime(date);
+        timeStr = sdf.format(cal.getTime());
+        return timeStr;
     }
 }
