@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ConfirmationSportActivity"></activity>
+        <activity android:name=".activities.ResultTicketSportActivity"></activity>
+        <activity android:name=".activities.ConfirmationSportActivity" />
         <activity android:name=".activities.SeatPlaceSportActivity" />
         <activity android:name=".activities.NowShowingActivity" />
         <activity android:name=".activities.ComingSoonActivity" />

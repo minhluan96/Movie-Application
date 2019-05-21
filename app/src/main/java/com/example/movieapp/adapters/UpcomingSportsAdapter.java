@@ -25,6 +25,11 @@ public class UpcomingSportsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.mContext = mContext;
     }
 
+    public void setUpcomingSports(List<Sport> upcomingSports) {
+        this.upcomingSports = upcomingSports;
+        notifyDataSetChanged();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.upcoming_sport_home_item, viewGroup, false);

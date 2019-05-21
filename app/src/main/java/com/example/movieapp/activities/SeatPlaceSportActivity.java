@@ -6,18 +6,24 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.android.volley.VolleyError;
+import com.example.movieapp.models.BookedSeat;
 import com.example.movieapp.models.Calendar;
 import com.example.movieapp.models.SeatMo;
 import com.example.movieapp.models.ShowMatch;
 import com.example.movieapp.models.Sport;
 import com.example.movieapp.models.Stadium;
 import com.example.movieapp.models.Ticket;
+import com.example.movieapp.utils.AppManager;
 import com.example.movieapp.utils.Constant;
+import com.example.movieapp.utils.DataParser;
+import com.example.movieapp.utils.Utilities;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +32,7 @@ public class SeatPlaceSportActivity extends SeatPlaceActivity {
     private Sport sport;
     private Stadium stadium;
     private ShowMatch showMatch;
+    private static final String TAG_SEAT_SPORT = "TAG_SEAT_SPORT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,5 +154,38 @@ public class SeatPlaceSportActivity extends SeatPlaceActivity {
     @Override
     protected void getBookedSeatOfEvent() {
         // TODO: implement later
+        AppManager.getInstance().getCommService().getBookedSeatByEvent(TAG_SEAT_SPORT, showMatch.getId(), stadium.getId(),
+                new DataParser.DataResponseListener<LinkedList<BookedSeat>>() {
+            @Override
+            public void onDataResponse(LinkedList<BookedSeat> result) {
+                bookedSeats = result;
+                for (BookedSeat bookedSeat : bookedSeats) {
+                    String blockName = bookedSeat.getRow();
+                    int actualRow = Utilities.convertStringToInt(blockName) - 1;
+                    int col = Integer.parseInt(bookedSeat.getNumber()) - 1;
+                    SeatMo seatMo = seatTable[actualRow][col];
+                    if (seatMo == null) continue;
+                    seatMo.setId(bookedSeat.getId());
+                    if (bookedSeat.getStatus() == -1)
+                        seatMo.status = bookedSeat.getStatus();
+                }
+            }
+
+            @Override
+            public void onDataError(String errorMessage) {
+
+            }
+
+            @Override
+            public void onRequestError(String errorMessage, VolleyError volleyError) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
     }
 }

@@ -34,7 +34,10 @@
                     android:id="@+id/rv_latest_sport"
                     android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="600dp" />
+
+                <include android:id="@+id/shimmer_latest_view"
+                    layout="@layout/shimmer_view_layout" />
 
                 <LinearLayout
                     android:layout_marginTop="20dp"
@@ -70,6 +73,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     />
+
+                <include android:id="@+id/shimmer_upcoming_view"
+                    layout="@layout/shimmer_view_layout" />
 
             </LinearLayout>
 

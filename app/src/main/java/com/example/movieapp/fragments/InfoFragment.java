@@ -21,7 +21,9 @@ import com.squareup.picasso.Picasso;
 public class InfoFragment extends BaseFragment {
 
     private ImageView imgThumbnail, imgPlay;
-    private TextView txtTitle, txtType, txtStartDate, txtTime, txtDescription, txtDirectors, txtActors;
+    private TextView txtTitle, txtType, txtStartDate,
+            txtTime, txtDescription, txtDirectors,
+            txtActors, txtTitleDescription, txtTitleDirectors, txtTitleActors;
     private Movie movie;
     private Sport sport;
 
@@ -50,9 +52,14 @@ public class InfoFragment extends BaseFragment {
         txtDescription = v.findViewById(R.id.txtDescription);
         txtDirectors = v.findViewById(R.id.txtDirectors);
         txtActors = v.findViewById(R.id.txtActors);
+        txtTitleDescription = v.findViewById(R.id.txtTitleDescription);
+        txtTitleActors = v.findViewById(R.id.txtTitleActors);
+        txtTitleDirectors = v.findViewById(R.id.txtTitleDirectors);
 
         if (movie != null) {
             initMovieUI();
+        } else {
+            initSportUI();
         }
 
         return v;
@@ -71,6 +78,22 @@ public class InfoFragment extends BaseFragment {
         txtActors.setText(movie.getCasts());
 
         imgPlay.setOnClickListener(v1 -> openExternalLink());
+    }
+
+    private void initSportUI() {
+        if (sport.getImgUrl() != null) {
+            Picasso.get().load(sport.getImgUrl()).error(R.drawable.sports).into(imgThumbnail);
+        }
+        txtTitle.setText(sport.getName());
+        txtType.setText(sport.getReleaseDateStr());
+        txtStartDate.setText(sport.getTimeStart());
+        txtTime.setVisibility(View.GONE);
+        txtTitleDescription.setText("Giới thiệu");
+        txtDescription.setText(sport.getDescription());
+        txtDirectors.setVisibility(View.GONE);
+        txtActors.setVisibility(View.GONE);
+        txtTitleDirectors.setVisibility(View.GONE);
+        txtTitleActors.setVisibility(View.GONE);
     }
 
     private void openExternalLink() {

@@ -20,13 +20,13 @@ import net.glxn.qrgen.android.QRCode;
 
 public class ResultTicketActivity extends BaseActivity {
 
-    private ImageView imgQRCode;
+    protected ImageView imgQRCode;
     private int userId;
     private int ticketId;
-    private TicketInfo ticketInfo;
+    protected TicketInfo ticketInfo;
     private static final String TAG_GET_TICKET = "TAG_GET_TICKET";
 
-    private TextView txtTitle, txtMinAge, txtDescription,
+    protected TextView txtTitle, txtMinAge, txtDescription,
             txtSeatPlaces, txtCode, txtType,
             txtDate, txtTime, txtHome;
 
@@ -55,7 +55,7 @@ public class ResultTicketActivity extends BaseActivity {
         });
     }
 
-    private void initialGUI() {
+    protected void initialGUI() {
         txtTitle.setText(ticketInfo.getMovieName());
         txtMinAge.setText(ticketInfo.getMinAge());
         txtDescription.setText(ticketInfo.getRunningTime() + " - " + ticketInfo.getType());

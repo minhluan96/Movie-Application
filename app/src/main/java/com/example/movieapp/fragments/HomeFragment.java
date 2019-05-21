@@ -37,7 +37,8 @@ public class HomeFragment extends BaseFragment {
         toolbar = v.findViewById(R.id.toolbar);
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(false);
 
 
         movieFragment = new MovieHomeFragment();
