@@ -158,12 +158,17 @@ public class PurchasedTicketInfoFragment extends BaseFragment {
         String rows = "";
         String numbers = "";
         for (int i = 0; i < bookingInfo.getBookedSeatList().size(); i++) {
-            rows += (bookingInfo.getBookedSeatList().get(i).getRow() + "\n");
-            numbers += (bookingInfo.getBookedSeatList().get(i).getNumber() + "\n");
+            if (i == (bookingInfo.getBookedSeatList().size() - 1)) {
+                rows += (bookingInfo.getBookedSeatList().get(i).getRow());
+                numbers += (bookingInfo.getBookedSeatList().get(i).getNumber());
+            } else {
+                rows += (bookingInfo.getBookedSeatList().get(i).getRow() + "\n");
+                numbers += (bookingInfo.getBookedSeatList().get(i).getNumber() + "\n");
+            }
         }
         // set rows, numbers
-        txtRows.setText(Html.fromHtml(rows));
-        txtNumbers.setText(Html.fromHtml(numbers));
+        txtRows.setText(rows);
+        txtNumbers.setText(numbers);
     }
 
     private void prepareQRCode() {

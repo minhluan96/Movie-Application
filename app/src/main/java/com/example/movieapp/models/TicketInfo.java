@@ -23,6 +23,9 @@ public class TicketInfo {
     @SerializedName(value = "type")
     private String type;
 
+    @SerializedName(value = "genre")
+    private String genre;
+
     @SerializedName(value = "runningTime")
     private String runningTime;
 
@@ -109,6 +112,14 @@ public class TicketInfo {
         this.type = type;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
     public String getRunningTime() {
         return runningTime;
     }
@@ -192,7 +203,7 @@ public class TicketInfo {
             e.printStackTrace();
         }
         Date date = cal.getTime();
-        sdf = new SimpleDateFormat("dd-MM-yyyy");
+        sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(date);
     }
 

@@ -2,46 +2,48 @@ package com.example.movieapp.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.example.movieapp.R;
 import com.example.movieapp.models.BookedSeat;
-import com.example.movieapp.models.Ticket;
 import com.example.movieapp.models.TicketInfo;
 import com.example.movieapp.utils.AppManager;
 import com.example.movieapp.utils.DataParser;
+import com.squareup.picasso.Picasso;
 
 import net.glxn.qrgen.android.QRCode;
 
 public class ResultTicketActivity extends BaseActivity {
 
-    protected ImageView imgQRCode;
+    protected ImageView imgQRCode, cinemaIcon;
     private int userId;
     private int ticketId;
     protected TicketInfo ticketInfo;
     private static final String TAG_GET_TICKET = "TAG_GET_TICKET";
 
     protected TextView txtTitle, txtMinAge, txtDescription,
-            txtSeatPlaces, txtCode, txtType,
-            txtDate, txtTime, txtHome;
+            txtAddress,  txtCinema,
+            txtSeatPlaces, txtCode,
+            txtDate, txtTime, txtRoom, txtHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_ticket);
         imgQRCode = findViewById(R.id.imgQRCode);
+        cinemaIcon = findViewById(R.id.cinemaIcon);
         txtTitle = findViewById(R.id.txtTitle);
         txtMinAge = findViewById(R.id.txtMinAge);
+        txtCinema = findViewById(R.id.txtCinema);
+        txtAddress = findViewById(R.id.txtAddress);
         txtDescription = findViewById(R.id.txtDescription);
         txtSeatPlaces = findViewById(R.id.txtSeatPlaces);
-        txtType = findViewById(R.id.txtType);
         txtDate = findViewById(R.id.txtDate);
         txtTime = findViewById(R.id.txtTime);
+        txtRoom = findViewById(R.id.txtRoom);
         txtCode = findViewById(R.id.txtCode);
         txtHome = findViewById(R.id.txtHome);
 
@@ -57,11 +59,14 @@ public class ResultTicketActivity extends BaseActivity {
 
     protected void initialGUI() {
         txtTitle.setText(ticketInfo.getMovieName());
-        txtMinAge.setText(ticketInfo.getMinAge());
-        txtDescription.setText(ticketInfo.getRunningTime() + " - " + ticketInfo.getType());
-        txtType.setText(ticketInfo.getCinemaName() + " - " + ticketInfo.getRoom());
+        txtMinAge.setText("C" + ticketInfo.getMinAge());
+        txtDescription.setText(ticketInfo.getRunningTime() + " - " + ticketInfo.getGenre());
+        txtCinema.setText(ticketInfo.getCinemaName());
+        txtAddress.setText(ticketInfo.getAddress());
+        Picasso.get().load(ticketInfo.getIconURL()).error(R.drawable.purchased_tickets).into(cinemaIcon);
         txtDate.setText(ticketInfo.getReleaseDateAsString());
         txtTime.setText(ticketInfo.getTimeStr());
+        txtRoom.setText(ticketInfo.getRoom());
         txtCode.setText(ticketInfo.getCode());
         String seats = "";
         for (BookedSeat bookedSeat : ticketInfo.getBookedSeats()) {

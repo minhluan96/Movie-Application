@@ -14,18 +14,16 @@ import android.view.ViewGroup;
 import com.example.movieapp.R;
 import com.example.movieapp.adapters.ViewPagerHomeAdapter;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements TabLayout.OnTabSelectedListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private MovieHomeFragment movieFragment;
     private SportHomeFragment sportFragment;
     private Toolbar toolbar;
+    private static int tabSelected = 0;
 
-    public HomeFragment() {
-
-    }
-
+    public HomeFragment() {}
 
     @Nullable
     @Override
@@ -53,5 +51,25 @@ public class HomeFragment extends BaseFragment {
         adapter.addFragment(movieFragment, "Phim chiếu rạp");
         adapter.addFragment(sportFragment, "Thể thao");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TabLayout.Tab tab = tabLayout.getTabAt(tabSelected);
+        tab.select();
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        tabSelected = tab.getPosition();
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
     }
 }

@@ -176,7 +176,7 @@ public class CardInfoFragment extends BaseFragment implements BankListAdapter.Ba
     }
 
     private void updateExpirationDate(int selectedMonth, int selectedYear) {
-        etExpiration.setText(selectedMonth + "/" + selectedYear);
+        etExpiration.setText((selectedMonth + 1) + "/" + selectedYear);
     }
 
     public boolean isBankListDisplay() {
