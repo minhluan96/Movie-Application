@@ -68,7 +68,7 @@
                         android:id="@+id/btnBookTicket"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:text="ĐẶT VÉ"
+                        android:text="MUA VÉ"
                         android:background="@drawable/border_background_primary_color"
                         android:layout_height="wrap_content" />
                 </LinearLayout>

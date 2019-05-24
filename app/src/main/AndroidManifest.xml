@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.movieapp">
+    package="com.hcmus.movieapp">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -17,17 +17,17 @@
         android:hardwareAccelerated="false"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ResultTicketSportActivity"></activity>
-        <activity android:name=".activities.ConfirmationSportActivity" />
-        <activity android:name=".activities.SeatPlaceSportActivity" />
-        <activity android:name=".activities.NowShowingActivity" />
-        <activity android:name=".activities.ComingSoonActivity" />
-        <activity android:name=".activities.SellingSportTicketActivity" />
-        <activity android:name=".activities.ResultTicketActivity" />
-        <activity android:name=".activities.ConfirmationActivity" />
-        <activity android:name=".activities.SeatPlaceActivity" />
-        <activity android:name=".activities.BookingTicketActivity" />
-        <activity android:name=".activities.HomeActivity">
+        <activity android:name="com.hcmus.movieapp.activities.ResultTicketSportActivity"></activity>
+        <activity android:name="com.hcmus.movieapp.activities.ConfirmationSportActivity" />
+        <activity android:name="com.hcmus.movieapp.activities.SeatPlaceSportActivity" />
+        <activity android:name="com.hcmus.movieapp.activities.NowShowingActivity" />
+        <activity android:name="com.hcmus.movieapp.activities.ComingSoonActivity" />
+        <activity android:name="com.hcmus.movieapp.activities.SellingSportTicketActivity" />
+        <activity android:name="com.hcmus.movieapp.activities.ResultTicketActivity" />
+        <activity android:name="com.hcmus.movieapp.activities.ConfirmationActivity" />
+        <activity android:name="com.hcmus.movieapp.activities.SeatPlaceActivity" />
+        <activity android:name="com.hcmus.movieapp.activities.BookingTicketActivity" />
+        <activity android:name="com.hcmus.movieapp.activities.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,37 +35,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SellingTicketActivity"
+            android:name="com.hcmus.movieapp.activities.SellingTicketActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name="com.hcmus.movieapp.activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activities.RegistrationActivity"
+            android:name="com.hcmus.movieapp.activities.RegistrationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activities.ChangePasswordActivity"
+            android:name="com.hcmus.movieapp.activities.ChangePasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activities.UserInfoActivity"
+            android:name="com.hcmus.movieapp.activities.UserInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activities.PurchasedTicketDetailsActivity"
+            android:name="com.hcmus.movieapp.activities.PurchasedTicketDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activities.NotificationDetailsActivity"
+            android:name="com.hcmus.movieapp.activities.NotificationDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize" />
