@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
-        applicationId "com.example.movieapp"
+        applicationId "com.hcmus.movieapp"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 2
