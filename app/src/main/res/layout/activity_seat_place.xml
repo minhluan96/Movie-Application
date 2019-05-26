@@ -40,6 +40,7 @@
             app:seatScaleFactorMax="3"
             app:iconOnSale="@drawable/seat_sale"
             app:iconSold="@drawable/seat_sold"
+            app:iconUnavailable="@drawable/seat_unavailable"
             app:iconSelected="@drawable/seat_selected"
             />
 
@@ -112,6 +113,29 @@
                     android:layout_gravity="center"
                     android:textSize="12sp"
                     android:text="Ghế còn trống"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/seat_unavailable"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="12sp"
+                    android:text="Không thể chọn"/>
 
             </LinearLayout>
 

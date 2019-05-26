@@ -45,10 +45,12 @@ public class MovieSeatView extends View {
     private int mIconOnSaleResId;
     private int mIconSoldResId;
     private int mIconSelectedResId;
+    private int mIconUnavailableId;
 
     private Bitmap mIconOnSale;
     private Bitmap mIconSold;
     private Bitmap mIconSelected;
+    private Bitmap mIconUnavailable;
 
 
 
@@ -91,10 +93,12 @@ public class MovieSeatView extends View {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MovieSeatView);
         if(typedArray.hasValue(R.styleable.MovieSeatView_iconOnSale)
                 && typedArray.hasValue(R.styleable.MovieSeatView_iconSold)
-                && typedArray.hasValue(R.styleable.MovieSeatView_iconSelected)){
+                && typedArray.hasValue(R.styleable.MovieSeatView_iconSelected)
+                && typedArray.hasValue(R.styleable.MovieSeatView_iconUnavailable)){
             mIconOnSaleResId = typedArray.getResourceId(R.styleable.MovieSeatView_iconOnSale, 0);
             mIconSoldResId = typedArray.getResourceId(R.styleable.MovieSeatView_iconSold, 0);
             mIconSelectedResId = typedArray.getResourceId(R.styleable.MovieSeatView_iconSelected, 0);
+            mIconUnavailableId = typedArray.getResourceId(R.styleable.MovieSeatView_iconUnavailable, 0);
 
             mSeatPadding = (int) (typedArray.getDimension(R.styleable.MovieSeatView_seatPadding, 0f) + 0.5f) * 2;
             mSeatWidth = typedArray.getDimension(R.styleable.MovieSeatView_seatWidth,
@@ -152,6 +156,9 @@ public class MovieSeatView extends View {
         if(mIconSelected == null){
             mIconSelected = BitmapFactory.decodeResource(getResources(), mIconSelectedResId);
         }
+        if (mIconUnavailable == null) {
+            mIconUnavailable = BitmapFactory.decodeResource(getResources(), mIconUnavailableId);
+        }
         int seatWidth = (int) (mSeatWidth * mScaleFactor);
         int seatHeight = (int) (mSeatHeight * mScaleFactor);
         mScaleX4Padding = 1 - mSeatPadding / (mSeatWidth * mScaleFactor);
@@ -182,7 +189,10 @@ public class MovieSeatView extends View {
                         canvas.drawBitmap(mIconSold, mMatrix, paint);
                     } else if (seat.isSelected()) {
                         canvas.drawBitmap(mIconSelected, mMatrix, paint);
+                    } else if (seat.isSeatUnavailable()) {
+                        canvas.drawBitmap(mIconUnavailable, mMatrix, paint);
                     }
+
                 }
             }
         }

@@ -5,6 +5,7 @@
         <attr name="iconOnSale" format="reference" />
         <attr name="iconSold" format="reference" />
         <attr name="iconSelected" format="reference" />
+        <attr name="iconUnavailable" format="reference" />
 
         <attr name="seatPadding" format="dimension" />
         <attr name="showOverView" format="boolean" />

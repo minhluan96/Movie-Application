@@ -74,7 +74,6 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat_place);
 
-
         selectedSeats = new ArrayList<>();
         mMovieSeatView = findViewById(R.id.seat_view);
         txtContinue = findViewById(R.id.txtContinue);
@@ -159,14 +158,72 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
                 showDialogErrorWithOKButtonListener(SeatPlaceActivity.this, "Thông báo", "Đã hết thời gian đặt vé. Vui lòng thử lại", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(SeatPlaceActivity.this, HomeActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+
                     }
                 });
                 // Toast.makeText(SeatPlaceActivity.this, "Hết thời gian đặt vé", Toast.LENGTH_SHORT).show();
             }
         }.start();
+    }
+
+    private void setupPreSelectedSeat() {
+        for (Map.Entry<Ticket, Integer> entry : map.entrySet()) {
+            Ticket ticket = entry.getKey();
+            int maxQuantity = entry.getValue();
+            List<Integer> positionRows = getRowOfSeatByType(ticket.getId());
+            int minRow = positionRows.get(0);
+            int maxRow = positionRows.get(1);
+            int selectedSuccessfully = 0;
+            int increaseNumb = 1;
+            int decreaseNumb = 0;
+            if (ticket.getId() == Constant.SeatType.COUPLE) {
+                increaseNumb = 2;
+                decreaseNumb = 1;
+            }
+            for (int i = 0; i < maxQuantity; i++) {
+                for (int j = minRow; j <= maxRow; j++) {
+                    for (int k = 0; k < maxColumn - decreaseNumb; k += increaseNumb) {
+                        SeatMo seatMo = seatTable[j][k];
+                        if (seatMo != null && seatMo.isOnSale()) {
+                            if (selectedSuccessfully == maxQuantity) {
+                                break;
+                            }
+                            onClickSeat(j, k, seatMo);
+                            selectedSuccessfully++;
+
+                        }
+                    }
+                }
+            }
+            if (selectedSuccessfully < maxQuantity) {
+                // TODO: notify user and push them back to the previous acitivity
+            }
+
+        }
+        mMovieSeatView.invalidate();
+    }
+
+    private List<Integer> getRowOfSeatByType(int type) {
+        List<Integer> positions = new ArrayList<>();
+        int min = 0; // first row
+        int max = maxRow - 1; // last row
+        switch (type) {
+            case Constant.SeatType.NORMAL:
+                min = 0;
+                max = Constant.SeatTypePosition.NORMAL - 1;
+                break;
+            case Constant.SeatType.VIP:
+                min = Constant.SeatTypePosition.NORMAL;
+                max = Constant.SeatTypePosition.VIP - 1;
+                break;
+            case Constant.SeatType.COUPLE:
+                min = Constant.SeatTypePosition.VIP;
+                max = Constant.SeatTypePosition.COUPLE - 1;
+                break;
+        }
+        positions.add(min);
+        positions.add(max);
+        return positions;
     }
 
     protected void setupUIData() {
@@ -205,9 +262,12 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
                     SeatMo seatMo = seatTable[actualRow][col];
                     if (seatMo == null) continue;
                     seatMo.setId(bookedSeat.getId());
-                    if (bookedSeat.getStatus() == -1)
+                    if (bookedSeat.getStatus() == -1) {
                         seatMo.status = bookedSeat.getStatus();
+                    }
                 }
+
+                setupPreSelectedSeat();
             }
 
             @Override
@@ -237,7 +297,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
                 seat.column = j;
                 seat.rowName = String.valueOf((char)('A' + i));
                 seat.seatName = seat.rowName + (j + 1);
-                seat.status = 0;
+                seat.status = -1;
 
                 seat = configSpecifySeatForPosition(i, j, seat);
                 seatTable[i][j] = seat;
@@ -316,7 +376,6 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
 
     protected int getTotalSeatCanSelect() {
         int sum = 0;
-        List<Integer> types = new ArrayList<>();
         for (int i : map.values()) {
             sum += i;
         }
@@ -372,13 +431,12 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
 
         if(seatMo != null){
             if (seatMo.isOnSale()) {
-                int max_seats = MAX_SEATS;
+                int max_seats = isCouple ? getTotalSeatCanSelect() * 2 : getTotalSeatCanSelect();
                 int type = getTypeOfSeatOnClick(row, column);
 
                 Map.Entry<Ticket, Integer> entry = getTicketByType(type);
-                int maxSeatByType = entry.getValue();
+                int maxSeatByType = isCouple ? entry.getValue() * 2 : entry.getValue();
                 int totalSelectedSeatByType = getTotalSelectedSeatByType(seatMo.getTypeSeat());
-                max_seats = getTotalSeatCanSelect();
                 if (selectedSeats.size() < max_seats && totalSelectedSeatByType < maxSeatByType) {
                     seatMo.setSelected();
                     selectedSeats.add(seatMo);

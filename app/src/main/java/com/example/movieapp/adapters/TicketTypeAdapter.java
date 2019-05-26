@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.movieapp.R;
 import com.example.movieapp.models.Ticket;
-import com.squareup.picasso.Picasso;
+import com.example.movieapp.utils.Constant;
 
 import java.util.List;
 
@@ -23,6 +23,7 @@ public class TicketTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<Ticket> tickets;
     private Context context;
     private TicketChangeListener ticketChangeListener;
+    private boolean isSetup = true;
 
     public TicketTypeAdapter(List<Ticket> tickets, Context context) {
         this.tickets = tickets;
@@ -60,12 +61,14 @@ public class TicketTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         ticketTypeViewHolder.imgAdd.setOnClickListener(v -> {
-            int quantity = getCurrentQuantityOfTicket(ticketTypeViewHolder);
-            quantity++;
-            if (quantity > 10) return;
-            ticketTypeViewHolder.txtQuantity.setText(String.valueOf(quantity));
-            ticketChangeListener.onAddButtonChanged(quantity, ticket.getPrice(), ticket);
+            increaseNumberOfTicket(ticketTypeViewHolder, ticket);
         });
+
+        if (i == Constant.SeatType.VIP - 1 && isSetup) { // position in list items
+            ticketTypeViewHolder.txtQuantity.setText("1"); // set default value
+            ticketTypeViewHolder.imgSubtract.setVisibility(View.VISIBLE);
+            isSetup = false;
+        }
 
         ticketTypeViewHolder.imgSubtract.setOnClickListener(v -> {
             int quantity = getCurrentQuantityOfTicket(ticketTypeViewHolder);
@@ -78,6 +81,14 @@ public class TicketTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
 
         });
+    }
+
+    public void increaseNumberOfTicket(TicketTypeViewHolder ticketTypeViewHolder, Ticket ticket) {
+        int quantity = getCurrentQuantityOfTicket(ticketTypeViewHolder);
+        quantity++;
+        if (quantity > 10) return;
+        ticketTypeViewHolder.txtQuantity.setText(String.valueOf(quantity));
+        ticketChangeListener.onAddButtonChanged(quantity, ticket.getPrice(), ticket);
     }
 
     private int getCurrentQuantityOfTicket(TicketTypeViewHolder ticketTypeViewHolder) {
@@ -95,18 +106,23 @@ public class TicketTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.ticketChangeListener = ticketChangeListener;
     }
 
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
     @Override
     public int getItemCount() {
         return tickets.size();
     }
 
-    class TicketTypeViewHolder extends RecyclerView.ViewHolder {
+    public class TicketTypeViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtNameTicketType, txtPrice, txtQuantity;
         private ImageView imgAdd, imgSubtract;
 
         public TicketTypeViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setTag(this);
             txtNameTicketType = itemView.findViewById(R.id.txtNameTicket);
             txtPrice = itemView.findViewById(R.id.txtPrice);
             txtQuantity = itemView.findViewById(R.id.txtQuantity);

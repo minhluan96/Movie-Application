@@ -33,4 +33,6 @@ public interface BaseSeatMo extends Serializable {
      */
     boolean isSelected();
 
+    boolean isSeatUnavailable();
+
 }

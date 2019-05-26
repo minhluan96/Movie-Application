@@ -26,6 +26,7 @@ import com.example.movieapp.utils.Utilities;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -44,7 +45,7 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
             txtTotalPrice, txtContinue, txtCinema,
             txtBranch, txtDate, txtTime, txtRoomNumber, txtCurrentTime;
     private RecyclerView rvTicketTypes;
-    private ImageView imgClose;
+    private ImageView imgClose, imgPoster;
     private RecyclerView.LayoutManager layoutManager;
     private TicketTypeAdapter ticketTypeAdapter;
     private Movie movie;
@@ -77,6 +78,7 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
         imgClose = findViewById(R.id.imgClose);
         txtCurrentTime = findViewById(R.id.txtCurrentTime);
         rvTicketTypes = findViewById(R.id.rv_ticket_type);
+        imgPoster = findViewById(R.id.imgPoster);
 
         getDataFromPreviousIntent();
         setupUIData();
@@ -84,15 +86,14 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
         layoutManager = new LinearLayoutManager(this);
         rvTicketTypes.setLayoutManager(layoutManager);
         setupTicketTypeAdapter();
-
-        txtTotalPrice.setText(String.valueOf(totalPrice));
+        txtTotalPrice.setText(Utilities.formatCurrency(totalPrice));
 
         txtContinue.setOnClickListener(v -> {
             if (totalPrice == 0) {
                 showDialogErrorWithOKButton(BookingTicketActivity.this, "Lỗi", "Vui lòng chọn vé để tiến hành đặt ghế");
                 return;
             }
-
+            optimizeBoughtTickets();
             if (!isSportEvent) {
                 sendMovieData();
             } else {
@@ -115,6 +116,16 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
         intent.putExtra("showtime", jsonShowtime);
         intent.putExtra("calendar", jsonCalendar);
         startActivity(intent);
+    }
+
+    private void optimizeBoughtTickets() {
+        Map<Ticket, Integer> optimzedMap = new HashMap<>();
+        for (Map.Entry<Ticket, Integer> entry : boughtTicketList.entrySet()) {
+            if (entry.getValue() != 0) {
+                optimzedMap.put(entry.getKey(), entry.getValue());
+            }
+        }
+        boughtTicketList = optimzedMap;
     }
 
     private void sendSportIntent() {
@@ -196,6 +207,7 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
         txtNameMovie.setText(movie.getName());
         txtMinAge.setText(movie.minAgeDisplay());
         txtDetailDurationAndType.setText(movie.getLength() + " - " + showtime.getTypeMovie());
+        Picasso.get().load(movie.getImgURL()).error(R.drawable.poster).into(imgPoster);
     }
 
     private void setTimer() {
@@ -215,6 +227,7 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
         txtNameMovie.setText(sport.getName());
         txtMinAge.setText(showMatch.getTimeStart());
         txtDetailDurationAndType.setText(sport.getDescription());
+        Picasso.get().load(sport.getImgUrl()).error(R.drawable.sports).into(imgPoster);
         setTimer();
     }
 
@@ -223,6 +236,7 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
         ticketTypeAdapter = new TicketTypeAdapter(tickets, this);
         ticketTypeAdapter.setTicketChangeListener(this);
         rvTicketTypes.setAdapter(ticketTypeAdapter);
+        setupPreTicketPlaceHolder();
     }
 
     private List<Ticket> getDummyData() {
@@ -247,11 +261,17 @@ public class BookingTicketActivity extends BaseActivity implements TicketTypeAda
         return tickets;
     }
 
+    private void setupPreTicketPlaceHolder() {
+        Ticket ticket = ticketTypeAdapter.getTickets().get(1);
+        onAddButtonChanged(1, ticket.getPrice(), ticket);
+    }
+
     @Override
     public void onAddButtonChanged(int totalQuantity, double pricePerTicket, Ticket ticket) {
         totalPrice += pricePerTicket;
         boughtTicketList.put(ticket, totalQuantity);
-        txtTotalPrice.setText(Utilities.formatCurrency(totalPrice));
+        String formatedPrice = Utilities.formatCurrency(totalPrice);
+        txtTotalPrice.setText(formatedPrice);
         ticketTypeAdapter.notifyDataSetChanged();
     }
 

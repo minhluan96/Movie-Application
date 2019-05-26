@@ -55,6 +55,11 @@ public class SeatMo extends BaseMo implements BaseSeatMo {
         return status == 2;
     }
 
+    @Override
+    public boolean isSeatUnavailable() {
+        return status == -1;
+    }
+
     public void setSold() {
         status = 0;
     }
