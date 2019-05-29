@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgThumbnail"
+                android:layout_width="match_parent"
+                android:src="@drawable/stadium_view"
+                android:layout_height="500dp"
+                android:scaleType="centerCrop" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Title"/>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:theme="@style/RatingBar"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="1"
+                    android:isIndicator="true"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/txtAvgPoint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="10"
+                    android:textColor="@color/colorLightGreen"
+                    android:layout_gravity="center"
+                    android:textSize="16dp" />
+
+            </LinearLayout> <!--Stars and Avg point-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/txtIconAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/txtAddress"
+                    android:layout_marginLeft="10dp"
+                    android:text="138 Đào Duy Từ, Phường 6, Quận 10, Hồ Chí Minh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/txtIconCapacity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/txtCapacity"
+                    android:layout_marginLeft="10dp"
+                    android:text="15.000 chỗ ngồi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/txtIconSurface"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/txtSurface"
+                    android:layout_marginLeft="10dp"
+                    android:text="Sân cỏ tự nhiên"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtTitleIntroduce"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="15sp"
+                android:text="Giới thiệu"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/txtIntroduce"
+                android:text="Sân vận động Thống Nhất là một sân vận động nằm ở số 138 Đào Duy Từ, Phường 6, Quận 10, Thành phố Hồ Chí Minh. Trung tâm tổ chức nhiều sự kiện lớn của các giải thi đấu thể thao trong và ngoài nước. Là sân vận động gắn liền với cả nền bóng đá của Việt Nam chứ không riêng gì với bóng đá Sài Gòn, có lịch sử lâu đời nhất Việt Nam và được gắn liền với môn thể thao bóng đá từ thời Pháp thuộc. Được khánh thành vào ngày 18 tháng 10 năm 1931. Và kể từ đây, sân vận động là nơi diễn ra nhiều trận thi đấu bóng đá lớn nhỏ khác nhau. Sân được chỉnh trang và nâng cấp lớn theo tiêu chuẩn quốc tế với sức chứa lên đến 25.000 người, trang thiết bị được đầu tư hiện đại."
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

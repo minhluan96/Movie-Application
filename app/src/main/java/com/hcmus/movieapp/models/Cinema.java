@@ -13,6 +13,9 @@ public class Cinema {
     @SerializedName(value = "iconURL")
     private String imgUrl;
 
+    @SerializedName(value = "viewURL")
+    private String viewUrl;
+
     @SerializedName(value = "address")
     private String address;
 
@@ -20,16 +23,26 @@ public class Cinema {
 
     private float avgPoint;
 
+    private String phone;
+
+    private String operatingHours;
+
+    private String introduce;
+
     @SerializedName(value = "showTimes")
     private Showtime[] showtime;
 
-    public Cinema(int id, String name, String imgUrl, String address, String description, float avgPoint) {
+    public Cinema(int id, String name, String imgUrl, String viewUrl, String address, String description, float avgPoint, String phone, String operatingHours, String introduce) {
         this.id = id;
         this.name = name;
         this.imgUrl = imgUrl;
+        this.viewUrl = viewUrl;
         this.address = address;
         this.description = description;
         this.avgPoint = avgPoint;
+        this.phone = phone;
+        this.operatingHours = operatingHours;
+        this.introduce = introduce;
     }
 
     public int getId() {
@@ -56,6 +69,14 @@ public class Cinema {
         this.imgUrl = imgUrl;
     }
 
+    public String getViewUrl() {
+        return viewUrl;
+    }
+
+    public void setViewUrl(String viewUrl) {
+        this.viewUrl = viewUrl;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -78,6 +99,30 @@ public class Cinema {
 
     public void setAvgPoint(float avgPoint) {
         this.avgPoint = avgPoint;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getOperatingHours() {
+        return operatingHours;
+    }
+
+    public void setOperatingHours(String operatingHours) {
+        this.operatingHours = operatingHours;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
     }
 
     public Showtime[] getShowtime() {

@@ -1,6 +1,7 @@
 package com.hcmus.movieapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +9,16 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hcmus.movieapp.R;
+import com.hcmus.movieapp.activities.VenueInfoActivity;
 import com.hcmus.movieapp.models.Venue;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
 public class VenuesAdapter extends RecyclerView.Adapter<VenuesAdapter.MyViewHolder>{
-    private Context context;
+    private Context mContext;
     private List<Venue> venueList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -32,7 +35,7 @@ public class VenuesAdapter extends RecyclerView.Adapter<VenuesAdapter.MyViewHold
     }
 
     public VenuesAdapter(Context context, List<Venue> venueList) {
-        this.context = context;
+        this.mContext = context;
         this.venueList = venueList;
     }
 
@@ -44,25 +47,26 @@ public class VenuesAdapter extends RecyclerView.Adapter<VenuesAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder viewHolder, final int position) {
-        final Venue item = venueList.get(position);
+        final Venue venue = venueList.get(position);
 
-        viewHolder.name.setText(item.getName());
-        viewHolder.address.setText(item.getAddress());
+        viewHolder.name.setText(venue.getName());
+        viewHolder.address.setText(venue.getAddress());
 
         DecimalFormat df = new DecimalFormat("#.#");
-        String formatted = df.format(item.getAvgPoint());
+        String formatted = df.format(venue.getAvgPoint());
         viewHolder.avgPoint.setText(formatted);
 
         viewHolder.ratingBar.setStepSize(0.01f);
-        float ratingValue = item.getAvgPoint() * 0.5f;
+        float ratingValue = venue.getAvgPoint() * 0.5f;
         viewHolder.ratingBar.setRating(ratingValue);
 
         viewHolder.itemView.setOnClickListener(v -> {
-            //TODO: create an Intent to talk to activity
-            //Intent intent = new Intent(context, PurchasedTicketDetailsActivity.class);
-            //int pos = MyViewHolder.getAdapterPosition();
-            //intent.putExtra("venue_info", venueList.get(pos));
-            //context.startActivity(intent);
+            Intent intent = new Intent(mContext, VenueInfoActivity.class);
+            Gson gson = new Gson();
+            String json = gson.toJson(venue);
+            intent.putExtra("title", venue.getName());
+            intent.putExtra("venue", json);
+            mContext.startActivity(intent);
         });
     }
 

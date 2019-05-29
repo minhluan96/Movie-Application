@@ -1,6 +1,7 @@
 package com.hcmus.movieapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hcmus.movieapp.R;
+import com.hcmus.movieapp.activities.CinemaInfoActivity;
 import com.hcmus.movieapp.models.Cinema;
 import com.hcmus.movieapp.models.Cineplex;
 import com.squareup.picasso.Picasso;
@@ -113,9 +116,12 @@ public class CineplexAdapter extends BaseExpandableListAdapter {
         ratingBar.setRating(ratingValue);
 
         convertView.setOnClickListener(v -> {
-            //TODO: create an Intent to talk to activity
-            //Intent intent = new Intent(mContext, <Activity.class>);
-            //mContext.startActivity(intent);
+            Intent intent = new Intent(mContext, CinemaInfoActivity.class);
+            Gson gson = new Gson();
+            String json = gson.toJson(cinema);
+            intent.putExtra("title", cinema.getName());
+            intent.putExtra("cinema", json);
+            mContext.startActivity(intent);
         });
 
         return convertView;
