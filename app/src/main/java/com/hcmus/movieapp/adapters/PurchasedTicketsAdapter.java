@@ -2,6 +2,7 @@ package com.hcmus.movieapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.hcmus.movieapp.utils.Constant;
 import com.hcmus.movieapp.utils.Utilities;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class PurchasedTicketsAdapter extends RecyclerView.Adapter<PurchasedTicketsAdapter.MyViewHolder>{
@@ -29,8 +33,8 @@ public class PurchasedTicketsAdapter extends RecyclerView.Adapter<PurchasedTicke
     }
 
     public class MovieTicketViewHolder extends MyViewHolder {
-        public TextView movie, cinema, rated, date, time, room, runningTime, movieType;
-        public ImageView portrait;
+        public TextView movie, cinema, rated, date, time, room, runningTime, movieType, dash;
+        public ImageView portrait, imgStatus;
 
         public MovieTicketViewHolder(View view) {
             super(view);
@@ -43,12 +47,14 @@ public class PurchasedTicketsAdapter extends RecyclerView.Adapter<PurchasedTicke
             runningTime = view.findViewById(R.id.txtRunningTime);
             movieType = view.findViewById(R.id.txtMovieType);
             portrait  = view.findViewById(R.id.imgPortrait);
+            imgStatus = view.findViewById(R.id.imgStatus);
+            dash = view.findViewById(R.id.dash);
         }
     }
 
     public class EventTicketViewHolder extends MyViewHolder {
-        public TextView event, venue, releaseDate, time, gateway, block, eventCategory;
-        public ImageView landscape;
+        public TextView event, venue, releaseDate, time, gateway, block, eventCategory, dash1, dash2;
+        public ImageView landscape, imgStatus;
 
         public EventTicketViewHolder(View view) {
             super(view);
@@ -60,6 +66,9 @@ public class PurchasedTicketsAdapter extends RecyclerView.Adapter<PurchasedTicke
             gateway = view.findViewById(R.id.txtGateway);
             block = view.findViewById(R.id.txtBlock);
             eventCategory = view.findViewById(R.id.txtEventCategory);
+            dash1 = view.findViewById(R.id.dash_1);
+            dash2 = view.findViewById(R.id.dash_2);
+            imgStatus = view.findViewById(R.id.imgStatus);
         }
     }
 
@@ -108,6 +117,20 @@ public class PurchasedTicketsAdapter extends RecyclerView.Adapter<PurchasedTicke
                     context.startActivity(intent);
                 });
 
+                if (item.isExpired() == true) {
+                    movieTicketViewHolder.imgStatus.setVisibility(View.VISIBLE);
+                    viewHolder.itemView.setEnabled(false);
+                    movieTicketViewHolder.movie.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    movieTicketViewHolder.cinema.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    movieTicketViewHolder.runningTime.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    movieTicketViewHolder.movieType.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    movieTicketViewHolder.date.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    movieTicketViewHolder.time.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    movieTicketViewHolder.room.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    movieTicketViewHolder.rated.setBackground(ContextCompat.getDrawable(context, R.drawable.border_background_dark_grey_color_no_padding));
+                    movieTicketViewHolder.dash.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                }
+
                 break;
             }
             case Constant.TicketType.EVENT: {
@@ -134,6 +157,20 @@ public class PurchasedTicketsAdapter extends RecyclerView.Adapter<PurchasedTicke
                     intent.putExtra("purchased_ticket_info", bookingList.get(pos));
                     context.startActivity(intent);
                 });
+
+                if (item.isExpired() == true) {
+                    eventTicketViewHolder.imgStatus.setVisibility(View.VISIBLE);
+                    viewHolder.itemView.setEnabled(false);
+                    eventTicketViewHolder.event.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    eventTicketViewHolder.venue.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    eventTicketViewHolder.releaseDate.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    eventTicketViewHolder.time.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    eventTicketViewHolder.gateway.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    eventTicketViewHolder.block.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    eventTicketViewHolder.eventCategory.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    eventTicketViewHolder.dash1.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                    eventTicketViewHolder.dash2.setTextColor(ContextCompat.getColor(context, R.color.colorItemDisabled));
+                }
 
                 break;
             }

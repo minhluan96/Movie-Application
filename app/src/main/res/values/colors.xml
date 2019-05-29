@@ -22,4 +22,5 @@
     <color name="colorCardView">#0E1940</color>
     <color name="dialogButtonText">#D81B60</color>
     <color name="placeholder_bg">#dddddd</color>
+    <color name="colorItemDisabled">#B2949494</color>
 </resources>

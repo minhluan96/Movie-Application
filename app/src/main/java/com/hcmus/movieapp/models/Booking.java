@@ -3,7 +3,12 @@ package com.hcmus.movieapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.hcmus.movieapp.utils.Utilities;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Booking implements Parcelable {
@@ -337,5 +342,22 @@ public class Booking implements Parcelable {
 
     public void setBookedComboList(List<BookedCombo> bookedComboList) {
         this.bookedComboList = bookedComboList;
+    }
+
+    public boolean isExpired() {
+        SimpleDateFormat dateTimeFormat  = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date currDateTime = new Date();
+        Date releaseDateTimeFormatted = new Date();
+        String releaseDateTime = Utilities.convertToSimpleDateFormat(this.releaseDate) + " " + this.getTime();
+        try {
+            releaseDateTimeFormatted = dateTimeFormat.parse(releaseDateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (releaseDateTimeFormatted.before(currDateTime)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

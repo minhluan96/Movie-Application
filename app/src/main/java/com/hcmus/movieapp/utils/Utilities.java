@@ -102,6 +102,25 @@ public class Utilities {
         return formatted;
     }
 
+    public static String convertToSimpleDateFormat(String s) {
+        //2018-04-18T23:57:09
+        String newStr = s;
+        String[] parts = newStr.split("T");
+        String[] data = parts[0].split("-");
+        String formatted = "";
+        for (int i = 0; i <= data.length - 1; i++)
+        {
+            if (i != data.length - 1) {
+                formatted += data[i] + "-";
+            } else {
+                formatted += data[i];
+            }
+
+        }
+        // 2018-04-18
+        return formatted;
+    }
+
     public static String convertDateTime(String s) {
         //2018-04-18T23:57:09
         String newStr = s;
