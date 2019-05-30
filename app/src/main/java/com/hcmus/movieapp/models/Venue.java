@@ -7,7 +7,7 @@ public class Venue {
 
     private String name;
 
-    @SerializedName(value = "iconURL")
+    @SerializedName(value = "viewURL")
     private String viewUrl;
 
     private String address;
