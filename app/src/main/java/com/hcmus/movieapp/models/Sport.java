@@ -37,6 +37,9 @@ public class Sport {
     @SerializedName(value = "number_of_tickets")
     private int numberOfTickets;
 
+    @SerializedName(value = "stands")
+    private ShowMatch[] showmatchs;
+
     public Sport(int id, String name, String imgUrl, String status, String description) {
         this.id = id;
         this.name = name;
@@ -145,5 +148,13 @@ public class Sport {
         cal.setTime(date);
         timeStr = sdf.format(cal.getTime());
         return timeStr;
+    }
+
+    public ShowMatch[] getShowmatchs() {
+        return showmatchs;
+    }
+
+    public void setShowmatchs(ShowMatch[] showmatchs) {
+        this.showmatchs = showmatchs;
     }
 }

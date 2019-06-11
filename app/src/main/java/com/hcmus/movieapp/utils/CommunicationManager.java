@@ -15,6 +15,7 @@ import com.hcmus.movieapp.models.Booking;
 import com.hcmus.movieapp.models.Cineplex;
 import com.hcmus.movieapp.models.Movie;
 import com.hcmus.movieapp.models.Notification;
+import com.hcmus.movieapp.models.ShowMatch;
 import com.hcmus.movieapp.models.Sport;
 import com.hcmus.movieapp.models.Stadium;
 import com.hcmus.movieapp.models.Ticket;
@@ -144,9 +145,19 @@ public class CommunicationManager {
         makeJSONObjectRequest(tag, Request.Method.GET, "Location", "Cineplex", null, new DataParser<LinkedList<Cineplex>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
+    public void getCinemaShowtimes(String tag, int cinema_id, String date, final DataParser.DataResponseListener<LinkedList<Movie>> listener) {
+        Type type = new TypeToken<LinkedList<Movie>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Cinema", "Showtimes", cinema_id + "/showing/" + date, null, new DataParser<>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
     public void getAllVenues(String tag, final DataParser.DataResponseListener<LinkedList<Venue>> listener) {
         Type type = new TypeToken<LinkedList<Venue>>() {}.getType();
         makeJSONObjectRequest(tag, Request.Method.GET, "Location", "Venues", null, new DataParser<LinkedList<Venue>>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
+    }
+
+    public void getStadiumShowmatchs(String tag, int venue_id, String date, final DataParser.DataResponseListener<LinkedList<Sport>> listener) {
+        Type type = new TypeToken<LinkedList<Sport>>() {}.getType();
+        makeJSONObjectRequest(tag, Request.Method.GET, "Stadium", "Showmatchs", venue_id + "/sale/" + date, null, new DataParser<>(listener, DataParser.DataRequestType.REQUEST_DATA, null, type));
     }
 
     public void doLogin(String tag, JSONObject body, DataParser.DataResponseListener<LinkedList<Account>> listener) {

@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.hcmus.movieapp.R;
-import com.hcmus.movieapp.adapters.CineplexAdapter;
+import com.hcmus.movieapp.adapters.CineplexExpandableAdapter;
 import com.hcmus.movieapp.models.Cinema;
 import com.hcmus.movieapp.models.Cineplex;
 import com.hcmus.movieapp.utils.AppManager;
@@ -38,7 +38,7 @@ public class CineplexFragment extends BaseFragment implements SwipeRefreshLayout
     private ShimmerFrameLayout shimmerLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ExpandableListView expandableListView;
-    private CineplexAdapter cineplexAdapter;
+    private CineplexExpandableAdapter cineplexExpandableAdapter;
     private TextView txtNotify;
     private HashMap<Cineplex, List<Cinema>> listDataChild;
 
@@ -63,8 +63,8 @@ public class CineplexFragment extends BaseFragment implements SwipeRefreshLayout
 
         cineplexList = new ArrayList<>();
 
-        cineplexAdapter = new CineplexAdapter(getContext(), cineplexList, listDataChild);
-        expandableListView.setAdapter(cineplexAdapter);
+        cineplexExpandableAdapter = new CineplexExpandableAdapter(getContext(), cineplexList, listDataChild);
+        expandableListView.setAdapter(cineplexExpandableAdapter);
 
         getAllCineplex();
 
@@ -122,7 +122,7 @@ public class CineplexFragment extends BaseFragment implements SwipeRefreshLayout
                             List<Cinema> cinemas = Arrays.asList(cineplex.getCinemas());
                             listDataChild.put(cineplex, cinemas);
                         }
-                        cineplexAdapter.setCineplexAndCinemas(cineplexList, listDataChild);
+                        cineplexExpandableAdapter.setCineplexAndCinemas(cineplexList, listDataChild);
 
                         stopShimmer();
                     }

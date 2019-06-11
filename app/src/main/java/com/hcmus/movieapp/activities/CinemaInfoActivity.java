@@ -9,8 +9,8 @@ import android.view.MenuItem;
 
 import com.google.gson.Gson;
 import com.hcmus.movieapp.R;
-import com.hcmus.movieapp.fragments.CalendarFragment;
 import com.hcmus.movieapp.fragments.CinemaInfoFragment;
+import com.hcmus.movieapp.fragments.CinemaShowtimeFragment;
 import com.hcmus.movieapp.models.Cinema;
 
 import java.util.LinkedHashMap;
@@ -21,7 +21,7 @@ public class CinemaInfoActivity extends BaseActivity {
     private Toolbar toolbar;
     protected ViewPager viewPager;
     protected TabLayout tabLayout;
-    protected CalendarFragment calendarFragment;
+    protected CinemaShowtimeFragment cinemaShowtimeFragment;
     protected CinemaInfoFragment cinemaInfoFragment;
     protected Map<Fragment, String> fragmentStringMap;
     protected Gson gson = new Gson();
@@ -50,11 +50,12 @@ public class CinemaInfoActivity extends BaseActivity {
 
         fragmentStringMap = new LinkedHashMap<>();
         cinemaInfoFragment = new CinemaInfoFragment();
-//        calendarFragment = new CalendarFragment();
-        cinemaInfoFragment.setCinema(cinema);
-//        calendarFragment.setMovie(cinema);
+        cinemaShowtimeFragment = new CinemaShowtimeFragment();
 
-//        fragmentStringMap.put(calendarFragment, "Lịch chiếu");
+        cinemaInfoFragment.setCinema(cinema);
+        cinemaShowtimeFragment.setCinema(cinema);
+
+        fragmentStringMap.put(cinemaShowtimeFragment, "Lịch chiếu");
         fragmentStringMap.put(cinemaInfoFragment, "Thông tin");
 
         setupViewPager(viewPager, fragmentStringMap);

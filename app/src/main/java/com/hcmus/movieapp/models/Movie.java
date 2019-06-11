@@ -49,6 +49,9 @@ public class Movie {
     @SerializedName(value = "runningTime")
     private String length;
 
+    @SerializedName(value = "showTimes")
+    private Showtime[] showtimes;
+
     public Movie(int id, String name, String imgURL, String status, double score, String description, int minAge) {
         this.id = id;
         this.name = name;
@@ -181,5 +184,13 @@ public class Movie {
     public int getLengthNumb() {
         String numbValue = length.substring(0, length.indexOf(" "));
         return Integer.valueOf(numbValue);
+    }
+
+    public Showtime[] getShowtimes() {
+        return showtimes;
+    }
+
+    public void setShowtimes(Showtime[] showtimes) {
+        this.showtimes = showtimes;
     }
 }

@@ -75,8 +75,8 @@ public class VenuesAdapter extends RecyclerView.Adapter<VenuesAdapter.MyViewHold
         return venueList.size();
     }
 
-    public void setVenues(List<Venue> venues) {
-        this.venueList = venues;
+    public void setVenues(List<Venue> venueList) {
+        this.venueList = venueList;
         this.notifyDataSetChanged();
     }
 }

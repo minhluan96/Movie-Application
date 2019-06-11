@@ -38,7 +38,6 @@ public class HomeFragment extends BaseFragment implements TabLayout.OnTabSelecte
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(false);
 
-
         movieFragment = new MovieHomeFragment();
         sportFragment = new SportHomeFragment();
         setupViewPager(viewPager);

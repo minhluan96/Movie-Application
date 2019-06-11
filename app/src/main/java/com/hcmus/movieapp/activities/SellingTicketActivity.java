@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.hcmus.movieapp.R;
@@ -27,7 +28,7 @@ public class SellingTicketActivity extends BaseActivity {
     protected Map<Fragment, String> fragmentStringMap;
     protected Gson gson = new Gson();
     private Movie movie;
-
+    private static int tabSelected = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class SellingTicketActivity extends BaseActivity {
 
         String title = getIntent().getStringExtra("title");
         String movieJson = getIntent().getStringExtra("movie");
+        tabSelected = getIntent().getIntExtra("tabSelected", 0);
         if (!title.isEmpty()) {
             getSupportActionBar().setTitle(title);
         }
@@ -71,5 +73,12 @@ public class SellingTicketActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TabLayout.Tab tab = tabLayout.getTabAt(tabSelected);
+        tab.select();
     }
 }
