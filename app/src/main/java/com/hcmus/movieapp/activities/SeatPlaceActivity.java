@@ -253,7 +253,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
     }
 
     protected void getBookedSeatOfEvent() {
-        AppManager.getInstance().getCommService().getBookedSeatByMovie(TAG_BOOKED_SEAT, movie.getId(), cinema.getId(), new DataParser.DataResponseListener<LinkedList<BookedSeat>>() {
+        AppManager.getInstance().getCommService().getBookedSeatByMovie(TAG_BOOKED_SEAT, showtime.getId(), showtime.getLocation_id(), new DataParser.DataResponseListener<LinkedList<BookedSeat>>() {
             @Override
             public void onDataResponse(LinkedList<BookedSeat> result) {
                 bookedSeats = result;
