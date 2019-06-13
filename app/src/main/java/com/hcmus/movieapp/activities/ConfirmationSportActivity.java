@@ -110,7 +110,11 @@ public class ConfirmationSportActivity extends ConfirmationActivity implements P
         imgClose.setOnClickListener(v -> showDialogErrorWithOKButtonListener(ConfirmationSportActivity.this,
                 "Thông báo",
                 "Bạn có chắc chắn muốn hủy giao dịch này?",
-                (dialog, which) -> finish()));
+                (dialog, which) -> {
+                    Intent intent = new Intent(ConfirmationSportActivity.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }));
 
         txtTitle.setText(sport.getName());
         txtMinAge.setText(showMatch.getTimeStart());

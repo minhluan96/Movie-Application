@@ -1,6 +1,6 @@
 package com.hcmus.movieapp.activities;
 
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -20,10 +20,8 @@ import com.hcmus.movieapp.models.Showtime;
 import com.hcmus.movieapp.models.Ticket;
 import com.hcmus.movieapp.utils.AppManager;
 import com.hcmus.movieapp.utils.Constant;
-import com.hcmus.movieapp.utils.CustomDeserializer;
 import com.hcmus.movieapp.utils.DataParser;
 import com.hcmus.movieapp.utils.Utilities;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.captain_miao.seatview.BaseSeatMo;
 import com.github.captain_miao.seatview.MovieSeatView;
 import com.github.captain_miao.seatview.SeatPresenter;
@@ -61,8 +59,8 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
     protected Calendar calendar;
     private Movie movie;
     private Showtime showtime;
+    private CountDownTimer countDownTimer;
 
-    @JsonDeserialize(keyUsing = CustomDeserializer.class, keyAs = Ticket.class)
     protected Map<Ticket, Integer> map = new HashMap<>();
     protected Gson gson = new Gson();
     protected boolean isNormal, isVip, isCouple;
@@ -145,7 +143,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
     }
 
     protected void setupTimer() {
-        new CountDownTimer(300000, 1000) {
+        countDownTimer = new CountDownTimer(300000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 txtCurrentTime.setText(new SimpleDateFormat("mm:ss").format(new Date(millisUntilFinished)));
@@ -154,18 +152,14 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
 
             @Override
             public void onFinish() {
-                showDialogErrorWithOKButtonListener(SeatPlaceActivity.this, "Thông báo", "Đã hết thời gian đặt vé. Vui lòng thử lại", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
+                countDownTimer.start();
+                getBookedSeatOfEvent();
                 // Toast.makeText(SeatPlaceActivity.this, "Hết thời gian đặt vé", Toast.LENGTH_SHORT).show();
             }
         }.start();
     }
 
-    private void setupPreSelectedSeat() {
+    protected void setupPreSelectedSeat(Context context) {
         for (Map.Entry<Ticket, Integer> entry : map.entrySet()) {
             Ticket ticket = entry.getKey();
             int maxQuantity = entry.getValue();
@@ -195,7 +189,12 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
                 }
             }
             if (selectedSuccessfully < maxQuantity) {
-                // TODO: notify user and push them back to the previous acitivity
+                showDialogErrorWithOKButtonListener(context, "Thông báo",
+                        "Suất chiếu không còn đủ vé. Vui lòng chọn suất chiếu khác", (dialog, which) -> {
+                            Intent intent = new Intent(context, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        });
             }
 
         }
@@ -246,7 +245,11 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         imgClose.setOnClickListener(v -> showDialogErrorWithOKButtonListener(SeatPlaceActivity.this,
                 "Thông báo",
                 "Bạn có chắc chắn muốn hủy giao dịch này?",
-                (dialog, which) -> finish()));
+                (dialog, which) -> {
+                    Intent intent = new Intent(SeatPlaceActivity.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }));
     }
 
     protected void getBookedSeatOfEvent() {
@@ -254,6 +257,7 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
             @Override
             public void onDataResponse(LinkedList<BookedSeat> result) {
                 bookedSeats = result;
+                List<Integer> seatTypes = getSeatTypes();
                 for (BookedSeat bookedSeat : bookedSeats) {
                     String blockName = bookedSeat.getRow();
                     int actualRow = Utilities.convertStringToInt(blockName) - 1;
@@ -261,12 +265,13 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
                     SeatMo seatMo = seatTable[actualRow][col];
                     if (seatMo == null) continue;
                     seatMo.setId(bookedSeat.getId());
-                    if (bookedSeat.getStatus() == -1) {
+                    if (bookedSeat.getStatus() != -1 && seatTypes.contains(seatMo.getTypeSeat())) {
                         seatMo.status = bookedSeat.getStatus();
                     }
                 }
+                mMovieSeatView.invalidate();
 
-                setupPreSelectedSeat();
+                setupPreSelectedSeat(SeatPlaceActivity.this);
             }
 
             @Override
@@ -308,17 +313,17 @@ public class SeatPlaceActivity extends BaseActivity implements SeatPresenter {
         if (i < Constant.SeatTypePosition.NORMAL && isNormal) {
             seat.status = 1;
             seat.setPrice(90000);
-            seat.setTypeSeat(Constant.SeatTypePosition.NORMAL);
+            seat.setTypeSeat(Constant.SeatType.NORMAL);
         }
         if (i >= Constant.SeatTypePosition.NORMAL && i < Constant.SeatTypePosition.VIP && isVip) {
             seat.status = 1;
             seat.setPrice(100000);
-            seat.setTypeSeat(Constant.SeatTypePosition.VIP);
+            seat.setTypeSeat(Constant.SeatType.VIP);
         }
         if (i >= Constant.SeatTypePosition.VIP && i < Constant.SeatTypePosition.COUPLE && isCouple) {
             seat.status = 1;
             seat.setPrice(120000);
-            seat.setTypeSeat(Constant.SeatTypePosition.COUPLE);
+            seat.setTypeSeat(Constant.SeatType.COUPLE);
         }
 
         if ((j == 3 || j == 8) && i < 8) {

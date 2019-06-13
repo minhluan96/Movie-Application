@@ -10,11 +10,14 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import androidx.core.content.FileProvider;
 
 public class FileUtils {
 
@@ -50,6 +53,23 @@ public class FileUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Uri saveImageAndGetUri(Bitmap bitmap, Context context) {
+        File imgFolder = new File(context.getCacheDir(), "ticketNow");
+        Uri uri = null;
+        try {
+            imgFolder.mkdirs();
+            File file = new File(imgFolder, "shared_image.png");
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+            stream.flush();
+            stream.close();
+            uri = FileProvider.getUriForFile(context, "com.hcmus.movieapp.fileprovider", file);
+        } catch (Exception e) {
+            Log.d(FileUtils.class.getSimpleName(), e.getMessage());
+        }
+        return uri;
     }
 
     public static String getStoragePath(String path) {

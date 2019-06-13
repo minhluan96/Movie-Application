@@ -1,8 +1,8 @@
 package com.hcmus.movieapp.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 
+import com.google.android.material.tabs.TabLayout;
 import com.hcmus.movieapp.models.Sport;
 
 public class SellingSportTicketActivity extends SellingTicketActivity {

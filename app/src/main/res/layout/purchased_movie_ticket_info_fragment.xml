@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -34,7 +34,7 @@
                 app:ticketShowBorder="false"
                 app:ticketShowDivider="true" />
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -350,7 +350,7 @@
 
             </LinearLayout> <!--Bottom ticket view content-->
 
-        </android.support.constraint.ConstraintLayout> <!--TicketView and content inside-->
+        </androidx.constraintlayout.widget.ConstraintLayout> <!--TicketView and content inside-->
 
     </RelativeLayout> <!--Purchased ticket info-->
 

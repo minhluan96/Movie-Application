@@ -1,5 +1,8 @@
 package com.hcmus.movieapp.utils;
 
+import android.graphics.Bitmap;
+import android.view.View;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -186,5 +189,11 @@ public class Utilities {
     public static int convertStringToInt(String str) {
         char c = str.charAt(0); // because the string only has a character
         return c - 'A' + 1;
+    }
+
+    public static Bitmap getBitMapFromView(View v) {
+        v.setDrawingCacheEnabled(true);
+        Bitmap bitmap = v.getDrawingCache();
+        return bitmap;
     }
 }
