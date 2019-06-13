@@ -100,6 +100,8 @@ public class InfoFragment extends BaseFragment {
         txtActors.setVisibility(View.GONE);
         txtTitleDirectors.setVisibility(View.GONE);
         txtTitleActors.setVisibility(View.GONE);
+
+        openExternalLink();
     }
 
     @Override
@@ -115,16 +117,30 @@ public class InfoFragment extends BaseFragment {
     }
 
     private void openExternalLink() {
-        int lastPos = movie.getTrailerURL().lastIndexOf("/");
-        String idYoutube = movie.getTrailerURL().substring(lastPos + 1);
-        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+        if (movie != null) {
+            int lastPos = movie.getTrailerURL().lastIndexOf("/");
+            String idYoutube = movie.getTrailerURL().substring(lastPos + 1);
+            youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
 
 
-            @Override
-            public void onReady(@NotNull YouTubePlayer youTubePlayer) {
-                youTubePlayer.cueVideo(idYoutube, 0);
-            }
-        });
+                @Override
+                public void onReady(@NotNull YouTubePlayer youTubePlayer) {
+                    youTubePlayer.cueVideo(idYoutube, 0);
+                }
+            });
+        } else {
+            int lastPos = sport.getVideoUrl().lastIndexOf("/");
+            String idYoutube = sport.getVideoUrl().substring(lastPos + 1);
+            youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+
+
+                @Override
+                public void onReady(@NotNull YouTubePlayer youTubePlayer) {
+                    youTubePlayer.cueVideo(idYoutube, 0);
+                }
+            });
+        }
+
         /*Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + idYoutube));
         Intent webIntent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("http://www.youtube.com/watch?v=" + idYoutube));

@@ -73,7 +73,7 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
         rvCalendar = v.findViewById(R.id.rv_calendar);
         expandableListView = v.findViewById(R.id.list_expand);
         txtNotify = v.findViewById(R.id.txtNotify);
-
+        txtNotify.setText("Không có lịch bán vé cho ngày đã chọn");
 
         setupDummyData();
         setupExpandableListView();
@@ -170,7 +170,8 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
     }
 
     private void getSportCalendars() {
-        String timeStamp = "1560267586000";
+        String timeStamp = String.valueOf(calendar.getDate().getTime());
+//        String timeStamp = "1560470400000";
         AppManager.getInstance().getCommService().getEventCalendars(TAG_EVENT_CALENDARS, sport.getId(), timeStamp,
                 new DataParser.DataResponseListener<LinkedList<Stadium>>() {
             @Override
@@ -189,7 +190,8 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
 
             @Override
             public void onDataError(String errorMessage) {
-
+                txtNotify.setVisibility(View.VISIBLE);
+                expandableListView.setVisibility(View.GONE);
             }
 
             @Override

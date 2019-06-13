@@ -42,6 +42,9 @@ public class HomeFragment extends BaseFragment implements TabLayout.OnTabSelecte
         sportFragment = new SportHomeFragment();
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.addOnTabSelectedListener(this);
+
         return v;
     }
 

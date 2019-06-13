@@ -19,6 +19,9 @@ public class Sport {
     @SerializedName(value = "img_url")
     private String imgUrl;
 
+    @SerializedName(value = "video_url")
+    private String videoUrl;
+
     @SerializedName(value = "description")
     private String description;
 
@@ -69,6 +72,14 @@ public class Sport {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public String getDescription() {
