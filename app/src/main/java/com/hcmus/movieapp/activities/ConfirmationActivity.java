@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
@@ -164,7 +164,11 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
         imgClose.setOnClickListener(v -> showDialogErrorWithOKButtonListener(ConfirmationActivity.this,
                 "Thông báo",
                 "Bạn có chắc chắn muốn hủy giao dịch này?",
-                (dialog, which) -> finish()));
+                (dialog, which) -> {
+                    Intent intent = new Intent(ConfirmationActivity.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }));
 
         txtTitle.setText(movie.getName());
         txtMinAge.setText(movie.minAgeDisplay());

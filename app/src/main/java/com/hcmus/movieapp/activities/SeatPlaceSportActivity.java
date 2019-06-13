@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class SeatPlaceSportActivity extends SeatPlaceActivity {
@@ -29,6 +30,7 @@ public class SeatPlaceSportActivity extends SeatPlaceActivity {
     private Sport sport;
     private Stadium stadium;
     private ShowMatch showMatch;
+    private CountDownTimer countDownTimer;
     private static final String TAG_SEAT_SPORT = "TAG_SEAT_SPORT";
 
     @Override
@@ -72,7 +74,7 @@ public class SeatPlaceSportActivity extends SeatPlaceActivity {
 
     @Override
     protected void setupTimer() {
-        new CountDownTimer(300000, 1000) {
+        countDownTimer = new CountDownTimer(300000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 txtCurrentTime.setText(new SimpleDateFormat("mm:ss").format(new Date(millisUntilFinished)));
@@ -81,14 +83,8 @@ public class SeatPlaceSportActivity extends SeatPlaceActivity {
 
             @Override
             public void onFinish() {
-                showDialogErrorWithOKButtonListener(SeatPlaceSportActivity.this, "Thông báo", "Đã hết thời gian đặt vé. Vui lòng thử lại", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(SeatPlaceSportActivity.this, HomeActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                });
+                countDownTimer.start();
+                getBookedSeatOfEvent();
                 // Toast.makeText(SeatPlaceActivity.this, "Hết thời gian đặt vé", Toast.LENGTH_SHORT).show();
             }
         }.start();
@@ -156,6 +152,7 @@ public class SeatPlaceSportActivity extends SeatPlaceActivity {
             @Override
             public void onDataResponse(LinkedList<BookedSeat> result) {
                 bookedSeats = result;
+                List<Integer> seatTypes = getSeatTypes();
                 for (BookedSeat bookedSeat : bookedSeats) {
                     String blockName = bookedSeat.getRow();
                     int actualRow = Utilities.convertStringToInt(blockName) - 1;
@@ -163,9 +160,13 @@ public class SeatPlaceSportActivity extends SeatPlaceActivity {
                     SeatMo seatMo = seatTable[actualRow][col];
                     if (seatMo == null) continue;
                     seatMo.setId(bookedSeat.getId());
-                    if (bookedSeat.getStatus() == -1)
+                    if (bookedSeat.getStatus() != -1 && seatTypes.contains(seatMo.getTypeSeat())) {
                         seatMo.status = bookedSeat.getStatus();
+                    }
                 }
+                mMovieSeatView.invalidate();
+
+                setupPreSelectedSeat(SeatPlaceSportActivity.this);
             }
 
             @Override

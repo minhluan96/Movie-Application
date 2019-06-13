@@ -1,8 +1,9 @@
 package com.hcmus.movieapp.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.hcmus.movieapp.R;
 import com.hcmus.movieapp.models.Movie;
 import com.hcmus.movieapp.utils.Constant;
+import com.hcmus.movieapp.utils.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -56,7 +58,9 @@ public class UpcomingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         UpcomingMovieViewHolder upcomingMovieViewHolder = (UpcomingMovieViewHolder) viewHolder;
         Movie movie = upcomingMovies.get(i);
         upcomingMovieViewHolder.txtTitle.setText(movie.getName());
-        Picasso.get().load(movie.getImgURL()).error(R.drawable.poster).into(upcomingMovieViewHolder.imgPoster);
+        upcomingMovieViewHolder.cardView.setPreventCornerOverlap(false);
+        Picasso.get().load(movie.getImgURL()).transform(new RoundedTransformation(30, 0)).fit()
+                .error(R.drawable.poster).into(upcomingMovieViewHolder.imgPoster);
     }
 
     @Override
@@ -68,9 +72,11 @@ public class UpcomingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         private ImageView imgPoster;
         private TextView txtTitle;
+        private CardView cardView;
 
         public UpcomingMovieViewHolder(@NonNull View itemView) {
             super(itemView);
+            cardView = itemView.findViewById(R.id.cardview);
             imgPoster = itemView.findViewById(R.id.imgPoster);
             txtTitle = itemView.findViewById(R.id.txtTitle);
         }

@@ -40,7 +40,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_ticket_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -64,7 +65,7 @@
                         app:ticketShowBorder="false"
                         app:ticketShowDivider="true" />
 
-                    <android.support.constraint.Guideline
+                    <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -370,9 +371,37 @@
 
                     </LinearLayout> <!--Bottom ticket view content-->
 
-                </android.support.constraint.ConstraintLayout> <!--TicketView and content inside-->
+                </androidx.constraintlayout.widget.ConstraintLayout> <!--TicketView and content inside-->
 
             </RelativeLayout> <!--Purchased ticket info-->
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtSave"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Lưu vé"
+                    android:textAllCaps="true"
+                    android:textAlignment="center"
+                    />
+
+                <TextView
+                    android:id="@+id/txtShare"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Chia sẻ"
+                    android:textAllCaps="true"
+                    android:textAlignment="center"
+                    />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"

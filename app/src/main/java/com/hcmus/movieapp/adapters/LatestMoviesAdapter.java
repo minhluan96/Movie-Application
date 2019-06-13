@@ -2,8 +2,9 @@ package com.hcmus.movieapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.hcmus.movieapp.R;
 import com.hcmus.movieapp.activities.SellingTicketActivity;
 import com.hcmus.movieapp.models.Movie;
 import com.google.gson.Gson;
+import com.hcmus.movieapp.utils.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -47,7 +49,8 @@ public class LatestMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         movieViewHolder.txtTitle.setText(movie.getName());
         movieViewHolder.txtScore.setText(movie.getScore() + "");
         movieViewHolder.txtMinAge.setText(movie.minAgeDisplay());
-        Picasso.get().load(movie.getImgURL()).error(R.drawable.poster).into(movieViewHolder.imgPoster);
+        movieViewHolder.cardView.setPreventCornerOverlap(false);
+        Picasso.get().load(movie.getImgURL()).transform(new RoundedTransformation(35, 0)).fit().error(R.drawable.poster).into(movieViewHolder.imgPoster);
         movieViewHolder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SellingTicketActivity.class);
             int pos = movieViewHolder.getAdapterPosition();
@@ -69,6 +72,7 @@ public class LatestMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         private ImageView imgPoster;
         private TextView txtMinAge, txtScore, txtTitle;
+        private CardView cardView;
         private Button btnBookTicket;
 
         public LatestMovieViewHolder(@NonNull View itemView) {
@@ -78,6 +82,7 @@ public class LatestMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             txtScore = itemView.findViewById(R.id.txtScore);
             txtTitle = itemView.findViewById(R.id.txtTitle);
             btnBookTicket = itemView.findViewById(R.id.btnBookTicket);
+            cardView = itemView.findViewById(R.id.cardview);
         }
 
     }

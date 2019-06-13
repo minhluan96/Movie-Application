@@ -4,12 +4,12 @@
     android:layout_height="match_parent"
     android:layout_margin="10dp">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
@@ -30,7 +30,7 @@
                     android:textSize="20sp"
                     />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_latest_movie"
                     android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                 </LinearLayout>
 
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_now_showing_movie"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
 
                 </LinearLayout>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_upcoming_movie"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -119,8 +119,8 @@
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

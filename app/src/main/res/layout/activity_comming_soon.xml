@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.hcmus.movieapp.activities.ComingSoonActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMovies"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"

@@ -3,11 +3,11 @@ package com.hcmus.movieapp.fragments;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -170,7 +170,7 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
     }
 
     private void getSportCalendars() {
-        String timeStamp = "1559811600000";
+        String timeStamp = "1560267586000";
         AppManager.getInstance().getCommService().getEventCalendars(TAG_EVENT_CALENDARS, sport.getId(), timeStamp,
                 new DataParser.DataResponseListener<LinkedList<Stadium>>() {
             @Override
@@ -205,8 +205,8 @@ public class CalendarFragment extends Fragment implements HorizontalCalendarAdap
     }
 
     private void getMovieCalendars() {
-        // String timeStamp = String.valueOf(calendar.getDate().getTime());
-        String timeStamp = "1557516579000";
+        String timeStamp = String.valueOf(calendar.getDate().getTime());
+        //String timeStamp = "1560267586000";
         AppManager.getInstance().getCommService().getMovieCalendars(TAG_MOVIE_CALENDARS, movie.getId(), timeStamp,
                 new DataParser.DataResponseListener<LinkedList<Cinema>>() {
                     @Override
