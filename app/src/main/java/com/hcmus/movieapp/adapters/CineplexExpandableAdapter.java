@@ -21,13 +21,13 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
-public class CineplexAdapter extends BaseExpandableListAdapter {
+public class CineplexExpandableAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
     private List<Cineplex> cineplexList;
     private HashMap<Cineplex, List<Cinema>> dataChild;
 
-    public CineplexAdapter(Context mContext, List<Cineplex> cineplexList, HashMap<Cineplex, List<Cinema>> dataChild) {
+    public CineplexExpandableAdapter(Context mContext, List<Cineplex> cineplexList, HashMap<Cineplex, List<Cinema>> dataChild) {
         this.mContext = mContext;
         this.cineplexList = cineplexList;
         this.dataChild = dataChild;

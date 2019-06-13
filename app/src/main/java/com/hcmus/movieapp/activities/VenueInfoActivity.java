@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import com.google.gson.Gson;
 import com.hcmus.movieapp.R;
 import com.hcmus.movieapp.fragments.CalendarFragment;
+import com.hcmus.movieapp.fragments.CinemaShowtimeFragment;
+import com.hcmus.movieapp.fragments.StadiumShowmatchFragment;
 import com.hcmus.movieapp.fragments.VenueInfoFragment;
 import com.hcmus.movieapp.models.Venue;
 
@@ -21,7 +23,7 @@ public class VenueInfoActivity extends BaseActivity {
     private Toolbar toolbar;
     protected ViewPager viewPager;
     protected TabLayout tabLayout;
-    protected CalendarFragment calendarFragment;
+    protected StadiumShowmatchFragment stadiumShowmatchFragment;
     protected VenueInfoFragment venueInfoFragment;
     protected Map<Fragment, String> fragmentStringMap;
     protected Gson gson = new Gson();
@@ -50,11 +52,12 @@ public class VenueInfoActivity extends BaseActivity {
 
         fragmentStringMap = new LinkedHashMap<>();
         venueInfoFragment = new VenueInfoFragment();
-//        calendarFragment = new CalendarFragment();
-        venueInfoFragment.setVenue(venue);
-//        calendarFragment.setMovie(movie);
+        stadiumShowmatchFragment = new StadiumShowmatchFragment();
 
-//        fragmentStringMap.put(calendarFragment, "Lịch chiếu");
+        venueInfoFragment.setVenue(venue);
+        stadiumShowmatchFragment.setVenue(venue);
+
+        fragmentStringMap.put(stadiumShowmatchFragment, "Lịch bán vé");
         fragmentStringMap.put(venueInfoFragment, "Thông tin");
 
         setupViewPager(viewPager, fragmentStringMap);
