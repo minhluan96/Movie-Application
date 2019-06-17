@@ -16,6 +16,7 @@ import com.hcmus.movieapp.R;
 import com.hcmus.movieapp.activities.SellingTicketActivity;
 import com.hcmus.movieapp.models.Movie;
 import com.google.gson.Gson;
+import com.hcmus.movieapp.utils.LoginListener;
 import com.hcmus.movieapp.utils.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
@@ -25,6 +26,7 @@ public class LatestMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private List<Movie> latestMovies;
     private Context mContext;
+    private LoginListener loginListener;
 
     public LatestMoviesAdapter(List<Movie> latestMovies, Context mContext) {
         this.latestMovies = latestMovies;
@@ -52,16 +54,18 @@ public class LatestMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         movieViewHolder.cardView.setPreventCornerOverlap(false);
         Picasso.get().load(movie.getImgURL()).transform(new RoundedTransformation(35, 0)).fit().error(R.drawable.poster).into(movieViewHolder.imgPoster);
         movieViewHolder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, SellingTicketActivity.class);
             int pos = movieViewHolder.getAdapterPosition();
-            Gson gson = new Gson();
-            String json = gson.toJson(latestMovies.get(pos));
-            intent.putExtra("title", latestMovies.get(pos).getName());
-            intent.putExtra("movie", json);
-            mContext.startActivity(intent);
+            loginListener.doLoginForMovie(latestMovies.get(pos));
+        });
+        movieViewHolder.btnBookTicket.setOnClickListener(v -> {
+            int pos = movieViewHolder.getAdapterPosition();
+            loginListener.doLoginForMovie(latestMovies.get(pos));
         });
     }
 
+    public void setLoginListener(LoginListener loginListener) {
+        this.loginListener = loginListener;
+    }
 
     @Override
     public int getItemCount() {

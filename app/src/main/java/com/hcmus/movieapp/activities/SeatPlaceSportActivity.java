@@ -84,6 +84,7 @@ public class SeatPlaceSportActivity extends SeatPlaceActivity {
             @Override
             public void onFinish() {
                 countDownTimer.start();
+                selectedSeats.clear();
                 getBookedSeatOfEvent();
                 // Toast.makeText(SeatPlaceActivity.this, "Hết thời gian đặt vé", Toast.LENGTH_SHORT).show();
             }

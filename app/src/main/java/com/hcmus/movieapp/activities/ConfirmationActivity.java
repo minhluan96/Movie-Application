@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.hcmus.movieapp.R;
 import com.hcmus.movieapp.adapters.PaymentMethodAdapter;
 import com.hcmus.movieapp.fragments.CardInfoFragment;
+import com.hcmus.movieapp.models.Account;
 import com.hcmus.movieapp.models.Calendar;
 import com.hcmus.movieapp.models.Cinema;
 import com.hcmus.movieapp.models.Movie;
@@ -26,6 +27,7 @@ import com.hcmus.movieapp.models.Ticket;
 import com.hcmus.movieapp.utils.AppManager;
 import com.hcmus.movieapp.utils.Constant;
 import com.hcmus.movieapp.utils.DataParser;
+import com.hcmus.movieapp.utils.SaveSharedPreference;
 import com.hcmus.movieapp.utils.Utilities;
 import com.google.gson.Gson;
 
@@ -312,6 +314,7 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
             public void onDataError(String errorMessage) {
                 String error = errorMessage;
                 cardNumber = null;
+                dialog.hide();
 
                 // TODO: Be carefully with this context
                 Toast.makeText(ConfirmationActivity.this, "Thanh toán thất bại. Vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
@@ -320,6 +323,7 @@ public class ConfirmationActivity extends BaseActivity implements PaymentMethodA
             @Override
             public void onRequestError(String errorMessage, VolleyError volleyError) {
                 cardNumber = null;
+                dialog.hide();
                 Toast.makeText(ConfirmationActivity.this, "Thanh toán thất bại. Vui lòng thử lại sau", Toast.LENGTH_SHORT).show();
             }
 

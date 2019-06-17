@@ -18,6 +18,7 @@ import android.text.Html;
 
 import com.hcmus.movieapp.R;
 import com.hcmus.movieapp.adapters.ViewPagerHomeAdapter;
+import com.hcmus.movieapp.models.Account;
 import com.hcmus.movieapp.utils.AppManager;
 
 import java.util.Map;
@@ -26,6 +27,7 @@ import java.util.Map;
 public class BaseActivity extends AppCompatActivity {
 
     private static final int MULTIPLE_REQUEST_CODE = 121;
+    protected Account account;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,5 +132,11 @@ public class BaseActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
+    public Account getAccount() {
+        return account;
+    }
 
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

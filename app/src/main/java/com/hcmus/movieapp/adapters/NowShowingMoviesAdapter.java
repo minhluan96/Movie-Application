@@ -4,6 +4,8 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +13,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hcmus.movieapp.R;
+import com.hcmus.movieapp.activities.SellingTicketActivity;
 import com.hcmus.movieapp.models.Movie;
 import com.hcmus.movieapp.utils.Constant;
+import com.hcmus.movieapp.utils.LoginListener;
 import com.hcmus.movieapp.utils.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
@@ -22,6 +27,7 @@ import java.util.List;
 public class NowShowingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Movie> nowShowingMovies;
+    private LoginListener loginListener;
     private Context mContext;
     private int type;
 
@@ -60,9 +66,36 @@ public class NowShowingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.V
         Movie movie = nowShowingMovies.get(i);
         nowShowingMovieViewHolder.txtTitle.setText(movie.getName());
         nowShowingMovieViewHolder.cardView.setPreventCornerOverlap(false);
+        nowShowingMovieViewHolder.btnBookMovie.setOnClickListener(v -> {
+
+            int pos = nowShowingMovieViewHolder.getAdapterPosition();
+            loginListener.doLoginForMovie(nowShowingMovies.get(pos));
+            /*Intent intent = new Intent(mContext, SellingTicketActivity.class);
+            Gson gson = new Gson();
+            String json = gson.toJson(nowShowingMovies.get(pos));
+            intent.putExtra("title", nowShowingMovies.get(pos).getName());
+            intent.putExtra("movie", json);
+            mContext.startActivity(intent);*/
+        });
+        nowShowingMovieViewHolder.itemView.setOnClickListener(v -> {
+            int pos = nowShowingMovieViewHolder.getAdapterPosition();
+            loginListener.doLoginForMovie(nowShowingMovies.get(pos));
+
+            /*Intent intent = new Intent(mContext, SellingTicketActivity.class);
+            int pos = nowShowingMovieViewHolder.getAdapterPosition();
+            Gson gson = new Gson();
+            String json = gson.toJson(nowShowingMovies.get(pos));
+            intent.putExtra("title", nowShowingMovies.get(pos).getName());
+            intent.putExtra("movie", json);
+            mContext.startActivity(intent);*/
+        });
         Picasso.get().load(movie.getImgURL())
                 .transform(new RoundedTransformation(30, 0)).fit()
                 .error(R.drawable.poster).into(nowShowingMovieViewHolder.imgPoster);
+    }
+
+    public void setLoginListener(LoginListener loginListener) {
+        this.loginListener = loginListener;
     }
 
     @Override

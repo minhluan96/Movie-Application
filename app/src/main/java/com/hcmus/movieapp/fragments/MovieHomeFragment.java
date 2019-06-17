@@ -13,22 +13,31 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.hcmus.movieapp.R;
 import com.hcmus.movieapp.activities.ComingSoonActivity;
+import com.hcmus.movieapp.activities.HomeActivity;
+import com.hcmus.movieapp.activities.LoginActivity;
 import com.hcmus.movieapp.activities.NowShowingActivity;
+import com.hcmus.movieapp.activities.SellingTicketActivity;
 import com.hcmus.movieapp.adapters.LatestMoviesAdapter;
 import com.hcmus.movieapp.adapters.NowShowingMoviesAdapter;
 import com.hcmus.movieapp.adapters.UpcomingMoviesAdapter;
+import com.hcmus.movieapp.models.Account;
 import com.hcmus.movieapp.models.Movie;
 import com.hcmus.movieapp.utils.AppManager;
 import com.hcmus.movieapp.utils.DataParser;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.hcmus.movieapp.utils.LoginListener;
+import com.hcmus.movieapp.utils.SaveSharedPreference;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MovieHomeFragment extends BaseFragment {
+import static com.hcmus.movieapp.utils.SaveSharedPreference.getAccountInfo;
+
+public class MovieHomeFragment extends BaseFragment implements LoginListener {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ShimmerFrameLayout shimmerLatest, shimmerNowShowing, shimmerUpcoming;
@@ -117,6 +126,7 @@ public class MovieHomeFragment extends BaseFragment {
 
     private void setupNowShowingMovieAdapter() {
         nowShowingMoviesAdapter = new NowShowingMoviesAdapter(nowShowingMovies, getContext());
+        nowShowingMoviesAdapter.setLoginListener(this);
         rvNowShowingMovies.setAdapter(nowShowingMoviesAdapter);
     }
 
@@ -127,6 +137,7 @@ public class MovieHomeFragment extends BaseFragment {
 
     private void setupLatestMovieAdapter() {
         latestMoviesAdapter = new LatestMoviesAdapter(latestMovies, getContext());
+        latestMoviesAdapter.setLoginListener(this);
         rvLatestMovies.setAdapter(latestMoviesAdapter);
     }
 
@@ -216,5 +227,15 @@ public class MovieHomeFragment extends BaseFragment {
             }
         });
 
+    }
+
+    @Override
+    public void doLoginForMovie(Movie movie) {
+        Intent intent = new Intent(getContext(), SellingTicketActivity.class);
+        Gson gson = new Gson();
+        String json = gson.toJson(movie);
+        intent.putExtra("title", movie.getName());
+        intent.putExtra("movie", json);
+        getContext().startActivity(intent);
     }
 }

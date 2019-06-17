@@ -57,6 +57,16 @@ public class LatestSportsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             intent.putExtra("sport", json);
             mContext.startActivity(intent);
         });
+
+        sportViewHolder.btnBuyTicket.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, SellingSportTicketActivity.class);
+            int pos = sportViewHolder.getAdapterPosition();
+            Gson gson = new Gson();
+            String json = gson.toJson(latestSports.get(pos));
+            intent.putExtra("title", latestSports.get(pos).getName());
+            intent.putExtra("sport", json);
+            mContext.startActivity(intent);
+        });
     }
 
     @Override
